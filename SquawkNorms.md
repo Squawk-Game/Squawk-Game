@@ -6,3 +6,4 @@
 -If you think of something that isn't on the project board, slack everyone before you start building it
 -Keep an occasional eye on slack during the weekend, even if you yourself aren't doing a big chunk of work
 -Semicolons only when ABSOLUTELY NECESSARY
+-mimi is making changes!!

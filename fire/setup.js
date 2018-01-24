@@ -3,5 +3,4 @@ module.exports = firebase =>
 // You will also need to load the Firebase SDK.
 // See https://firebase.google.com/docs/web/setup for more details.
 
-firebase.initializeApp(process.env.INITIALIZEAPP);
-
+firebase.initializeApp(process.env.INITIALIZEAPP)
