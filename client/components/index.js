@@ -1,2 +1,5 @@
 export * from './AudioRecord.jsx'
 export * from './Hi.jsx'
+export * from './StartGame'
+export * from './Video'
+export * from './VideoPlayer'

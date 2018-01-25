@@ -2,6 +2,8 @@ import * as firebase from 'firebase'
 import 'firebase/firestore'
 import setup from './setup'
 
+export const firebaseui = require('firebaseui');
+
 setup(firebase)
 
 export default firebase
