@@ -6,26 +6,28 @@ import VideoPlayer from './VideoPlayer'
 export default class Video extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      videos: props.videos
+    }
   }
-  render() {
-    let vid;
+  render(){
+    
+    // let vid;
     // let storageRef = storage.ref("/Jurassic.mp4")
     // storageRef && storageRef.getDownloadURL().then((url)=>{
     //   console.log(url)
     //   vid = url
     // })
 
-
     //Hardcoding links for the time being
     const videoJsOptions = {
       autoplay: true,
       controls: true,
       sources: [{
-        src:`https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic.mp4?alt=media&token=32869cf5-2bf8-47b0-b133-38b62c2ebc8e'=`,
+        src: this.state.videos.jurassic,
         type: 'video/mp4'
       }]
     }
-
-    return <VideoPlayer { ...videoJsOptions } />
+    return <VideoPlayer { ...videoJsOptions }/>
     }
   }
