@@ -1,5 +1,3 @@
-require('../secrets')
-
 module.exports = firebase =>
 // Copy and paste this into your JavaScript code to initialize the Firebase SDK.
 // You will also need to load the Firebase SDK.
