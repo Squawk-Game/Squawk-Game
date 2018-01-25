@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {database} from '../../fire'
 import AddGamePlayers from './AddGamePlayers'
+import Login from './Login'
 
 export default class StartGame extends Component {
   constructor(props) {
@@ -28,7 +29,12 @@ export default class StartGame extends Component {
     return (
       <div>
         <h1>SQUAWK!</h1>
-        <Link to={'/addusers'} className="link">START</Link>
+        {this.state.me.name && 
+          <Link to={'/addusers'}>START</Link>
+        }
+        {!this.state.me.name &&
+          <Login />
+        }
         <br />
       </div>
     )
