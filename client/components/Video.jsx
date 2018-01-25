@@ -7,11 +7,19 @@ export default class Video extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      videos: props.videos
+      video: null
     }
   }
+
+  componentDidMount() {
+   let storageRef = storage.ref("/Rihanna.mp4")
+   storageRef && storageRef.getDownloadURL().then((url)=>{
+     this.setState({video: url})
+   })
+  }
+
   render(){
-    
+
     // let vid;
     // let storageRef = storage.ref("/Jurassic.mp4")
     // storageRef && storageRef.getDownloadURL().then((url)=>{
@@ -20,14 +28,22 @@ export default class Video extends Component {
     // })
 
     //Hardcoding links for the time being
-    const videoJsOptions = {
-      autoplay: true,
-      controls: true,
-      sources: [{
-        src: this.state.videos.jurassic,
-        type: 'video/mp4'
-      }]
+
+    if (!this.state.video) {
+      return <div>Sorry, no video.</div>
+    } else {
+      const videoJsOptions = {
+        autoplay: true,
+        controls: true,
+        sources: [{
+          src: this.state.video,
+          type: 'video/mp4'
+        }]
+      }
+      return (<div style={{width: 2}}>
+      <VideoPlayer {...videoJsOptions}/>
+      </div>)
     }
-    return <VideoPlayer { ...videoJsOptions }/>
+
     }
   }
