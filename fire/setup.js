@@ -9,6 +9,6 @@ firebase.initializeApp({
   "storageBucket": "squawk-868c7.appspot.com",
   "authDomain": "squawk-868c7.firebaseapp.com",
   "messagingSenderId": "340493820814",
-  "projectId": "squawk-868c7",
+  "projectId": "squawk-868c7"
 });
 
