@@ -14,9 +14,13 @@ export default class AudioRecord extends Component {
     }
 
     handleRecordClick(event) {
-        this.mic.open().then(() => {
-            console.log('Recording')
-        })
+        this.mic.open()
+            .then(() => {
+                console.log('Recording')
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
     handleStopClick(event) {
