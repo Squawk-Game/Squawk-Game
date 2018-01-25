@@ -5,6 +5,7 @@
 // and then trigger a download of that .mp3
 
 import lamejs from 'iso-lamejs'
+import { storage } from '~/fire'
 
 // trigger a browser file download of binary data
 // trigger a browser file download of binary data
@@ -38,6 +39,11 @@ export default function downloadBlob(blob, filename) {
         console.log(mp3Data)
 
         var blob = new Blob(mp3Data, {type: 'audio/mp3'});
+        let storageRef = storage.ref('ahhhhhh')
+        storageRef.put(blob).then(snapshot => {
+            console.log('uploaded blob')
+        })
+        .catch(err => console.error(err))
         var url = window.URL.createObjectURL(blob);
 
         var click = document.createEvent('Event');
