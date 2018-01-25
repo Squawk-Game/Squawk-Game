@@ -5,6 +5,7 @@ import Hi from './components/Hi'
 import Video from './components/Video'
 import StartGame from './components/StartGame'
 import AddGamePlayers from './components/AddGamePlayers'
+import AudioRecord from './components/AudioRecord'
 import history from './history'
 /**
  * COMPONENT
@@ -32,6 +33,7 @@ class Routes extends Component {
             <Route path="/video" component={Video}  />
             <Route exact path="/" component={StartGame} />
             <Route path="/addusers" component={AddGamePlayers} />
+            <Route path="/record" component={AudioRecord} />
           </Switch>
 
       </Router>

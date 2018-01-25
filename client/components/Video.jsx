@@ -27,6 +27,8 @@ export default class Video extends Component {
     //   vid = url
     // })
 
+
+
     //Hardcoding links for the time being
 
     if (!this.state.video) {
@@ -34,13 +36,17 @@ export default class Video extends Component {
     } else {
       const videoJsOptions = {
         autoplay: true,
-        controls: true,
+        controls: false,
+        textTrackSettings: false,
+        TextTrackDisplay: false,
+        controlBar: false,
+        errorDisplay: false,
         sources: [{
           src: this.state.video,
           type: 'video/mp4'
         }]
       }
-      return (<div style={{width: 2}}>
+      return (<div>
       <VideoPlayer {...videoJsOptions}/>
       </div>)
     }
