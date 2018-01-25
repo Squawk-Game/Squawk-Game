@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, Router } from 'react-router-dom'
 import Hi from './components/Hi'
+import history from './history'
 /**
  * COMPONENT
  */
@@ -12,7 +13,7 @@ class Routes extends Component {
 
     return (
 
-      <Router >
+      <Router history={history}>
 
           <Switch>
             {/* Routes placed here are available to all visitors */}
