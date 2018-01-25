@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Route, Switch, Router } from 'react-router-dom'
 import Hi from './components/Hi'
 import Video from './components/Video'
+import StartGame from './components/StartGame'
+import AddGamePlayers from './components/AddGamePlayers'
 import history from './history'
 /**
  * COMPONENT
@@ -20,7 +22,6 @@ class Routes extends Component {
   }
 
   render() {
-    console.log('ROOTS', this.props)
     return (
 
       <Router history={history}>
@@ -28,7 +29,9 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are available to all visitors */}
             <Route path="/hi" component={Hi} videos={this.state.videos} />
-            <Route path="/video" component={() => (<Video videos={this.state.videos} />)}  />
+            <Route path="/video" component={Video}  />
+            <Route exact path="/" component={StartGame} />
+            <Route path="/addusers" component={AddGamePlayers} />
           </Switch>
 
       </Router>
