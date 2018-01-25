@@ -36,6 +36,7 @@
     "chokidar": "^1.7.0",
     "firebase": "^4.7.0",
     "history": "^4.7.2",
+    "iso-lamejs": "^1.2.0",
     "minimist": "^1.2.0",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
@@ -45,10 +46,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-<<<<<<< HEAD
-    "tone": "^0.11.11"
-=======
+    "sth-react-audio-recorder": "^1.0.1",
     "video.js": "^6.6.0"
->>>>>>> bb0b8cc25c8772425ec106236ed5cbbe5734f887
   }
 }
