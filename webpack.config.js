@@ -28,8 +28,12 @@ const config = env => ({
       use: 'url-loader',
     },
     {
+      use: 'url-loader?limit=100000',
+      test: /\.(png|woff|woff2|eot|ttf|svg)$/
+    },
+    {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      use: [ 'css-loader']
     },
     {
       test: /\.(txt|md|markdown)$/,
@@ -56,7 +60,7 @@ const plugins = env => isHot(env) ? [
 
 function devServer(env) {
   if (isProd(env)) return
-  const {FIREBASE_SERVE_URL} = env  
+  const {FIREBASE_SERVE_URL} = env
   return {
     hot: true,
     proxy: FIREBASE_SERVE_URL && {
@@ -66,7 +70,7 @@ function devServer(env) {
 }
 
 const babel = env => ({
-  loader: 'babel-loader', 
+  loader: 'babel-loader',
   options: {
     presets: [
       ['env', {modules: false}],
