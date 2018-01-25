@@ -6,6 +6,7 @@ import Routes from './Routes'
 import store from './store'
 
 function main() {
+  
   render(
     <AppContainer>
       <Provider store={store}>
