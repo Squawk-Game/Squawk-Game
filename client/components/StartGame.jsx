@@ -28,7 +28,7 @@ export default class StartGame extends Component {
     return (
       <div>
         <h1>SQUAWK!</h1>
-        <Link to={'/addusers'}>START</Link>
+        <Link to={'/addusers'} className="link">START</Link>
         <br />
       </div>
     )

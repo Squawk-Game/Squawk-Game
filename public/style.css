@@ -1,3 +1,21 @@
 .vjs-big-play-button {
   visibility: hidden
 }
+
+body {
+  background: rgb(252, 207, 128);
+  font-family: sans-serif
+}
+
+.link {
+  text-decoration: none;
+  background-color: rgb(205, 7, 37);
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
