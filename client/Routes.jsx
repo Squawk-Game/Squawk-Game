@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Route, Switch, Router } from 'react-router-dom'
 import Hi from './components/Hi'
 import Video from './components/Video'
+import AudioRecord from './components/AudioRecord'
 import history from './history'
 /**
  * COMPONENT
@@ -27,8 +28,9 @@ class Routes extends Component {
 
           <Switch>
             {/* Routes placed here are available to all visitors */}
-            <Route path="/hi" component={Hi} videos={this.state.videos} />
-            <Route path="/video" component={() => (<Video videos={this.state.videos} />)}  />
+            <Route path="/hi" component={Hi} />
+            <Route path="/video" component={Video} />
+            <Route path="/record" component={AudioRecord} />
           </Switch>
 
       </Router>
