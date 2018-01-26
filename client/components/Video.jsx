@@ -28,7 +28,7 @@ export default class Video extends Component {
     } else {
       const videoJsOptions = {
         autoplay: false,
-        controls: true,
+        controls: false,
         textTrackSettings: false,
         TextTrackDisplay: false,
         controlBar: false,
@@ -40,7 +40,7 @@ export default class Video extends Component {
       }
       return (<div>
       <VideoPlayer {...videoJsOptions}/>
-      <AudioRecord />
+
       </div>)
     }
 
