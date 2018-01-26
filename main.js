@@ -3,7 +3,6 @@ import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux'
 import Routes from './client/Routes'
-import store from './client/store'
 
 function main() {
   render(
