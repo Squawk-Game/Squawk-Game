@@ -20,14 +20,6 @@ export default class Video extends Component {
 
   render(){
 
-    // let vid;
-    // let storageRef = storage.ref("/Jurassic.mp4")
-    // storageRef && storageRef.getDownloadURL().then((url)=>{
-    //   console.log(url)
-    //   vid = url
-    // })
-
-
 
     //Hardcoding links for the time being
 
@@ -36,10 +28,10 @@ export default class Video extends Component {
     } else {
       const videoJsOptions = {
         autoplay: true,
-        controls: false,
+        controls: true,
         textTrackSettings: false,
         TextTrackDisplay: false,
-        controlBar: false,
+        controlBar: true,
         errorDisplay: false,
         sources: [{
           src: this.state.video,
