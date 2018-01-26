@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //import {database}  from '../../fire'
-import firebase, {firebaseui} from '../../fire'
+import firebase, {firebaseui} from '~/fire'
 
 let uiConfig = {
   signInSuccessUrl: '/',
