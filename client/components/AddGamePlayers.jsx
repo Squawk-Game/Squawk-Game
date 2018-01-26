@@ -12,6 +12,7 @@ export default class AddGamePlayers extends Component {
     return (
       <div>
         { console.log(this.state) }
+        <h3>Invite your fellow Squawkers!</h3>
       </div>
     )
   }
