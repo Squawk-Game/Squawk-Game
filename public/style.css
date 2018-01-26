@@ -2,6 +2,18 @@
   visibility: hidden
 }
 
+.video-react-big-play-button {
+  visibility: hidden
+}
+
+.video-react-volume-menu-button-horizontal {
+  visibility: hidden
+}
+
+.video-react-play-control {
+  visibility: hidden
+}
+
 body {
   background: rgb(252, 207, 128);
   font-family: sans-serif

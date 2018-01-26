@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, Router } from 'react-router-dom'
 import Video from './components/Video'
+import VidTest from './components/VidTest'
 import StartGame from './components/StartGame'
 import AddGamePlayers from './components/AddGamePlayers'
 import AudioRecord from './components/AudioRecord'
@@ -26,6 +27,7 @@ export default class Routes extends Component {
             <Route exact path="/" component={StartGame} />
             <Route path="/addusers" component={AddGamePlayers} />
             <Route path="/record" component={AudioRecord} />
+            <Route path="/vidtest" component={VidTest} />
           </Switch>
 
       </Router>
