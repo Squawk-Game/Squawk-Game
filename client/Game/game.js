@@ -25,6 +25,21 @@ class Game {
       state: this.state.OPEN
     }
     let key = database.ref('/games/' + host.uid)
-    key.set(currentGame)
+    key.set(currentGame, function(error) {
+      if (error) {
+        console.log('uh oh, error creating game', error)
+      } else {
+        // watchGame(key)
+        console.log(host)
+      }
+    })
   }
+
+
+
+  watchGame(key){
+
+  }
+
 }
+

@@ -7,7 +7,7 @@ import Routes from './client/Routes'
 function main() {
   render(
     <AppContainer>
-      <Provider store={store}>
+      <Provider>
         <Routes />
       </Provider>
     </AppContainer>,
