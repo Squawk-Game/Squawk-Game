@@ -21,6 +21,7 @@ export default class StartGame extends Component {
     let gamesRef = database.ref('games')
     gamesRef.on("value", function(snapshot) {
         console.log(snapshot.val()[1]);
+        this.setState(() => {return {me: snapshot.val()[1]}})
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
@@ -29,10 +30,10 @@ export default class StartGame extends Component {
     return (
       <div>
         <h1>SQUAWK!</h1>
-        {this.state.me.name && 
+        {this.state.me && 
           <Link to={'/addusers'}>START</Link>
         }
-        {!this.state.me.name &&
+        {!this.state.me &&
           <Login />
         }
         <br />
