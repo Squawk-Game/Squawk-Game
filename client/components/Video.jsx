@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { storage } from '../../fire'
 import VideoPlayer from './VideoPlayer'
-// require('!style-loader!css-loader!video.js/dist/video-js.css')
+import AudioRecord from './AudioRecord'
 
 export default class Video extends Component {
   constructor(props) {
@@ -20,14 +20,6 @@ export default class Video extends Component {
 
   render(){
 
-    // let vid;
-    // let storageRef = storage.ref("/Jurassic.mp4")
-    // storageRef && storageRef.getDownloadURL().then((url)=>{
-    //   console.log(url)
-    //   vid = url
-    // })
-
-
 
     //Hardcoding links for the time being
 
@@ -35,8 +27,8 @@ export default class Video extends Component {
       return <div>Sorry, no video.</div>
     } else {
       const videoJsOptions = {
-        autoplay: true,
-        controls: false,
+        autoplay: false,
+        controls: true,
         textTrackSettings: false,
         TextTrackDisplay: false,
         controlBar: false,
@@ -48,6 +40,7 @@ export default class Video extends Component {
       }
       return (<div>
       <VideoPlayer {...videoJsOptions}/>
+      <AudioRecord />
       </div>)
     }
 
