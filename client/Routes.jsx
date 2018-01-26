@@ -9,27 +9,19 @@ import history from './history'
  * COMPONENT
  */
 
-export default class Routes extends Component {
-  constructor(props) {
-    super(props)
+const Routes = props => (
 
-  }
+    <Router history={history}>
 
-  render() {
-    return (
+        <Switch>
+        {/* Routes placed here are available to all visitors */}
+        <Route path="/video" component={Video}  />
+        <Route exact path="/" component={StartGame} />
+        <Route path="/addusers" component={AddGamePlayers} />
+        <Route path="/record" component={AudioRecord} />
+        </Switch>
 
-      <Router history={history}>
+    </Router>
+)
 
-          <Switch>
-            {/* Routes placed here are available to all visitors */}
-            <Route path="/video" component={Video}  />
-            <Route exact path="/" component={StartGame} />
-            <Route path="/addusers" component={AddGamePlayers} />
-            <Route path="/record" component={AudioRecord} />
-          </Switch>
-
-      </Router>
-    )
-  }
-}
-
+export default Routes

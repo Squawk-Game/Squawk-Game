@@ -2000,6 +2000,10 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+dialog-polyfill@^0.4.7:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/dialog-polyfill/-/dialog-polyfill-0.4.9.tgz#c690b3727c3d82e0f947bd5b910b32af8a2ef57d"
+
 didyoumean@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/didyoumean/-/didyoumean-1.2.1.tgz#e92edfdada6537d484d73c0172fd1eba0c4976ff"
@@ -2622,7 +2626,7 @@ firebase@2.x.x:
   dependencies:
     faye-websocket ">=0.6.0"
 
-firebase@^4.7.0:
+firebase@^4.3.1, firebase@^4.7.0:
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.9.0.tgz#b0e0345438fcd38bea9d0d7e5ac896fe09f4c80a"
   dependencies:
@@ -2635,6 +2639,13 @@ firebase@^4.7.0:
     "@firebase/storage" "0.1.6"
     dom-storage "^2.0.2"
     xmlhttprequest "^1.8.0"
+
+firebaseui@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-2.5.1.tgz#98a89bddd1cbf11c01069e7e4278ecc3cca1e2fe"
+  dependencies:
+    dialog-polyfill "^0.4.7"
+    firebase "^4.3.1"
 
 flat-arguments@^1.0.0:
   version "1.0.2"
