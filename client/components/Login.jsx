@@ -43,14 +43,14 @@ export default class Login extends Component {
 
       query.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
-          console.log(unique)
+          //console.log(unique)
           var key = childSnapshot.key;
           var childData = childSnapshot.val();
-          console.log(key, childData.userUid, user.uid)
+         // console.log(key, childData.userUid, user.uid)
           if (childData.userUid === user.uid) {unique = false}
         })
         if (unique === true){
-          console.log('it is unique!!')
+          //console.log('it is unique!!')
           database.ref('users').push({
                 name: user.displayName,
                 email: user.email,
@@ -64,20 +64,30 @@ export default class Login extends Component {
   handleStartGameClick () {
     let judgeUser = auth.currentUser
 
-    this.setState({judge: judgeUser}, () => {
+    this.setState({judge: {name: judgeUser.displayName, uid: judgeUser.uid}}, () => {
       let gamesRef = database.ref('games')
-      gamesRef.once("value").then((snapshot => {
-        if (!snapshot.child('name/' + this.state.judge.uid).key){ //if the game doesn't exist, add it to games
-          gamesRef.push({
+
+      let query = gamesRef.orderByKey();
+      let unique = true
+
+      query.once("value").then((snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          var key = childSnapshot.key;
+          var childData = childSnapshot.val();
+          console.log(key, childData)
+          if (childData.name === this.state.judge.uid) {unique = false}
+        })
+        if (unique === true){
+          console.log('it is unique!!')
+          gamesRef.set({[this.state.judge.uid]: {
             name: this.state.judge.uid,
             judge: this.state.judge,
             players: '',
-            video: '',
-          })
+            video: ''
+          }})
         }
       })
-      )
-      history.push('/addusers') //once you've added the game to firebase, navigate to add users
+      history.push('/addusers', {judge: this.state.judge}) //once you've added the game to firebase, navigate to add users
       return {}
       }
     )
