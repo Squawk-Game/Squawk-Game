@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 // import {database}  from '../../fire'
 import firebase, {firebaseui, auth, database} from '~/fire'
 import {Link} from 'react-router-dom'
+import Redirect, {browserHistory} from 'react-router-dom'
+import history from '../history'
 
 let uiConfig = {
   signInSuccessUrl: '/',
@@ -32,29 +34,45 @@ export default class Login extends Component {
   }
   componentDidMount(){
     auth.onAuthStateChanged(user => {
+      console.log('!!!!!',user)
       if (user) {
-        console.log('CURRENT USER OBJECT', user)
         this.setState({users: user.displayName})
-        console.log(this.state)
+        let usersRef = database.ref('users')
+        if (!database.ref('users/'+user.displayName)){
+          usersRef.push({
+            name:user.displayName,
+            email:user.email
+          })
+        }
+        
       }
       else console.log('where is user??')
     })
   }
   handleStartGameClick () {
-    //put the user on the game in firebase as a judge
-
-    // ASYNC PROBLEMS IN UPDATING STATE IN PROGRESS
     let judgeUser = auth.currentUser
-    this.setState(function(state, {judge: judgeUser}){
-      console.log(this.state.judge)
+
+    this.setState({judge: judgeUser}, () => {
       let gamesRef = database.ref('games')
-      gamesRef.push({
-        name: this.state.judge.uid,
-        players: null,
-        video: ''
+      gamesRef.once("value").then((snapshot => {
+        let key = snapshot.key
+        if (!snapshot.child('name/'+this.state.judge.uid).key){ //if the game doesn't exist, add it to games
+          gamesRef.push({
+            name: this.state.judge.uid,
+            judge: this.state.judge,
+            players: '',
+            video: '',
+          })
+        }
       })
+      )
+      history.push('/addusers')
       return {}
-    })
+      }
+    )
+
+    document.getElementById('startGame').disabled = true
+    
   }
 
   handleJoinGameClick () {
