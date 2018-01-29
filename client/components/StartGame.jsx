@@ -13,13 +13,12 @@ export default class StartGame extends Component {
     }
   }
   componentDidMount(){
-    let gamesRef = database.ref('games')
-    gamesRef.on("value", function(snapshot) {
-        console.log(snapshot.val()[1]);
-      }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      });
-
+    // let gamesRef = database.ref('games')
+    // gamesRef.on("value", function(snapshot) {
+    //     console.log(snapshot.val()[1]);
+    //   }, function (errorObject) {
+    //     console.log("The read failed: " + errorObject.code);
+    //   });
   }
   render(){
     return (
