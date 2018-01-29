@@ -24,7 +24,8 @@ export default class Login extends Component {
     super(props)
     this.state = {
         game: {},
-        users: null,
+        users: [],
+        currentUser: '',
         judge: null
     }
     this.handleStartGameClick = this.handleStartGameClick.bind(this)
@@ -34,16 +35,29 @@ export default class Login extends Component {
   componentDidMount(){
     auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState({users: user.displayName})
-        let usersRef = database.ref('users')
-        if (!database.ref('users/' + user.displayName)){
-          usersRef.push({
-            name: user.displayName,
-            email: user.email
-          })
-        }
+        this.setState({currentUser: user})
       }
       else { console.log('where is user??') }
+      let query = database.ref("users").orderByKey();
+      let unique = true
+
+      query.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          console.log(unique)
+          var key = childSnapshot.key;
+          var childData = childSnapshot.val();
+          console.log(key, childData.userUid, user.uid)
+          if (childData.userUid === user.uid) {unique = false}
+        })
+        if (unique === true){
+          console.log('it is unique!!')
+          database.ref('users').push({
+                name: user.displayName,
+                email: user.email,
+                userUid: user.uid
+              })
+        }
+      })
     })
   }
   
