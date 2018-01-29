@@ -24,7 +24,6 @@ export default class Login extends Component {
     super(props)
     this.state = {
         game: {},
-        users: [],
         currentUser: '',
         judge: null
     }
@@ -36,28 +35,30 @@ export default class Login extends Component {
     auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({currentUser: user})
+        this.setState({users: user})
+        let query = database.ref("users").orderByKey();
+        let unique = true
+
+        query.once("value").then(function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+            //console.log(unique)
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+           // console.log(key, childData.userUid, user.uid)
+            if (childData.userUid === user.uid) {unique = false}
+          })
+          if (unique === true){
+            //console.log('it is unique!!')
+            database.ref('users').push({
+                  name: user.displayName,
+                  email: user.email,
+                  userUid: user.uid
+                })
+          }
+        })
       }
       else { console.log('where is user??') }
-      let query = database.ref("users").orderByKey();
-      let unique = true
 
-      query.once("value").then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          //console.log(unique)
-          var key = childSnapshot.key;
-          var childData = childSnapshot.val();
-         // console.log(key, childData.userUid, user.uid)
-          if (childData.userUid === user.uid) {unique = false}
-        })
-        if (unique === true){
-          //console.log('it is unique!!')
-          database.ref('users').push({
-                name: user.displayName,
-                email: user.email,
-                userUid: user.uid
-              })
-        }
-      })
     })
   }
 
@@ -96,7 +97,17 @@ export default class Login extends Component {
 
   handleJoinGameClick () {
     //put the user on the game in firebase as a judge
-    history.push('/joingame', 'getting errors when not a string user: this.state.currentUser')
+    let playerUser = this.state.currentUser
+    history.push('/joingame')
+  }
+
+  handleSignOutClick() {
+    auth.signOut().then(() => {
+      console.log('signed out')
+    })
+    .catch(error => {
+      console.error(error)
+    })
   }
 
   render(){
@@ -113,6 +124,7 @@ export default class Login extends Component {
        <div>
          <button id="startGame" onClick={this.handleStartGameClick}>Start Game</button>
          <button id="joinGame" onClick={this.handleJoinGameClick}>Join Game</button>
+         <button id="signout" onClick={this.handleSignOutClick}>Sign Out</button>
         </div>
       }
           {/* <Link to={'/'}>GET SQUAWKWARD</Link> */}
