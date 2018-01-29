@@ -17,9 +17,7 @@ let uiConfig = {
 };
 
 let ui = new firebaseui.auth.AuthUI(firebase.auth());
-// The start method will wait until the DOM is loaded.
 ui.start('#firebaseui-auth-container', uiConfig);
-
 
 export default class Login extends Component {
   constructor(props) {
@@ -32,31 +30,30 @@ export default class Login extends Component {
     this.handleStartGameClick = this.handleStartGameClick.bind(this)
     this.handleJoinGameClick = this.handleJoinGameClick.bind(this)
   }
+
   componentDidMount(){
     auth.onAuthStateChanged(user => {
-      console.log('!!!!!',user)
       if (user) {
         this.setState({users: user.displayName})
         let usersRef = database.ref('users')
-        if (!database.ref('users/'+user.displayName)){
+        if (!database.ref('users/' + user.displayName)){
           usersRef.push({
-            name:user.displayName,
-            email:user.email
+            name: user.displayName,
+            email: user.email
           })
         }
-        
       }
-      else console.log('where is user??')
+      else { console.log('where is user??') }
     })
   }
+  
   handleStartGameClick () {
     let judgeUser = auth.currentUser
 
     this.setState({judge: judgeUser}, () => {
       let gamesRef = database.ref('games')
       gamesRef.once("value").then((snapshot => {
-        let key = snapshot.key
-        if (!snapshot.child('name/'+this.state.judge.uid).key){ //if the game doesn't exist, add it to games
+        if (!snapshot.child('name/' + this.state.judge.uid).key){ //if the game doesn't exist, add it to games
           gamesRef.push({
             name: this.state.judge.uid,
             judge: this.state.judge,
@@ -66,13 +63,11 @@ export default class Login extends Component {
         }
       })
       )
-      history.push('/addusers')
+      history.push('/addusers') //once you've added the game to firebase, navigate to add users
       return {}
       }
     )
-
     document.getElementById('startGame').disabled = true
-    
   }
 
   handleJoinGameClick () {
