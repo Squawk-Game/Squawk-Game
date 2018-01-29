@@ -60,7 +60,7 @@ export default class Login extends Component {
       })
     })
   }
-  
+
   handleStartGameClick () {
     let judgeUser = auth.currentUser
 
@@ -96,6 +96,7 @@ export default class Login extends Component {
 
   handleJoinGameClick () {
     //put the user on the game in firebase as a judge
+    history.push('/joingame', 'getting errors when not a string user: this.state.currentUser')
   }
 
   render(){

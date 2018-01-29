@@ -6,19 +6,24 @@ export default class AddGamePlayers extends Component {
     super(props)
     this.state = {
         game: {},
-        judge: this.props.location.state.judge
+        judge: this.props.location.state.judge,
+        code: randomCode()
     }
   }
 
   componentDidMount () {
     let gamesRef = database.ref("games")
-    let gameChildRef = gamesRef.child(`${this.state.judge.uid}/players`)
-    gameChildRef.set({
+    let gamePlayersRef = gamesRef.child(`${this.state.judge.uid}/players`)
+    gamesRef.child(this.state.judge.uid).update({
+      ['code']: this.state.code
+    })
+    gamePlayersRef.set({
       'player1':{
         uid: 'gobbledygook',
         audio: 'audio.file'
       }
     })
+   // this.setState({code: randomCode()})
   }
 
   render(){
@@ -26,7 +31,18 @@ export default class AddGamePlayers extends Component {
       <div>
         { console.log(this.state, this.props.location.state.judge) }
         <h3>Invite your fellow Squawkers!</h3>
+        <p>Your code is: {this.state.code} <br />
+        TELL YOUR FRIENDS TO ENTER IT!
+        </p>
       </div>
     )
   }
+}
+
+function randomCode(){
+  let code = Math.floor(Math.random() * 100000)
+  while (code < 10000){
+    code = Math.floor(Math.random() * 100000)
+  }
+  return code
 }
