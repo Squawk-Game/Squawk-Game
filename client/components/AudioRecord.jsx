@@ -3,8 +3,19 @@ import AudioRecorder from './AudioRecorder/AudioRecorder.js'
 
 // import Tone from 'tone'
 
-const AudioRecord = AudioRecorder
-export default AudioRecord
+// const AudioRecord = AudioRecorder
+// export default AudioRecord
+
+export default class AudioRecord extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    console.log("playFunc???", this.props.playFunc)
+    return <AudioRecorder playFunc={this.props.playFunc}/>
+  }
+}
 
 // export default class AudioRecord extends Component {
 //     constructor(props) {

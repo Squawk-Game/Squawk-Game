@@ -55,6 +55,8 @@ var AudioRecorder = (function (_super) {
                 }
                 else {
                     _this.startRecording();
+                    console.log("Is this happening?", _this.props.playFunc)
+                    _this.props.playFunc()
                 }
             }
         };
