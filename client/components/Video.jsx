@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { storage } from '../../fire'
-import VideoPlayer from './VideoPlayer'
+import VideoPlayer, {exportedPlayer} from './VideoPlayer'
 import AudioRecord from './AudioRecord'
 
 export default class Video extends Component {
@@ -19,7 +19,6 @@ export default class Video extends Component {
   }
 
   render(){
-
 
     //Hardcoding links for the time being
 
