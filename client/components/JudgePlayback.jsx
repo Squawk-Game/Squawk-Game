@@ -1,29 +1,36 @@
 import React, { Component } from 'react'
 import { storage } from '../../fire'
+import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
-import AudioRecord from './AudioRecord'
 
-export default class Video extends Component {
+export default class JudgePlayback extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      audio: null,
       video: null
     }
   }
 
   componentDidMount() {
-   let storageRef = storage.ref("/Rihanna.mp4")
-   storageRef && storageRef.getDownloadURL().then((url)=>{
+    //Need to replace AHHH with whatever the person uploaded
+   let soundRef = storage.ref("/ahhhhhh")
+   soundRef && soundRef.getDownloadURL().then((url)=>{
+     this.setState({audio: url})
+   })
+   let vidRef = storage.ref("/Jurassic.mp4")
+   vidRef && vidRef.getDownloadURL().then((url)=>{
      this.setState({video: url})
    })
+
   }
 
   render(){
 
     //Hardcoding links for the time being
-
-    if (!this.state.video) {
-      return <div>Sorry, no video.</div>
+console.log("Fetched audio: ", this.state.audio)
+    if (!this.state.audio) {
+      return <div>Sorry, no audio.</div>
     } else {
       const videoJsOptions = {
         autoplay: false,
@@ -37,11 +44,13 @@ export default class Video extends Component {
           type: 'video/mp4'
         }]
       }
-      console.log('Rihanna link', this.state)
       return (<div>
-      <VideoPlayer renderRecord={true} options={{...videoJsOptions}}/>
+        <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}}/>
       </div>)
+
     }
 
     }
   }
+
+
