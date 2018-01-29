@@ -4,6 +4,7 @@ import Video from './components/Video'
 import StartGame from './components/StartGame'
 import AddGamePlayers from './components/AddGamePlayers'
 import AudioRecord from './components/AudioRecord'
+import JudgePlayback from './components/JudgePlayback'
 import history from './history'
 /**
  * COMPONENT
@@ -19,6 +20,7 @@ const Routes = props => (
         <Route exact path="/" component={StartGame} />
         <Route path="/addusers" component={AddGamePlayers} />
         <Route path="/record" component={AudioRecord} />
+        <Route path="/playback" component={JudgePlayback} />
         </Switch>
 
     </Router>
