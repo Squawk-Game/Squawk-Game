@@ -1,46 +1,56 @@
 import React, { Component } from 'react'
 import { storage } from '../../fire'
+import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
-
 
 export default class JudgePlayback extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      audio: null
+      audio: null,
+      video: null
     }
   }
 
   componentDidMount() {
-   let storageRef = storage.ref("/ahhhhhh")
-   storageRef && storageRef.getDownloadURL().then((url)=>{
+    //Need to replace AHHH with whatever the person uploaded
+   let soundRef = storage.ref("/ahhhhhh")
+   soundRef && soundRef.getDownloadURL().then((url)=>{
      this.setState({audio: url})
    })
+   let vidRef = storage.ref("/Jurassic.mp4")
+   vidRef && vidRef.getDownloadURL().then((url)=>{
+     this.setState({video: url})
+   })
+
   }
 
   render(){
 
     //Hardcoding links for the time being
-console.log("Should be ahhh", this.state.audio)
+console.log("Fetched audio: ", this.state.audio)
     if (!this.state.audio) {
       return <div>Sorry, no audio.</div>
     } else {
       const videoJsOptions = {
         autoplay: false,
-        controls: true,
+        controls: false,
         textTrackSettings: false,
         TextTrackDisplay: false,
-        controlBar: true,
+        controlBar: false,
         errorDisplay: false,
         sources: [{
-          src: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna.mp4?alt=media&token=12cbdc7d-67d8-48a0-9c55-cd4262e861bc',
+          src: this.state.video,
           type: 'video/mp4'
         }]
       }
       return (<div>
         <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}}/>
       </div>)
+
     }
 
     }
   }
+
+

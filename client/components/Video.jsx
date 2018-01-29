@@ -37,7 +37,7 @@ export default class Video extends Component {
           type: 'video/mp4'
         }]
       }
-      console.log('Rihanna link', this.state.video)
+      console.log('Rihanna link', this.state)
       return (<div>
       <VideoPlayer renderRecord={true} options={{...videoJsOptions}}/>
       </div>)
