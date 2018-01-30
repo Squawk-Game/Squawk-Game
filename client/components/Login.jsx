@@ -49,10 +49,12 @@ export default class Login extends Component {
           })
           if (unique === true){
             //console.log('it is unique!!')
-            database.ref('users').push({
-                  name: user.displayName,
-                  email: user.email,
-                  userUid: user.uid
+            database.ref('users').set({
+              [user.uid]: {
+                name: user.displayName,
+                email: user.email,
+              }
+                  //userUid: user.uid
                 })
           }
         })

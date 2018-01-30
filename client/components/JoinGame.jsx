@@ -41,8 +41,7 @@ export default class JoinGame extends Component {
           console.log('childData.code', childData.code)
           console.log('inpugtjvalue', this.state.inputValue)
           if (childData.code.toString() === this.state.inputValue) {
-            console.log('child data ', key)
-
+            console.log('child key ', key)
             let gamePlayersRef = gamesRef.child(`${key}/players`)
             gamePlayersRef.update({
               [auth.currentUser.displayName]: {
