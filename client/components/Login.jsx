@@ -34,53 +34,60 @@ export default class Login extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(currentUser => {
       console.log('I AM THE CURRENT USER', currentUser)
+      
       if (currentUser) {
-        this.setState({user: currentUser})
+        console.log('I AM THE CURRENT USER IN IF STATEMENT', currentUser)
+        this.setState({user: currentUser}, () => {
+          let query = database.ref("users").orderByKey();
+          let unique = true
+          //Promise.all([auth.currentUser]).then((user) => {
+            //user = user[0]
+            //if (this.state.user){
+      
+            //user is not being registered on the state properly
+              //console.log()
+              let user = this.state.user
+              query.once("value").then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                  //console.log('!!!!!!!!!!!!!!!!!!!!!', unique)
+                  var key = childSnapshot.key;
+                  var childData = childSnapshot.val();
+                  //console.log('IM CHECKIN BEFORE THE IF',key, childData.hasOwnProperty(user.uid), user.uid)
+                  if (childData.hasOwnProperty(user.uid)) {
+                    //console.log('checking uniqueness', childData, user.uid)
+                    unique = false
+                  }
+                })
+                if (unique === true) {
+                  console.log('it is unique!!')
+                  database.ref('users').push({
+                    [user.uid]: {
+                      id: user.uid,
+                      name: user.displayName,
+                      email: user.email,
+                      inGame: false,
+                      gameId: '',
+                      state: 'LOGGED_IN'
+                    }
+                  })
+                }
+              })
+        })
       }
       else {
         this.setState({user: null})
        }
     })
-    let query = database.ref("users").orderByKey();
-    let unique = true
-    //Promise.all([auth.currentUser]).then((user) => {
-      //user = user[0]
-      //if (this.state.user){
-
-      //user is not being registered on the state properly
-        let user = this.state.user
-        query.once("value").then(function (snapshot) {
-          snapshot.forEach(function (childSnapshot) {
-            console.log('!!!!!!!!!!!!!!!!!!!!!', unique)
-            var key = childSnapshot.key;
-            var childData = childSnapshot.val();
-            console.log(key, childData.id, user)
-            if (childData.id === user.uid) {
-              console.log('checking uniqueness', childData, user.uid)
-              unique = false
-            }
-          })
-          if (unique === true) {
-            console.log('it is unique!!')
-            database.ref('users').push({
-              [user.uid]: {
-                id: user.uid,
-                name: user.displayName,
-                email: user.email,
-                inGame: false,
-                gameId: '',
-                state: 'LOGGED_IN'
-              }
-            })
-          }
-        })
+    
 
 
   }
 
   handleStartGameClick() {
     let judgeUser = auth.currentUser
-    let userRef = database.ref(`users/${judgeUser.uid}/inGame`).on("value", function (snapshot) {
+    let userRef = database.ref(`users/${judgeUser.uid}`)
+    let userInGameRef = database.ref(`users/${judgeUser.uid}/inGame`)
+    userInGameRef.on("value", function (snapshot) {
       if (snapshot.val() === true) {
         //If user is already in game, redirect them to Sorry component
         console.log("Sorry, you're already in a game")
@@ -99,11 +106,22 @@ export default class Login extends Component {
           winningAudio: ''
         })
         let key = push.key
-        snapshot.ref.set(true)
+        //snapshot.ref.set(true)
+        //console.log('USERINGAMEREF PARENT', snapshot.ref.parent.val())
+        //UPDATING HELP -- NEED TO GRAB WHOLE OBJECT HERE AND UPDATE
+        userRef.on('value', function(otherSnap){
+          console.log('SIDLJFADGKJDA', otherSnap)
+        })
+        
         history.push(`/game/${key}`)
       }
     })
-
+    //.then(() => {
+      // userRef.on('value', function (snapshot) {
+      //   console.log('USERREF SNAPSHOT',snapshot.val())
+      // })
+   // })
+    
     document.getElementById('startGame').disabled = true
   }
 
