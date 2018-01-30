@@ -24,13 +24,7 @@ export default class StartGame extends Component {
     return (
       <div>
         <h1>SQUAWK!</h1>
-        {/* {this.state.me.name &&
-          <Link to={'/addusers'}>START</Link>
-        } */}
-        {
-          !this.state.users && <Login />
-        }
-
+        <Login />
         <br />
       </div>
     )
