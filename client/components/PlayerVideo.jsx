@@ -3,7 +3,7 @@ import { storage } from '../../fire'
 import VideoPlayer from './VideoPlayer'
 import AudioRecord from './AudioRecord'
 
-export default class Video extends Component {
+export default class PlayerVideo extends Component {
   constructor(props) {
     super(props)
     this.state = {

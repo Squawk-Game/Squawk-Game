@@ -3,7 +3,7 @@ import { storage } from '../../fire'
 import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
 
-export default class JudgePlayback extends Component {
+export default class HostVideo extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,15 +14,13 @@ export default class JudgePlayback extends Component {
 
   componentDidMount() {
     //Need to replace AHHH with whatever the person uploaded
-   let soundRef = storage.ref("/ahhhhhh")
-   soundRef && soundRef.getDownloadURL().then((url)=>{
-     this.setState({audio: url})
-   })
-   let vidRef = storage.ref("/Jurassic.mp4")
-   vidRef && vidRef.getDownloadURL().then((url)=>{
-     this.setState({video: url})
-   })
-
+    let self = this
+    Promise.all([
+      storage.ref("/ahhhhhh").getDownloadURL(),
+      storage.ref("/Jurassic.mp4").getDownloadURL()
+    ]).then(function(urls) {
+      self.setState({audio: urls[0], video: urls[1]})
+    })
   }
 
   render(){

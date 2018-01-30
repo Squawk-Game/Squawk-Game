@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Route, Switch, Router } from 'react-router-dom'
-import Video from './components/Video'
+import PlayerVideo from './components/PlayerVideo'
 import StartGame from './components/StartGame'
 import AddGamePlayers from './components/AddGamePlayers'
 import AudioRecord from './components/AudioRecord'
-import JudgePlayback from './components/JudgePlayback'
+import HostVideo from './components/HostVideo'
 import history from './history'
 import JoinGame from './components/JoinGame'
 /**
@@ -17,12 +17,12 @@ const Routes = props => (
 
         <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/video" component={Video}  />
+        <Route path="/player-video" component={PlayerVideo}  />
         <Route exact path="/" component={StartGame} />
         <Route path="/addusers" component={AddGamePlayers} />
         <Route path="/joingame" component={JoinGame} />
         <Route path="/record" component={AudioRecord} />
-        <Route path="/playback" component={JudgePlayback} />
+        <Route path="/host-video" component={HostVideo} />
         </Switch>
 
     </Router>

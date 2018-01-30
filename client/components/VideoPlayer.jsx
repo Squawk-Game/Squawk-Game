@@ -8,9 +8,15 @@ export default class VideoPlayer extends React.Component {
     this.handlePlay = this.handlePlay.bind(this)
   }
   componentDidMount() {
-    let propsAudio = this.props.audio
+    let componentProps = this.props
     this.player = videojs(this.videoNode, this.props.options, function onPlayerReady() {
-      console.log("Player ready to go!")
+      if (componentProps.audio) {
+      console.log("Should be HostVideo")
+      } else {
+        console.log("This should be PlayerVideo")
+
+
+      }
     });
   }
   componentWillUnmount() {
