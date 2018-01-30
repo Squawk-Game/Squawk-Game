@@ -51,11 +51,14 @@ export default class Login extends Component {
             //console.log('it is unique!!')
             database.ref('users').set({
               [user.uid]: {
+                id: user.uid,
                 name: user.displayName,
                 email: user.email,
-              }
-                  //userUid: user.uid
-                })
+                inGame: false,
+                gameId: '',
+                state: 'LOGGED_IN'
+                }
+            })
           }
         })
       }
@@ -66,34 +69,28 @@ export default class Login extends Component {
 
   handleStartGameClick () {
     let judgeUser = auth.currentUser
-
-    this.setState({judge: {name: judgeUser.displayName, uid: judgeUser.uid}}, () => {
-      let gamesRef = database.ref('games')
-
-      let query = gamesRef.orderByKey();
-      let unique = true
-
-      query.once("value").then((snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-          var key = childSnapshot.key;
-          var childData = childSnapshot.val();
-          console.log(key, childData)
-          if (childData.name === this.state.judge.uid) {unique = false}
+    let userRef = database.ref('users/'+ judgeUser.uid).on("value", function(snapshot) {
+      if (snapshot.child("inGame").val()) {
+        //If user is already in game, redirect them to Sorry component
+        console.log("Sorry, you're already in a game")
+      } else {
+        //Make game bojects in FB and then redirect to game/:gameId
+        let push = database.ref('games').push({
+          judgeId: judgeUser.uid,
+          video: '',
+          players: {
+            [judgeUser.uid]: judgeUser.displayName
+          },
+          judgeState: 'GAME_CREATED',
+          audio: '',
+          code: randomCode(),
+          winningAudio: ''
         })
-        if (unique === true){
-          console.log('it is unique!!')
-          gamesRef.set({[this.state.judge.uid]: {
-            name: this.state.judge.uid,
-            judge: this.state.judge,
-            players: '',
-            video: ''
-          }})
-        }
-      })
-      history.push('/addusers', {judge: this.state.judge}) //once you've added the game to firebase, navigate to add users
-      return {}
+        let key = push.key
+        history.push(`/game/${key}`)
       }
-    )
+    })
+
     document.getElementById('startGame').disabled = true
   }
 
@@ -111,6 +108,8 @@ export default class Login extends Component {
       console.error(error)
     })
   }
+
+
 
   render(){
     return (
@@ -135,4 +134,12 @@ export default class Login extends Component {
       </div>
     )
   }
+}
+
+function randomCode(){
+  let code = Math.floor(Math.random() * 100000)
+  while (code < 10000){
+    code = Math.floor(Math.random() * 100000)
+  }
+  return code
 }
