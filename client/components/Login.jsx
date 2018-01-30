@@ -91,33 +91,6 @@ export default class Login extends Component {
       }
     })
 
-    // this.setState({judge: {name: judgeUser.displayName, uid: judgeUser.uid}}, () => {
-    //   let gamesRef = database.ref('games')
-
-    //   let query = gamesRef.orderByKey();
-    //   let unique = true
-
-    //   query.once("value").then((snapshot) => {
-    //     snapshot.forEach((childSnapshot) => {
-    //       var key = childSnapshot.key;
-    //       var childData = childSnapshot.val();
-    //       console.log(key, childData)
-    //       if (childData.name === this.state.judge.uid) {unique = false}
-    //     })
-    //     if (unique === true){
-    //       console.log('it is unique!!')
-    //       gamesRef.set({[this.state.judge.uid]: {
-    //         name: this.state.judge.uid,
-    //         judge: this.state.judge,
-    //         players: '',
-    //         video: ''
-    //       }})
-    //     }
-    //   })
-    //   history.push('/addusers', {judge: this.state.judge}) //once you've added the game to firebase, navigate to add users
-    //   return {}
-    //   }
-    // )
     document.getElementById('startGame').disabled = true
   }
 
