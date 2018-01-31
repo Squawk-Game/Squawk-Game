@@ -70,18 +70,18 @@ export default class Game extends Component {
       <div>
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
-        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} /> }
+        {this.state.gameState === WAITING_TO_START && <WaitingRoom gameKey={this.state.gameId} code={this.state.code} isJudge={this.state.playerRole === 'JUDGE' ? true : false} /> }
 
 
         {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
 
-        {(this.state.gameState === VIDEO_SENT 
+        {(this.state.gameState === VIDEO_SENT
           || this.state.gameState === WAITING_FOR_AUDIO)
-          && this.state.playerRole === 'JUDGE' 
+          && this.state.playerRole === 'JUDGE'
           && <HostVideo gameKey={this.state.gameId}/>}
-        {(this.state.gameState === VIDEO_SENT 
+        {(this.state.gameState === VIDEO_SENT
           || this.state.gameState === WAITING_FOR_AUDIO)
-          && this.state.playerRole === 'PLAYER' 
+          && this.state.playerRole === 'PLAYER'
           && <PlayerVideo gameKey={this.state.gameId}/>}
           {console.log('this is here for ocmmit probs')}
 
