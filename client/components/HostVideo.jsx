@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { storage } from '../../fire'
+import { storage, database } from '../../fire'
 import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
 
@@ -8,19 +8,29 @@ export default class HostVideo extends Component {
     super(props)
     this.state = {
       audio: null,
-      video: null
+      video: null,
+      gameKey: props.gameKey
     }
   }
 
   componentDidMount() {
     //Need to replace AHHH with whatever the person uploaded
     let self = this
+    let gameRef = database.ref(`games/${this.props.gameKey}`)
     Promise.all([
       storage.ref("/ahhhhhh").getDownloadURL(),
       storage.ref("/Jurassic.mp4").getDownloadURL()
     ]).then(function(urls) {
       self.setState({audio: urls[0], video: urls[1]})
+    }).then(() => {
+      //SWITCH GAME STATE
+      gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
     })
+
+    gameRef.on('child_added', (snap) => {
+      
+    })
+
   }
 
   render(){
