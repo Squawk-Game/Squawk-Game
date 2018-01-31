@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import firebase, { firebaseui, auth, database } from '~/fire'
+import history from '../history'
+
 //import ReactCodeInput from 'react-code-input'
 
 //const input = <ReactCodeInput type='number' fields={5} {...this.props} />
@@ -25,6 +27,7 @@ export default class JoinGame extends Component {
     console.log('EVENT HAPPENED', event.target)
 
     let userKey;
+    let gameKey;
     let gamesRef = database.ref('games')
     let currentUser = auth.currentUser
     let query = gamesRef.orderByKey();
@@ -35,31 +38,23 @@ export default class JoinGame extends Component {
       query.once("value").then((snapshot) => {
         console.log('SNAPSHOT IS ', snapshot)
         snapshot.forEach((childSnapshot) => {
-          var key = childSnapshot.key;
+          gameKey = childSnapshot.key;
           var childData = childSnapshot.val();
-          console.log(key, childData)
-          console.log('childData.code', childData.code)
-          console.log('inpugtjvalue', this.state.inputValue)
           if (childData.code.toString() === this.state.inputValue) {
-            console.log('child key ', key)
-            let gamePlayersRef = gamesRef.child(`${key}/players`)
+            let gamePlayersRef = gamesRef.child(`${gameKey}/players`)
             gamePlayersRef.update({
               [auth.currentUser.uid]: auth.currentUser.displayName
             })
+            database.ref(`users/${userKey}/${currentUser.uid}`).update({
+              inGame: true
+            })
+            history.push(`/game/${gameKey}`)
           }
         })
       })
     })
-      .then(() => {
-        database.ref(`users/${userKey}/${currentUser.uid}`).update({
-          inGame: true
-        })
-      })
   }
 
-  // updateInputValue(event){
-
-  // }
 
   render() {
     return (

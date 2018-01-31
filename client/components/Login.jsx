@@ -37,7 +37,7 @@ export default class Login extends Component {
     auth.onAuthStateChanged(currentUser => {
 
       if (currentUser) {
-        
+
         this.setState({ user: currentUser }, () => {
           let query = database.ref("users").orderByKey();
           let unique = true
@@ -112,7 +112,7 @@ export default class Login extends Component {
         }
         database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true})
         //this works!
-        
+
         history.push(`/game/${gameKey}`)
       })
     })
