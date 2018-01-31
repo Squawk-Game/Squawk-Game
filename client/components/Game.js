@@ -31,11 +31,12 @@ export default class Game extends Component {
         }
       })
       self.setState({ currentUserId: gameUserCode[1].uid })
-    }).then(() => {
-      database.ref(`users/-L48wvYYdVJktiz1heSj`).once('value', function(snapshot){
-        console.log('!!! game.js user snapshot',snapshot.val())
-      })
     })
+    // .then(() => {
+    //   database.ref(`users/-L48wvYYdVJktiz1heSj`).once('value', function(snapshot){
+    //     console.log('!!! game.js user snapshot',snapshot.val())
+    //   })
+    // })
 }
 
   render() {
