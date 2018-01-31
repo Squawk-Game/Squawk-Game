@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import {database}  from '../../fire'
-import firebase, { firebaseui, auth, database } from '~/fire'
+import firebase, { firebaseui, auth, database, storage } from '~/fire'
 import { Link } from 'react-router-dom'
 import Redirect, { browserHistory } from 'react-router-dom'
 import history from '../history'
@@ -73,6 +73,7 @@ export default class Login extends Component {
         this.setState({ user: null })
       }
     })
+    database.ref('videos').update({0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic.mp4?alt=media&token=32869cf5-2bf8-47b0-b133-38b62c2ebc8e', 1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna.mp4?alt=media&token=12cbdc7d-67d8-48a0-9c55-cd4262e861bc', 2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/ahhhhhh?alt=media&token=0a466ada-2cdc-4d42-874e-ad1f5a8123eb'})
   }
 
   handleStartGameClick() {
@@ -81,13 +82,16 @@ export default class Login extends Component {
     let userInGameRef
     let gameKey
     let userKey
+    let randomVideo
+
+    database.ref('videos').once('value', function(snap) {
+      randomVideo = snap.val()[Math.floor(Math.random() * 3)]
+    })
     database.ref('pushkeys').once('value', function (snap) {
       userKey = snap.child(judgeUser.uid).val()
     })
     .then(() => {
       userInGameRef = database.ref(`users/${userKey}/${judgeUser.uid}/inGame`)
-      //userInGameRef.update({})
-      console.log('user in game ref', userInGameRef)
     })
     .then(() => {
       userInGameRef.once("value", function (snapshot) {
@@ -95,11 +99,10 @@ export default class Login extends Component {
           //If user is already in game, redirect them to Sorry component
           console.log("Sorry, you're already in a game")
         } else {
-          //Make game bojects in FB and then redirect to game/:gameId
-          console.log("Jumping to else in StartGameClick")
+
           let push = database.ref('games').push({
             judgeId: judgeUser.uid,
-            video: '',
+            video: randomVideo,
             players: {
               [judgeUser.uid]: judgeUser.displayName
             },
@@ -167,3 +170,4 @@ function randomCode() {
   }
   return code
 }
+
