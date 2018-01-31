@@ -70,7 +70,7 @@ export default class Game extends Component {
       <div>
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
-        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} />}
+        {this.state.gameState === WAITING_TO_START && <WaitingRoom code={this.state.code} gameKey={this.state.gameKey} isJudge={this.state.playerRole === 'JUDGE' ? true : false} />}
 
 
         {(this.state.gameState === VIDEO_SENT
