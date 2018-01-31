@@ -21,12 +21,11 @@ export default class PlayerVideo extends Component {
   render(){
 
     //Hardcoding links for the time being
-
+   // let count = 0
     if (!this.state.video) {
       return <div>Sorry, no video.</div>
     } else {
       const videoJsOptions = {
-        autoplay: false,
         controls: false,
         textTrackSettings: false,
         TextTrackDisplay: false,
@@ -39,7 +38,8 @@ export default class PlayerVideo extends Component {
       }
       console.log('Rihanna link', this.state)
       return (<div>
-      <VideoPlayer renderRecord={true} options={{...videoJsOptions}}/>
+       <VideoPlayer loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
+       {/*<VideoPlayer renderRecord={true} options={{...videoJsOptions, autoplay: false}}/>*/}
       </div>)
     }
 
