@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
 import {database, auth} from '../../fire'
+<<<<<<< HEAD
+=======
+import HostVideo from './HostVideo'
+>>>>>>> 7bbd56551bb1dabdcd709fb0047a508176b4bab0
 
 
 export default class WinnerPage extends Component {
@@ -13,6 +17,10 @@ export default class WinnerPage extends Component {
     return (
       <div>
         IN THE WINNER PAGE
+<<<<<<< HEAD
+=======
+        <HostVideo /> {/* need to pass in video and audio props of winner */}
+>>>>>>> 7bbd56551bb1dabdcd709fb0047a508176b4bab0
       </div>
     )
   }
