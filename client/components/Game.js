@@ -47,8 +47,8 @@ export default class Game extends Component {
       })
       self.setState({ currentUserId: gameUserCode[1].uid })
       gameUserCode[3].on('child_changed', (snap) => {
-        if (snap.key === 'judgeState'){
-          self.setState({gameState: snap.val()})
+        if (snap.key === 'judgeState') {
+          self.setState({ gameState: snap.val() })
         }
       })
     })
@@ -70,21 +70,22 @@ export default class Game extends Component {
       <div>
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
-        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} /> }
+        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} />}
 
+        {(this.state.gameState === VIDEO_SENT
+          || this.state.gameState === WAITING_FOR_AUDIO)
+          && this.state.playerRole === 'JUDGE'
+          && <HostVideo gameKey={this.state.gameId} />}
+        {(this.state.gameState === VIDEO_SENT
+          || this.state.gameState === WAITING_FOR_AUDIO)
+          && this.state.playerRole === 'PLAYER'
+          && <PlayerVideo gameKey={this.state.gameId} />}
+
+        {/*ALL AUdio received*/}
 
         {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
 
-        {(this.state.gameState === VIDEO_SENT 
-          || this.state.gameState === WAITING_FOR_AUDIO)
-          && this.state.playerRole === 'JUDGE' 
-          && <HostVideo gameKey={this.state.gameId}/>}
-        {(this.state.gameState === VIDEO_SENT 
-          || this.state.gameState === WAITING_FOR_AUDIO)
-          && this.state.playerRole === 'PLAYER' 
-          && <PlayerVideo gameKey={this.state.gameId}/>}
-          {console.log('this is here for ocmmit probs')}
-
+        {/*game closed*/}
       </div>
     )
   }
