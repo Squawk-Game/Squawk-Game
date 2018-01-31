@@ -35,19 +35,13 @@ export default class Login extends Component {
   componentDidMount() {
     let userPush
     auth.onAuthStateChanged(currentUser => {
-      //console.log('I AM THE CURRENT USER', currentUser)
 
       if (currentUser) {
-        //console.log('I AM THE CURRENT USER IN IF STATEMENT', currentUser)
+        
         this.setState({ user: currentUser }, () => {
           let query = database.ref("users").orderByKey();
           let unique = true
-          //Promise.all([auth.currentUser]).then((user) => {
-          //user = user[0]
-          //if (this.state.user){
 
-          //user is not being registered on the state properly
-          //console.log()
           let user = this.state.user
           query.once("value").then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -70,12 +64,8 @@ export default class Login extends Component {
                 }
               })
               database.ref(`users/${userPush.key}/${user.uid}`).update({ pushKey: userPush.key })
+              database.ref('pushkeys').update({ [user.uid]: userPush.key })
             }
-          }).then( () => {
-            //when you log in for the first time, it sets your push on the state
-            //we need to find a way to grab it also on log in.... haven't been able to
-            console.log('USER PUSH', userPush)
-            if (userPush) this.setState({userPushKey: userPush.key})
           })
         })
       }
@@ -88,34 +78,38 @@ export default class Login extends Component {
   handleStartGameClick() {
     let self = this
     let judgeUser = auth.currentUser
-    let userInGameRef = database.ref(`users/${judgeUser.uid}/inGame`)
-    let userRef = database.ref(`users/${this.state.userPushKey}/${judgeUser.uid}`)
-    let key
-    userInGameRef.once("value", function (snapshot) {
-      if (snapshot.val() === true) {
-        //If user is already in game, redirect them to Sorry component
-        console.log("Sorry, you're already in a game")
-      } else {
-        //Make game bojects in FB and then redirect to game/:gameId
-        console.log("Jumping to else in StartGameClick")
-        let push = database.ref('games').push({
-          judgeId: judgeUser.uid,
-          video: '',
-          players: {
-            [judgeUser.uid]: judgeUser.displayName
-          },
-          judgeState: 'GAME_CREATED',
-          audio: '',
-          code: randomCode(),
-          winningAudio: ''
-        })
-        key = push.key
-
-        //THIS CURRENTLY ONLY WORKS WHEN YOU FIRST SIGN IN
-        //IF YOU SIGN OUT AND SIGN BACK IN WE NEED A DIFFERENT CALL
-        userRef.update({ inGame: true })
-      }
-      history.push(`/game/${key}`)
+    let userInGameRef
+    let gameKey
+    let userKey
+    database.ref('pushkeys').once('value', function (snap) {
+      userKey = snap.child(judgeUser.uid).val()
+    })
+    .then(() => {
+      userInGameRef = database.ref(`users/${userKey}/${judgeUser.uid}/inGame`)
+    })
+    .then(() => {
+      userInGameRef.once("value", function (snapshot) {
+        if (snapshot.val() === true) {
+          //If user is already in game, redirect them to Sorry component
+          console.log("Sorry, you're already in a game")
+        } else {
+          //Make game bojects in FB and then redirect to game/:gameId
+          console.log("Jumping to else in StartGameClick")
+          let push = database.ref('games').push({
+            judgeId: judgeUser.uid,
+            video: '',
+            players: {
+              [judgeUser.uid]: judgeUser.displayName
+            },
+            judgeState: 'GAME_CREATED',
+            audio: '',
+            code: randomCode(),
+            winningAudio: ''
+          })
+          gameKey = push.key
+        }
+        history.push(`/game/${gameKey}`)
+      })
     })
     document.getElementById('startGame').disabled = true
   }
@@ -127,6 +121,7 @@ export default class Login extends Component {
   }
 
   handleSignOutClick() {
+    let self = this
     auth.signOut().then(() => {
       console.log('signed out')
     })
@@ -134,8 +129,6 @@ export default class Login extends Component {
         console.error(error)
       })
   }
-
-
 
   render() {
     console.log('CURRENT STATE', this.state)
