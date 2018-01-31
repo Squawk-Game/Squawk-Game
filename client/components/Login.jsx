@@ -25,69 +25,73 @@ export default class Login extends Component {
     this.state = {
       game: {},
       currentUser: '',
-      judge: null
+      judge: null,
+      userPushKey: null
     }
     this.handleStartGameClick = this.handleStartGameClick.bind(this)
     this.handleJoinGameClick = this.handleJoinGameClick.bind(this)
   }
 
   componentDidMount() {
+    let userPush
     auth.onAuthStateChanged(currentUser => {
-      console.log('I AM THE CURRENT USER', currentUser)
-      
+      //console.log('I AM THE CURRENT USER', currentUser)
+
       if (currentUser) {
-        console.log('I AM THE CURRENT USER IN IF STATEMENT', currentUser)
-        this.setState({user: currentUser}, () => {
+        //console.log('I AM THE CURRENT USER IN IF STATEMENT', currentUser)
+        this.setState({ user: currentUser }, () => {
           let query = database.ref("users").orderByKey();
           let unique = true
           //Promise.all([auth.currentUser]).then((user) => {
-            //user = user[0]
-            //if (this.state.user){
-      
-            //user is not being registered on the state properly
-              //console.log()
-              let user = this.state.user
-              query.once("value").then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                  //console.log('!!!!!!!!!!!!!!!!!!!!!', unique)
-                  var key = childSnapshot.key;
-                  var childData = childSnapshot.val();
-                  //console.log('IM CHECKIN BEFORE THE IF',key, childData.hasOwnProperty(user.uid), user.uid)
-                  if (childData.hasOwnProperty(user.uid)) {
-                    //console.log('checking uniqueness', childData, user.uid)
-                    unique = false
-                  }
-                })
-                if (unique === true) {
-                  console.log('it is unique!!')
-                  database.ref('users').push({
-                    [user.uid]: {
-                      id: user.uid,
-                      name: user.displayName,
-                      email: user.email,
-                      inGame: false,
-                      gameId: '',
-                      state: 'LOGGED_IN'
-                    }
-                  })
+          //user = user[0]
+          //if (this.state.user){
+
+          //user is not being registered on the state properly
+          //console.log()
+          let user = this.state.user
+          query.once("value").then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+              var key = childSnapshot.key;
+              var childData = childSnapshot.val();
+              if (childData.hasOwnProperty(user.uid)) {
+                unique = false
+              }
+            })
+            if (unique === true) {
+              console.log('it is unique!!')
+              userPush = database.ref('users').push({
+                [user.uid]: {
+                  id: user.uid,
+                  name: user.displayName,
+                  email: user.email,
+                  inGame: false,
+                  gameId: '',
+                  state: 'LOGGED_IN'
                 }
               })
+              database.ref(`users/${userPush.key}/${user.uid}`).update({ pushKey: userPush.key })
+            }
+          }).then( () => {
+            //when you log in for the first time, it sets your push on the state
+            //we need to find a way to grab it also on log in.... haven't been able to
+            console.log('USER PUSH', userPush)
+            if (userPush) this.setState({userPushKey: userPush.key})
+          })
         })
       }
       else {
-        this.setState({user: null})
-       }
+        this.setState({ user: null })
+      }
     })
-    
-
-
   }
 
   handleStartGameClick() {
+    let self = this
     let judgeUser = auth.currentUser
-    let userRef = database.ref(`users/${judgeUser.uid}`)
     let userInGameRef = database.ref(`users/${judgeUser.uid}/inGame`)
-    userInGameRef.on("value", function (snapshot) {
+    let userRef = database.ref(`users/${this.state.userPushKey}/${judgeUser.uid}`)
+    let key
+    userInGameRef.once("value", function (snapshot) {
       if (snapshot.val() === true) {
         //If user is already in game, redirect them to Sorry component
         console.log("Sorry, you're already in a game")
@@ -105,23 +109,14 @@ export default class Login extends Component {
           code: randomCode(),
           winningAudio: ''
         })
-        let key = push.key
-        //snapshot.ref.set(true)
-        //console.log('USERINGAMEREF PARENT', snapshot.ref.parent.val())
-        //UPDATING HELP -- NEED TO GRAB WHOLE OBJECT HERE AND UPDATE
-        userRef.on('value', function(otherSnap){
-          console.log('SIDLJFADGKJDA', otherSnap)
-        })
-        
-        history.push(`/game/${key}`)
+        key = push.key
+
+        //THIS CURRENTLY ONLY WORKS WHEN YOU FIRST SIGN IN
+        //IF YOU SIGN OUT AND SIGN BACK IN WE NEED A DIFFERENT CALL
+        userRef.update({ inGame: true })
       }
+      history.push(`/game/${key}`)
     })
-    //.then(() => {
-      // userRef.on('value', function (snapshot) {
-      //   console.log('USERREF SNAPSHOT',snapshot.val())
-      // })
-   // })
-    
     document.getElementById('startGame').disabled = true
   }
 
@@ -143,6 +138,7 @@ export default class Login extends Component {
 
 
   render() {
+    console.log('CURRENT STATE', this.state)
     return (
       <div>
         {!this.state.user &&

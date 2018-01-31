@@ -8,7 +8,8 @@ export default class Game extends Component {
       gameId: this.props.match.params.gameId,
       gameState: 'GAME_CREATED',
       playerRole: null,
-      code: null
+      code: null,
+      currentUserId: null
     }
   }
 
@@ -29,8 +30,13 @@ export default class Game extends Component {
           self.setState({ playerRole: 'PLAYER' })
         }
       })
+      self.setState({ currentUserId: gameUserCode[1].uid })
+    }).then(() => {
+      database.ref(`users/-L48wvYYdVJktiz1heSj`).once('value', function(snapshot){
+        console.log('!!! game.js user snapshot',snapshot.val())
+      })
     })
-  }
+}
 
   render() {
     console.log("state after setting it", this.state)
