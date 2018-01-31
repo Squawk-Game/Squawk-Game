@@ -3,7 +3,7 @@ import { storage, database } from '../../fire'
 import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
 
-export default class HostVideo extends Component {
+export default class DumbVideo extends Component {
   constructor(props) {
     super(props)
     this.state = {
