@@ -9,7 +9,8 @@ export default class WinnerPage extends Component {
     super(props)
     this.state = {
       audio: null,
-      video: null
+      video: null,
+      redirect: false
     }
   }
 
@@ -34,8 +35,10 @@ export default class WinnerPage extends Component {
   render(){
     return (
       <div>
-        IN THE WINNER PAGE
-        <DumbVideo audio={this.state.audio} video={this.state.video} /> {/* need to pass in video and audio props of winner */}
+        <div>
+          <h1>CONGRATS WINNER _______ !</h1>
+          <DumbVideo audio={this.state.audio} video={this.state.video} /> {/* need to pass in video and audio props of winner */}
+        </div>}
       </div>
     )
   }
