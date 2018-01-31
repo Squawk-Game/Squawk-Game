@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import AudioRecorder from './AudioRecorder/AudioRecorder.js'
-
+import {auth} from '../../fire'
 // import Tone from 'tone'
 
 // const AudioRecord = AudioRecorder
@@ -9,11 +9,14 @@ import AudioRecorder from './AudioRecorder/AudioRecorder.js'
 export default class AudioRecord extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      user: auth.currentUser
+    }
   }
 
   render() {
     console.log("playFunc???", this.props.playFunc)
-    return <AudioRecorder playFunc={this.props.playFunc}/>
+    return <AudioRecorder playFunc={this.props.playFunc} user={this.state.user}/>
   }
 }
 
