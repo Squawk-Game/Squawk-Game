@@ -78,7 +78,7 @@ export default class Game extends Component {
           || this.state.gameState === WAITING_FOR_AUDIO)
           && this.state.playerRole === 'PLAYER' 
           && <PlayerVideo gameKey={this.state.gameId}/>}
-
+          {console.log('this is here for ocmmit probs')}
       </div>
     )
   }
