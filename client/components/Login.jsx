@@ -103,7 +103,7 @@ export default class Login extends Component {
             players: {
               [judgeUser.uid]: judgeUser.displayName
             },
-            judgeState: 'GAME_CREATED',
+            judgeState: 'OPEN_GAME',
             audio: '',
             code: randomCode(),
             winningAudio: ''
