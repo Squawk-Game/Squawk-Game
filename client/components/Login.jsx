@@ -25,103 +25,97 @@ export default class Login extends Component {
     this.state = {
       game: {},
       currentUser: '',
-      judge: null
+      judge: null,
+      userPushKey: null
     }
     this.handleStartGameClick = this.handleStartGameClick.bind(this)
     this.handleJoinGameClick = this.handleJoinGameClick.bind(this)
   }
 
   componentDidMount() {
+    let userPush
     auth.onAuthStateChanged(currentUser => {
-      console.log('I AM THE CURRENT USER', currentUser)
-      
+
       if (currentUser) {
-        console.log('I AM THE CURRENT USER IN IF STATEMENT', currentUser)
-        this.setState({user: currentUser}, () => {
+        
+        this.setState({ user: currentUser }, () => {
           let query = database.ref("users").orderByKey();
           let unique = true
-          //Promise.all([auth.currentUser]).then((user) => {
-            //user = user[0]
-            //if (this.state.user){
-      
-            //user is not being registered on the state properly
-              //console.log()
-              let user = this.state.user
-              query.once("value").then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                  //console.log('!!!!!!!!!!!!!!!!!!!!!', unique)
-                  var key = childSnapshot.key;
-                  var childData = childSnapshot.val();
-                  //console.log('IM CHECKIN BEFORE THE IF',key, childData.hasOwnProperty(user.uid), user.uid)
-                  if (childData.hasOwnProperty(user.uid)) {
-                    //console.log('checking uniqueness', childData, user.uid)
-                    unique = false
-                  }
-                })
-                if (unique === true) {
-                  console.log('it is unique!!')
-                  database.ref('users').push({
-                    [user.uid]: {
-                      id: user.uid,
-                      name: user.displayName,
-                      email: user.email,
-                      inGame: false,
-                      gameId: '',
-                      state: 'LOGGED_IN'
-                    }
-                  })
+
+          let user = this.state.user
+          query.once("value").then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+              var key = childSnapshot.key;
+              var childData = childSnapshot.val();
+              if (childData.hasOwnProperty(user.uid)) {
+                unique = false
+              }
+            })
+            if (unique === true) {
+              console.log('it is unique!!')
+              userPush = database.ref('users').push({
+                [user.uid]: {
+                  id: user.uid,
+                  name: user.displayName,
+                  email: user.email,
+                  inGame: false,
+                  gameId: '',
+                  state: 'LOGGED_IN'
                 }
               })
+              database.ref(`users/${userPush.key}/${user.uid}`).update({ pushKey: userPush.key })
+              database.ref('pushkeys').update({ [user.uid]: userPush.key })
+            }
+          })
         })
       }
       else {
-        this.setState({user: null})
-       }
+        this.setState({ user: null })
+      }
     })
-    
-
-
   }
 
   handleStartGameClick() {
+    let self = this
     let judgeUser = auth.currentUser
-    let userRef = database.ref(`users/${judgeUser.uid}`)
-    let userInGameRef = database.ref(`users/${judgeUser.uid}/inGame`)
-    userInGameRef.on("value", function (snapshot) {
-      if (snapshot.val() === true) {
-        //If user is already in game, redirect them to Sorry component
-        console.log("Sorry, you're already in a game")
-      } else {
-        //Make game bojects in FB and then redirect to game/:gameId
-        console.log("Jumping to else in StartGameClick")
-        let push = database.ref('games').push({
-          judgeId: judgeUser.uid,
-          video: '',
-          players: {
-            [judgeUser.uid]: judgeUser.displayName
-          },
-          judgeState: 'GAME_CREATED',
-          audio: '',
-          code: randomCode(),
-          winningAudio: ''
-        })
-        let key = push.key
-        //snapshot.ref.set(true)
-        //console.log('USERINGAMEREF PARENT', snapshot.ref.parent.val())
-        //UPDATING HELP -- NEED TO GRAB WHOLE OBJECT HERE AND UPDATE
-        userRef.on('value', function(otherSnap){
-          console.log('SIDLJFADGKJDA', otherSnap)
-        })
-        
-        history.push(`/game/${key}`)
-      }
+    let userInGameRef
+    let gameKey
+    let userKey
+    database.ref('pushkeys').once('value', function (snap) {
+      userKey = snap.child(judgeUser.uid).val()
     })
-    //.then(() => {
-      // userRef.on('value', function (snapshot) {
-      //   console.log('USERREF SNAPSHOT',snapshot.val())
-      // })
-   // })
-    
+    .then(() => {
+      userInGameRef = database.ref(`users/${userKey}/${judgeUser.uid}/inGame`)
+      //userInGameRef.update({})
+      console.log('user in game ref', userInGameRef)
+    })
+    .then(() => {
+      userInGameRef.once("value", function (snapshot) {
+        if (snapshot.val() === true) {
+          //If user is already in game, redirect them to Sorry component
+          console.log("Sorry, you're already in a game")
+        } else {
+          //Make game bojects in FB and then redirect to game/:gameId
+          console.log("Jumping to else in StartGameClick")
+          let push = database.ref('games').push({
+            judgeId: judgeUser.uid,
+            video: '',
+            players: {
+              [judgeUser.uid]: judgeUser.displayName
+            },
+            judgeState: 'GAME_CREATED',
+            audio: '',
+            code: randomCode(),
+            winningAudio: ''
+          })
+          gameKey = push.key
+        }
+        database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true})
+        //this works!
+        
+        history.push(`/game/${gameKey}`)
+      })
+    })
     document.getElementById('startGame').disabled = true
   }
 
@@ -132,6 +126,7 @@ export default class Login extends Component {
   }
 
   handleSignOutClick() {
+    let self = this
     auth.signOut().then(() => {
       console.log('signed out')
     })
@@ -140,9 +135,8 @@ export default class Login extends Component {
       })
   }
 
-
-
   render() {
+    console.log('CURRENT STATE', this.state)
     return (
       <div>
         {!this.state.user &&
