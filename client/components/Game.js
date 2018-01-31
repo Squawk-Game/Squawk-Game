@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { database, auth } from '../../fire'
 import Invite from './Invite'
 import WaitingRoom from './WaitingRoom'
+import WinnerPage from './WinnerPage'
 //you are here because you are a judge and want to add players to your new game
 const OPEN_GAME = 'OPEN_GAME'
 const WAITING_TO_START = 'WAITING_TO_START'
@@ -67,7 +68,17 @@ export default class Game extends Component {
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
         {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} /> }
+
+        {/* IF STATE IS WINNER_SENT */}
+        {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
+
+        {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
+        {this.state.gameState === GAME_CLOSED && history.push(`/`)}
       </div>
     )
   }
 }
+
+//audio on game will have push key of userId as key and audio path as file
+//audio gets associated with user
+
