@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { database, auth } from '../../fire'
 import Invite from './Invite'
+import WaitingRoom from './WaitingRoom'
 //you are here because you are a judge and want to add players to your new game
 const OPEN_GAME = 'OPEN_GAME'
 const WAITING_TO_START = 'WAITING_TO_START'
@@ -65,7 +66,7 @@ export default class Game extends Component {
       <div>
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
-        {this.state.gameState === WAITING_TO_START && <div>HELONnng</div> }
+        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} /> }
       </div>
     )
   }
