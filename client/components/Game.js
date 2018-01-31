@@ -28,7 +28,7 @@ export default class Game extends Component {
       database.ref(`games/${this.state.gameId}/judgeId`),
       auth.currentUser,
       database.ref(`games/${this.state.gameId}/code`),
-      database.ref(`games/${this.state.gameId}/judgeState`)
+      database.ref(`games/${this.state.gameId}`)
     ]).then(function (gameUserCode) {
       gameUserCode[2].on("value", function (snapshot) {
         self.setState({ code: snapshot.val() })
@@ -42,8 +42,9 @@ export default class Game extends Component {
       })
       self.setState({ currentUserId: gameUserCode[1].uid })
       gameUserCode[3].on('child_changed', (snap) => {
-        console.log('HELLLLOOOOOOO ')
-        self.setState({gameState: snap.val()})
+        if (snap.key === 'judgeState'){
+          self.setState({gameState: snap.val()})
+        }
       })
     })
     // let stateRef = database.ref(`games/${this.state.gameId}/judgeState`)
