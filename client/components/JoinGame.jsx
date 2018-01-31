@@ -1,37 +1,37 @@
 import React, { Component } from 'react'
-import firebase, {firebaseui, auth, database} from '~/fire'
+import firebase, { firebaseui, auth, database } from '~/fire'
 //import ReactCodeInput from 'react-code-input'
 
 //const input = <ReactCodeInput type='number' fields={5} {...this.props} />
 
 export default class JoinGame extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       code: '',
-      inputValue: ''
+      inputValue: '',
+      user: null
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     //this.updateInputValue = this.updateInputValue.bind(this)
   }
 
-  componentDidMount(){
-    if (auth.currentUser) console.log('auth current user', auth.currentUser)
-    console.log('PROPS ARE ', this.props)
-  }
 
-  handleFormSubmit(event){
+
+  handleFormSubmit(event) {
     event.preventDefault()
     //let userEnteredCode = event.target.value
 
     console.log('EVENT HAPPENED', event.target)
 
-
+    let userKey;
     let gamesRef = database.ref('games')
-
-      let query = gamesRef.orderByKey();
-     // let unique = true
-
+    let currentUser = auth.currentUser
+    let query = gamesRef.orderByKey();
+    // let unique = true
+    database.ref('pushkeys').once('value', function (snap) {
+      userKey = snap.child(currentUser.uid).val()
+    }).then(() => {
       query.once("value").then((snapshot) => {
         console.log('SNAPSHOT IS ', snapshot)
         snapshot.forEach((childSnapshot) => {
@@ -44,12 +44,15 @@ export default class JoinGame extends Component {
             console.log('child key ', key)
             let gamePlayersRef = gamesRef.child(`${key}/players`)
             gamePlayersRef.update({
-              [auth.currentUser.displayName]: {
-                audio: 'audio.file',
-                uid: auth.currentUser.uid
-              }
+              [auth.currentUser.uid]: auth.currentUser.displayName
             })
           }
+        })
+      })
+    })
+      .then(() => {
+        database.ref(`users/${userKey}/${currentUser.uid}`).update({
+          inGame: true
         })
       })
   }
@@ -58,15 +61,15 @@ export default class JoinGame extends Component {
 
   // }
 
-  render(){
+  render() {
     return (
       <div>
         <h1>JOIN A GAME</h1>
         <form onSubmit={this.handleFormSubmit}>
-        <input value={this.state.inputValue} type="text" onChange={evt =>
-        this.setState({
-          inputValue: evt.target.value
-    })} />
+          <input value={this.state.inputValue} type="text" onChange={evt =>
+            this.setState({
+              inputValue: evt.target.value
+            })} />
           <input type="submit" value="Get Squawking" />
         </form>
       </div>
