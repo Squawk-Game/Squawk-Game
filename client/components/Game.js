@@ -68,7 +68,7 @@ export default class Game extends Component {
     //IF STATE IS OPEN_GAME
     return (
       <div>
-        {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
+        {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} code={this.state.code} />}
 
         {this.state.gameState === WAITING_TO_START && <WaitingRoom code={this.state.code} gameKey={this.state.gameId} isJudge={this.state.playerRole === 'JUDGE'} />}
 
