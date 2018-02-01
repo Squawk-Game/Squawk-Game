@@ -20,9 +20,9 @@ export default class DumbVideo extends Component {
     let gameRef = database.ref(`games/${this.props.gameKey}`)
     Promise.all([
       storage.ref("/ahhhhhh").getDownloadURL(),
-     // storage.ref("/Jurassic.mp4").getDownloadURL()
+      storage.ref("/Jurassic.mp4").getDownloadURL()
     ]).then(function(urls) {
-      self.setState({ audio: urls[0], video: self.props.video, loops: self.props.loops })
+      self.setState({ audio: urls[0], video: urls[1], loops: self.props.loops })
     }).then(() => {
       //SWITCH GAME STATE
       //gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
@@ -35,7 +35,7 @@ export default class DumbVideo extends Component {
   }
 
   render(){
-
+console.log('SELF PROPS BIDEO', this.props.video)
     //Hardcoding links for the time being
 console.log("Fetched audio: ", this.state.audio)
     if (!this.state.audio) {
