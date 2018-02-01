@@ -36,11 +36,8 @@ export default function downloadBlob(blob, filename) {
 
         console.log(mp3Data)
 
-        let thisblob = new Blob(mp3Data, {type: 'audio/mp3'});
-        let user = auth.currentUser
-
-        console.log('!!!! current user in download blob', user, auth.currentUser, thisblob)
-        //let userPushKey, blobSnapshot, gameId
+        let thisblob = new Blob(mp3Data, { type: 'audio/mp3' });
+        
         let returnsArray = []
         Promise.all([
             auth.currentUser
@@ -48,46 +45,39 @@ export default function downloadBlob(blob, filename) {
         .then((currentUser) => {
             let storageRef = storage.ref()
             let storageChild = storageRef.child(`audio/${currentUser[0].uid}`)
-            console.log('BLOBBBB', thisblob, currentUser[0].uid, storageChild)
             storageChild.put(thisblob).then(snapshot => {
-                console.log('uploaded blob', snapshot)
                 returnsArray.push(currentUser[0].uid)
+                returnsArray.push(snapshot)
+            }).then(() => {
+                console.log(returnsArray)
+                let currentUserId = returnsArray[0]
+                let pushKeyRef = database.ref(`pushkeys/${currentUserId}`)
+                pushKeyRef.once('value').then(snapshot => {
+                    let userPushKey = snapshot.val()
+                    returnsArray.push(userPushKey)
+                }).then(() => {
+                    let userId = returnsArray[0]
+                    let pushKey = returnsArray[2]
+                    database.ref(`users/${pushKey}/${userId}/gameId`).once('value')
+                    .then(snapshot => {
+                        let gameId = snapshot.val()
+                        returnsArray.push(gameId)
+                    })
+                    .then(() => {
+                        let blobby = returnsArray[1]
+                        return blobby
+                    })
+                    .then((blobby) => {
+                        let game = returnsArray[3]
+                        let thisUser = returnsArray[0]
+                        let gameAudioRef = database.ref(`games/${game}/audio`)
+                        gameAudioRef.update({[thisUser]: blobby.downloadURL})
+                    })
+                })
             })
-        })
-        .then(() => {
-            console.log(returnsArray)
-            let currentUserId = returnsArray[1]
-            let pushKeyRef = database.ref(`pushkeys/${currentUserId}`)
-            pushKeyRef.once('value', function(snapshot){
-                let userPushKey = snapshot.val()
-                console.log('USERPUSHKEY:', userPushKey, snapshot)
-                returnsArray.push(userPushKey)
             })
-        })
-        // .then(() => {
-        //     console.log(returnsArray)
-        //     // arr[0].once('value', function(snapshot){
-        //     //     userPushKey = snapshot.val()
-        //     //     console.log('USERPUSHKEY:', userPushKey, snapshot)
-        //     // })
-        //     // return arr[1]
-        // })
-        // // .then((currentUserId) => {
-        //     database.ref(`users/${userPushKey}/${currentUserId}/gameId`).once('value', function(snapshot){
-        //         gameId = snapshot.val()
-        //         console.log('GAMEID', gameId, snapshot)
-        //     })
-        // })
-        // .then(() => {
-        //     console.log('BLOB', blobSnapshot)
-        //     let gameRef = database.ref(`games/${gameId}`)
-        //     gameRef.update({
-        //         audio: {
-        //             [auth.currentUser.uid]: blobSnapshot
-        //         }
-        //     })
-        // })
-        .catch(err => console.error(err))
+            .catch(err => console.error(err))
+
         var url = window.URL.createObjectURL(blob);
 
         var click = document.createEvent('Event');
