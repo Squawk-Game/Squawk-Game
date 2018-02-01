@@ -46,7 +46,7 @@ export default class JoinGame extends Component {
               [auth.currentUser.uid]: auth.currentUser.displayName
             })
             database.ref(`users/${userKey}/${currentUser.uid}`).update({
-              inGame: true
+              inGame: true, gameId: gameKey
             })
             history.push(`/game/${gameKey}`)
           }

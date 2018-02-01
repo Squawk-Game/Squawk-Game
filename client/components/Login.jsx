@@ -113,7 +113,7 @@ export default class Login extends Component {
           })
           gameKey = push.key
         }
-        database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true})
+        database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true, gameId: gameKey})
         //this works!
 
         history.push(`/game/${gameKey}`)

@@ -9,6 +9,7 @@ export default class WaitingRoom extends Component {
     this.state = {
       playersInGame: null
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -25,6 +26,11 @@ export default class WaitingRoom extends Component {
           }
         })
       })
+  }
+
+  handleClick(event){
+    event.preventDefault()
+    database.ref(`games/${this.props.gameKey}`).update({judgeState: 'VIDEO_SENT'})
   }
 
   render() {
@@ -51,7 +57,7 @@ export default class WaitingRoom extends Component {
           })}
           {this.props.isJudge &&
             (
-              <button>
+              <button onClick={this.handleClick} >
                 Send Video
               </button>
             )
