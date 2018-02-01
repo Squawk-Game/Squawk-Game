@@ -73,7 +73,7 @@ export default class Login extends Component {
         this.setState({ user: null })
       }
     })
-    database.ref('videos').update({0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic.mp4?alt=media&token=32869cf5-2bf8-47b0-b133-38b62c2ebc8e', 1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna.mp4?alt=media&token=12cbdc7d-67d8-48a0-9c55-cd4262e861bc', 2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/ahhhhhh?alt=media&token=0a466ada-2cdc-4d42-874e-ad1f5a8123eb'})
+    database.ref('videos').update({0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic.mp4?alt=media&token=32869cf5-2bf8-47b0-b133-38b62c2ebc8e', 1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna.mp4?alt=media&token=12cbdc7d-67d8-48a0-9c55-cd4262e861bc', 2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/MahMouse.mov?alt=media&token=6cfbdf23-c0a7-479f-b734-910ade9bbbd4'})
   }
 
   handleStartGameClick() {
@@ -113,7 +113,7 @@ export default class Login extends Component {
           })
           gameKey = push.key
         }
-        database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true})
+        database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true, gameId: gameKey})
         //this works!
 
         history.push(`/game/${gameKey}`)
