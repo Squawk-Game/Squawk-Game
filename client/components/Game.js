@@ -20,7 +20,7 @@ export default class Game extends Component {
     super(props)
     this.state = {
       gameId: this.props.match.params.gameId,
-      gameState: OPEN_GAME,
+      gameState: null,
       playerRole: null,
       code: null,
       currentUserId: null
@@ -33,7 +33,8 @@ export default class Game extends Component {
       database.ref(`games/${this.state.gameId}/judgeId`),
       auth.currentUser,
       database.ref(`games/${this.state.gameId}/code`),
-      database.ref(`games/${this.state.gameId}`)
+      database.ref(`games/${this.state.gameId}`),
+      database.ref(`games/${this.state.gameId}/judgeState`)
     ]).then(function (gameUserCode) {
       gameUserCode[2].on("value", function (snapshot) {
         self.setState({ code: snapshot.val() })
@@ -45,6 +46,9 @@ export default class Game extends Component {
           self.setState({ playerRole: 'PLAYER' })
         }
       })
+      gameUserCode[4].on("value", function(snapshot) {
+        self.setState({gameState: snapshot.val()})
+      })
       self.setState({ currentUserId: gameUserCode[1].uid })
       gameUserCode[3].on('child_changed', (snap) => {
         if (snap.key === 'judgeState') {
@@ -52,11 +56,6 @@ export default class Game extends Component {
         }
       })
     })
-    // let stateRef = database.ref(`games/${this.state.gameId}/judgeState`)
-    // stateRef.on('child_changed', (snap) => {
-    //   console.log('HELLLLOOOOOOO ')
-    //   self.setState({gameState: snap.val()})
-    // })
   }
 
   render() {
@@ -70,7 +69,7 @@ export default class Game extends Component {
       <div>
         {this.state.playerRole === 'JUDGE' && this.state.gameState === 'OPEN_GAME' && <Invite gameKey={this.state.gameId} />}
 
-        {this.state.gameState === WAITING_TO_START && <WaitingRoom isJudge={this.state.playerRole === 'JUDGE' ? true : false} />}
+        {this.state.gameState === WAITING_TO_START && <WaitingRoom code={this.state.code} gameKey={this.state.gameId} isJudge={this.state.playerRole === 'JUDGE'} />}
 
 
         {(this.state.gameState === VIDEO_SENT
