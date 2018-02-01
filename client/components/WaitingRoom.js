@@ -36,7 +36,6 @@ export default class WaitingRoom extends Component {
       for (let key in this.state.playersInGame) {
         arrPlayers.unshift(this.state.playersInGame[key])
       }
-      console.log("Heres the arrPlayers", arrPlayers)
       return (
         <div>
           <h1>Welcome To Game #{this.props.code}</h1>
@@ -46,9 +45,17 @@ export default class WaitingRoom extends Component {
             return (
               <div key={player}>
                 <li>{player}</li>
+
               </div>
             )
           })}
+          {this.props.isJudge &&
+            (
+              <button>
+                Send Video
+              </button>
+            )
+          }
         </div>
       )
     }
