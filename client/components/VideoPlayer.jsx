@@ -19,7 +19,7 @@ export default class VideoPlayer extends React.Component {
     let componentProps = this.props
     let user = false
     this.player = videojs(this.videoNode, this.props.options, function onPlayerReady() {
-      if (componentProps.audio) {
+      if (componentProps.role === 'JUDGE') {
       console.log("Should be HostVideo")
 
       } else {
@@ -43,10 +43,10 @@ export default class VideoPlayer extends React.Component {
     }
     if (counter < 5) {
       this.player.on('ended', () => {
-        console.log('I ENDED YOU')
         counter--
         if (counter > 0) this.player.play()
         if ((counter === 0 ) && user) {
+          console.log('im gonna render record!!!!')
           self.setState({renderRecord: true})
           this.player.play()
         }
@@ -65,7 +65,7 @@ export default class VideoPlayer extends React.Component {
   }
 
   render() {
-
+    
     return (
       <div>
         <div data-vjs-player>
@@ -75,9 +75,12 @@ export default class VideoPlayer extends React.Component {
             className="video-js"
           ></video>
         </div>
-        {this.props.renderRecord && <AudioRecord playFunc={this.handlePlay} />}
-        {this.state.renderRecord && <AudioRecord playFunc={this.handlePlay} />}
-        {this.props.audio &&
+        {
+          (this.props.renderRecord || this.state.renderRecord)
+          && <AudioRecord playFunc={this.handlePlay} />
+        }
+        {
+          this.props.audio &&
           (<audio src={this.props.audio} controls onPlay={this.handlePlay} >BOOP</audio>)
         }
       </div>

@@ -5,7 +5,7 @@
 // and then trigger a download of that .mp3
 
 import lamejs from 'iso-lamejs'
-import { storage, auth } from '~/fire'
+import { storage, auth, database } from '~/fire'
 
 // trigger a browser file download of binary data
 // trigger a browser file download of binary data
@@ -18,8 +18,6 @@ export default function downloadBlob(blob, filename) {
     var reader = new FileReader()
     reader.addEventListener('loadend', () => {
         var arrayBuffer = reader.result
-
-
         var mp3Data = []
 
         var mp3encoder = new lamejs.Mp3Encoder(1, 44100, 128)
@@ -38,12 +36,57 @@ export default function downloadBlob(blob, filename) {
 
         console.log(mp3Data)
 
-        var blob = new Blob(mp3Data, {type: 'audio/mp3'});
-        console.log('!!!! current user in download blob', auth.currentUser)
-        let storageRef = storage.ref(auth.currentUser.uid)
-        storageRef.put(blob).then(snapshot => {
-            console.log('uploaded blob')
+        let thisblob = new Blob(mp3Data, {type: 'audio/mp3'});
+        let user = auth.currentUser
+
+        console.log('!!!! current user in download blob', user, auth.currentUser, thisblob)
+        //let userPushKey, blobSnapshot, gameId
+        let returnsArray = []
+        Promise.all([
+            auth.currentUser
+        ])
+        .then((currentUser) => {
+            let storageRef = storage.ref()
+            let storageChild = storageRef.child(`audio/${currentUser[0].uid}`)
+            console.log('BLOBBBB', thisblob, currentUser[0].uid, storageChild)
+            storageChild.put(thisblob).then(snapshot => {
+                console.log('uploaded blob', snapshot)
+                returnsArray.push(currentUser[0].uid)
+            })
         })
+        .then(() => {
+            console.log(returnsArray)
+            let currentUserId = returnsArray[1]
+            let pushKeyRef = database.ref(`pushkeys/${currentUserId}`)
+            pushKeyRef.once('value', function(snapshot){
+                let userPushKey = snapshot.val()
+                console.log('USERPUSHKEY:', userPushKey, snapshot)
+                returnsArray.push(userPushKey)
+            })
+        })
+        // .then(() => {
+        //     console.log(returnsArray)
+        //     // arr[0].once('value', function(snapshot){
+        //     //     userPushKey = snapshot.val()
+        //     //     console.log('USERPUSHKEY:', userPushKey, snapshot)
+        //     // })
+        //     // return arr[1]
+        // })
+        // // .then((currentUserId) => {
+        //     database.ref(`users/${userPushKey}/${currentUserId}/gameId`).once('value', function(snapshot){
+        //         gameId = snapshot.val()
+        //         console.log('GAMEID', gameId, snapshot)
+        //     })
+        // })
+        // .then(() => {
+        //     console.log('BLOB', blobSnapshot)
+        //     let gameRef = database.ref(`games/${gameId}`)
+        //     gameRef.update({
+        //         audio: {
+        //             [auth.currentUser.uid]: blobSnapshot
+        //         }
+        //     })
+        // })
         .catch(err => console.error(err))
         var url = window.URL.createObjectURL(blob);
 
