@@ -40,7 +40,7 @@ export default class JoinGame extends Component {
         snapshot.forEach((childSnapshot) => {
           gameKey = childSnapshot.key;
           var childData = childSnapshot.val();
-          if (childData.code.toString() === this.state.inputValue) {
+          if (childData.code && (childData.code.toString() === this.state.inputValue)) {
             let gamePlayersRef = gamesRef.child(`${gameKey}/players`)
             gamePlayersRef.update({
               [auth.currentUser.uid]: auth.currentUser.displayName

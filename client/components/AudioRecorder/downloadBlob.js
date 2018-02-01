@@ -43,6 +43,8 @@ export default function downloadBlob(blob, filename) {
         let storageRef = storage.ref(auth.currentUser.uid)
         storageRef.put(blob).then(snapshot => {
             console.log('uploaded blob')
+            //NOW PUT THE SNAP ON THE STATE
+            //user the user's gameid
         })
         .catch(err => console.error(err))
         var url = window.URL.createObjectURL(blob);

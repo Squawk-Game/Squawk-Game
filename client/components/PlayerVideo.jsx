@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { storage } from '../../fire'
+import { storage, database } from '../../fire'
 import VideoPlayer from './VideoPlayer'
 import AudioRecord from './AudioRecord'
 
@@ -12,10 +12,14 @@ export default class PlayerVideo extends Component {
   }
 
   componentDidMount() {
-   let storageRef = storage.ref("/Rihanna.mp4")
-   storageRef && storageRef.getDownloadURL().then((url)=>{
-     this.setState({video: url})
-   })
+  //  let storageRef = storage.ref("/Rihanna.mp4")
+  //  storageRef && storageRef.getDownloadURL().then((url)=>{
+  //    this.setState({video: url})
+  //  })
+    let gameRef = database.ref(`games/${this.props.gameKey}/video`)
+    gameRef.once('value').then((snap) => {
+      this.setState({video: snap.val()})
+    })
   }
 
   render(){
@@ -38,7 +42,7 @@ export default class PlayerVideo extends Component {
       }
       console.log('Rihanna link', this.state)
       return (<div>
-       <VideoPlayer loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
+       <VideoPlayer role={'PLAYER'} loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
        {/*<VideoPlayer renderRecord={true} options={{...videoJsOptions, autoplay: false}}/>*/}
       </div>)
     }
