@@ -31,15 +31,12 @@ export default class VideoPlayer extends React.Component {
 
     //looper
     let counter = componentProps.loops
-    console.log('self.state.winnerScreen', self.state.winnerScreen)
-    console.log('COUNTER IS ', counter)
     if (counter <= 12 && counter > 6){
       if (counter === 12) this.player.play()
       this.player.on('ended', () => {
         counter--
           if (counter > 7) this.player.play()
           if (counter === 7) {
-            console.log('COUNTER IS ZERO AND GAME KEY IS ', self.state.gameKey)
             database.ref(`games/${self.state.gameKey}`).update({judgeState: 'GAME_CLOSED'})
           }
       })
