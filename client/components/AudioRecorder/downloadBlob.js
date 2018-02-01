@@ -51,7 +51,6 @@ export default function downloadBlob(blob, filename) {
             console.log('BLOBBBB', thisblob, currentUser[0].uid, storageChild)
             storageChild.put(thisblob).then(snapshot => {
                 console.log('uploaded blob', snapshot)
-                //blobSnapshot = snapshot.downloadUrl
                 returnsArray.push(currentUser[0].uid)
             })
         })
@@ -65,15 +64,15 @@ export default function downloadBlob(blob, filename) {
                 returnsArray.push(userPushKey)
             })
         })
-        .then(() => {
-            console.log(returnsArray)
-            // arr[0].once('value', function(snapshot){
-            //     userPushKey = snapshot.val()
-            //     console.log('USERPUSHKEY:', userPushKey, snapshot)
-            // })
-            // return arr[1]
-        })
-        // .then((currentUserId) => {
+        // .then(() => {
+        //     console.log(returnsArray)
+        //     // arr[0].once('value', function(snapshot){
+        //     //     userPushKey = snapshot.val()
+        //     //     console.log('USERPUSHKEY:', userPushKey, snapshot)
+        //     // })
+        //     // return arr[1]
+        // })
+        // // .then((currentUserId) => {
         //     database.ref(`users/${userPushKey}/${currentUserId}/gameId`).once('value', function(snapshot){
         //         gameId = snapshot.val()
         //         console.log('GAMEID', gameId, snapshot)
