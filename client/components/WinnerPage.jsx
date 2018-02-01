@@ -37,8 +37,8 @@ export default class WinnerPage extends Component {
       <div>
         <div>
           <h1>CONGRATS WINNER _______ !</h1>
-          <DumbVideo audio={this.state.audio} video={this.state.video} /> {/* need to pass in video and audio props of winner */}
-        </div>}
+          <DumbVideo audio={this.state.audio} video={this.state.video} loops={12} gameKey={this.props.gameKey} /> {/* need to pass in video and audio props of winner */}
+        </div>
       </div>
     )
   }
