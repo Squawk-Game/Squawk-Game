@@ -9,7 +9,8 @@ export default class DumbVideo extends Component {
     this.state = {
       audio: null,
       video: null,
-      gameKey: props.gameKey
+      gameKey: props.gameKey,
+      loops: 0
     }
   }
 
@@ -21,10 +22,10 @@ export default class DumbVideo extends Component {
       storage.ref("/ahhhhhh").getDownloadURL(),
       storage.ref("/Jurassic.mp4").getDownloadURL()
     ]).then(function(urls) {
-      self.setState({audio: urls[0], video: urls[1]})
+      self.setState({ audio: urls[0], video: urls[1], loops: self.props.loops })
     }).then(() => {
       //SWITCH GAME STATE
-      gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
+      //gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
     })
 
     gameRef.on('child_added', (snap) => {
@@ -34,7 +35,7 @@ export default class DumbVideo extends Component {
   }
 
   render(){
-
+console.log('SELF PROPS BIDEO', this.props.video)
     //Hardcoding links for the time being
 console.log("Fetched audio: ", this.state.audio)
     if (!this.state.audio) {
@@ -53,7 +54,7 @@ console.log("Fetched audio: ", this.state.audio)
         }]
       }
       return (<div>
-        <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}}/>
+        <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}} loops={this.props.loops} gameKey={this.state.gameKey} winnerScreen={true} />
       </div>)
 
     }

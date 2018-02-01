@@ -5,6 +5,7 @@ import WaitingRoom from './WaitingRoom'
 import WinnerPage from './WinnerPage'
 import HostVideo from './HostVideo'
 import PlayerVideo from './PlayerVideo'
+import StartNewRound from './StartNewRound'
 
 //you are here because you are a judge and want to add players to your new game
 const OPEN_GAME = 'OPEN_GAME'
@@ -85,7 +86,7 @@ export default class Game extends Component {
 
 
         {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
-        {this.state.gameState === GAME_CLOSED && history.push(`/`)}
+        {this.state.gameState === GAME_CLOSED && <StartNewRound />}
 
         {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
         {/*game closed*/}
