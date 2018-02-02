@@ -28,6 +28,9 @@ var AudioRecorder = (function (_super) {
             if (_this.props.onEnded)
                 _this.props.onEnded();
         };
+        _this.onGhostClick = function () {
+            console.log('A GHOST CLICKED THIS BUTTON!!!!!!');
+        };
         _this.onRemoveClick = function () {
             _this.waveInterface.reset();
             if (_this.state.audioData && _this.props.onChange)
@@ -121,6 +124,7 @@ var AudioRecorder = (function (_super) {
     };
     AudioRecorder.prototype.render = function () {
         return (React.createElement("div", { className: "AudioRecorder" },
+        // React.createElement("button", { className: "ghost-button", onClick: this.onGhostClick }, this.props.ghostClick),
             React.createElement("button", { className: [
                     'AudioRecorder-button',
                     this.state.audioData ? 'hasAudio' : '',
@@ -150,5 +154,6 @@ AudioRecorder.defaultProps = {
     recordLabel: '● Record',
     recordingLabel: '● Recording',
     removeLabel: '✖ Remove',
-    downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+    downloadLabel: '\ud83d\udcbe Save', // unicode floppy disk,
+    ghostClick: '👻 Ghost'
 };

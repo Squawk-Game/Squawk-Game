@@ -16,7 +16,7 @@ function mergeBuffers(buffer, length) {
 
 // hacking this to only output one of the channels
 function interleave(left, right) {
-    var length = left.length /*+ right.length*/;
+    var length = left.length /*+ right.length take out if you want out*/;
     var result = new Float64Array(length);
     var inputIndex = 0;
     for (var i = 0; i < length;) {
