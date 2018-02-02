@@ -40,7 +40,7 @@ export default class WaitingRoom extends Component {
     } else {
       let arrPlayers = []
       for (let key in this.state.playersInGame) {
-        arrPlayers.unshift(this.state.playersInGame[key])
+        arrPlayers.push(this.state.playersInGame[key])
       }
       return (
         <div>
