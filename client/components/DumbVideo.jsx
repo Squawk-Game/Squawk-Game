@@ -40,9 +40,6 @@ export default class DumbVideo extends Component {
   }
 
   render(){
-console.log('SELF PROPS BIDEO', this.props.video)
-    //Hardcoding links for the time being
-console.log("Fetched audio: ", this.state.audio)
     if (!this.state.audio) {
       return <div>Sorry, no audio.</div>
     } else {
