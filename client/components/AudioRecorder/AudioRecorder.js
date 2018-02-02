@@ -28,6 +28,9 @@ var AudioRecorder = (function (_super) {
             if (_this.props.onEnded)
                 _this.props.onEnded();
         };
+        _this.onGhostClick = function () {
+            console.log('A GHOST CLICKED THIS BUTTON!!!!!!');
+        };
         _this.onRemoveClick = function () {
             _this.waveInterface.reset();
             if (_this.state.audioData && _this.props.onChange)
@@ -121,20 +124,21 @@ var AudioRecorder = (function (_super) {
     };
     AudioRecorder.prototype.render = function () {
         return (React.createElement("div", { className: "AudioRecorder" },
+        // React.createElement("button", { className: "ghost-button", onClick: this.onGhostClick }, this.props.ghostClick),
             React.createElement("button", { className: [
                     'AudioRecorder-button',
                     this.state.audioData ? 'hasAudio' : '',
                     this.state.isPlaying ? 'isPlaying' : '',
                     this.state.isRecording ? 'isRecording' : '',
-                ].join(' '), onClick: this.onButtonClick },
+                ].join(' '), onClick: this.onButtonClick, style: {visibility: "hidden"} },
                 this.state.audioData && !this.state.isPlaying && this.props.playLabel,
                 this.state.audioData && this.state.isPlaying && this.props.playingLabel,
                 !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
                 !this.state.audioData && this.state.isRecording && this.props.recordingLabel),
             this.state.audioData &&
-                React.createElement("button", { className: "AudioRecorder-remove", onClick: this.onRemoveClick }, this.props.removeLabel),
+                React.createElement("button", { className: "AudioRecorder-remove", onClick: this.onRemoveClick, style: {visibility: "hidden"} }, this.props.removeLabel),
             this.state.audioData && this.props.downloadable &&
-                React.createElement("button", { className: "AudioRecorder-download", onClick: this.onDownloadClick }, this.props.downloadLabel)));
+                React.createElement("button", { className: "AudioRecorder-download", onClick: this.onDownloadClick, style: {visibility: "hidden"} }, this.props.downloadLabel)));
     };
     return AudioRecorder;
 }(React.Component));
@@ -150,5 +154,6 @@ AudioRecorder.defaultProps = {
     recordLabel: '● Record',
     recordingLabel: '● Recording',
     removeLabel: '✖ Remove',
-    downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+    downloadLabel: '\ud83d\udcbe Save', // unicode floppy disk,
+    ghostClick: '👻 Ghost'
 };

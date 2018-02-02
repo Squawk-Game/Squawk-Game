@@ -11,76 +11,92 @@ export default class HostVideo extends Component {
       video: null,
       gameKey: props.gameKey,
       userAudios: [],
-      numPlayers: 0
+      usersReceived: [],
+      numPlayers: 0,
+      gameState: '',
+      winningAudio: null
     }
+    this.handleWinner = this.handleWinner.bind(this)
   }
 
   componentDidMount() {
-    //Need to replace AHHH with whatever the person uploaded
     let self = this
     let gameRef = database.ref(`games/${this.props.gameKey}`)
     let audioRef = database.ref(`games/${this.props.gameKey}/audio`)
-    // gameRef.once('value').then((snap) => {
-    //   this.setState({video: snap.child('video').val()})
-    // })
     let videoRef = database.ref(`games/${this.props.gameKey}/video`)
+
     videoRef.once('value').then((snap) => {
       console.log('SNAP', snap.val())
       self.setState({video: snap.val()})
     })
-    // .then(() => {
-    //   let audioURL = storage.ref("/ahhhhhh").getDownloadURL()
-    //   return audioURL
-    // })
-    // .then((audioURL) => {
-    //   self.setState({audio: audioURL})
-    // })
     .then(() => {
-      //SWITCH GAME STATE
-      gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
+
+      if (this.state.gameState !== 'WINNER_SENT') gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
       console.log('STATE AFTER SETTING', self.state)
     })
-
-    // Promise.all([
-    //   //storage.ref("/ahhhhhh").getDownloadURL(),
-    //   database.ref(`games/${this.props.gameKey}/video`)
-    //   //storage.ref("/Jurassic.mp4").getDownloadURL()
-    // ]).then(function(urls) {
-    //   let videoUrl
-    //   console.log('!!!!PROMISES', urls[0], urls[1])
-    //   urls[0].once('value').then((snap) => {
-    //     console.log('SNAP', snap.val())
-    //     self.setState({video: snap.val()})
-    //   })
-    // }).then(() => {
-    //   //SWITCH GAME STATE
-    //   console.log('STATE AFTER SETTING',self.state)
-    //   gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
-    // })
-    
-    gameRef.once('value').then((snap ) => {
-      console.log(snap.child('players').length)
-      this.setState({numPlayers: snap.child('players').length})
-    })
-
-    audioRef.on('child_added', (snap) => {
-      console.log('!!!!!! AUDIO ADDED BY PLAYER', snap.val())
-      this.setState({userAudios: [...this.state.userAudios, snap.val() ]}, function (){
-        if(this.state.userAudios.length === (this.state.numPlayers - 1)) {
-          gameRef.update({judgeState: 'ALL_AUDIO_RECEIVED'})
-        }
+    .then(() => {
+      gameRef.once('value').then((snap) => {
+        let numberOfPlayers = snap.child('players').numChildren()
+        console.log('NUMBER OF PLAYERS', numberOfPlayers)
+        self.setState({numPlayers: numberOfPlayers})
       })
     })
 
+    gameRef.on('child_changed', (snap) => {
+      if(snap.key === 'judgeState'){
+        console.log('I AM THE JUDGE!', snap.key)
+        self.setState({gameState: snap.val()})
+      }
+      console.log('CHILD CHANGED IN HOSTVIDEO',snap, snap.key, snap.val(), self.state)
+    })
+    
+    audioRef.on('child_added', (snap) => {
+      console.log('!!!!!! AUDIO ADDED BY PLAYER', snap, snap.val())
+      let audio = snap.val()
+      let pushkey
+      let userid = snap.key
+      database.ref(`pushkeys/${userid}`).once('value').then((snapshot) => {
+        pushkey = snapshot.val()
+      })
+      .then(() => {
+        console.log('PUSHKEY', pushkey, userid)
+        database.ref(`users/${pushkey}/${userid}/name`).once('value')
+        .then((usersnap) => {
+          let userName = usersnap.val()
+          console.log('USERSNAP', usersnap.val(), userName)
+          self.setState({usersReceived: [...self.state.usersReceived, userName] })
+          console.log('STATE!', self.state
+          )
+        })
+        .then(()=>{
+          self.setState({userAudios: [...self.state.userAudios, audio]})
+        })
+        .then(()=>{
+          if(self.state.usersReceived.length === self.state.numPlayers-1) {
+            gameRef.update({judgeState: 'ALL_AUDIO_RECEIVED'})
+          }
+          console.log( 'STATE CHANGE' ,self.state)
+        })
+      })
+    })
+  }
+
+  handleWinner (audio, i){
+    console.log('HANDLE WINNER', audio)
+    this.setState({winningAudio: {[this.state.usersReceived[i]]: audio}}, () => {
+      console.log('HANDLE WINNER STATE', this.state)
+    })
+    let gameRef = database.ref(`games/${this.props.gameKey}`)
+    gameRef.update({
+      winningAudio: {[this.state.usersReceived[i]]: audio}
+    }).then(()=>{
+      gameRef.update({
+        judgeState: 'WINNER_SENT'
+      })
+    })
   }
 
   render(){
-    console.log('HOST VIDEO STATE', this.state)
-    //Hardcoding links for the time being
-    console.log("Fetched audio: ", this.state.audio, 'STATE VIDEO', this.state.video)
-    // if (!this.state.audio) {
-    //   return <div>Sorry, no audio.</div>
-    // } else {
     const videoJsOptions = {
       autoplay: true,
       loop: true,
@@ -94,7 +110,7 @@ export default class HostVideo extends Component {
         type: 'video/mp4'
       }]
     }
-    let i = 0
+    let i=-1
     return (
       <div>
         {
@@ -103,13 +119,23 @@ export default class HostVideo extends Component {
           <VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>
         }
         {
+          (this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
+          <h3>ALL ENTRIES PRESENT</h3>
+        }
+        {
           this.state.userAudios.length && 
           this.state.userAudios.map((useraudio)=>{
             i++
             return (
-              <div key={i}>
-              <h3>{useraudio}</h3>
-              <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
+              <div key={useraudio}>
+                <form value={useraudio}>
+                  <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
+                  <button 
+                    onClick={(evt)=>{
+                      evt.preventDefault() 
+                      this.handleWinner(useraudio, i)
+                    }}>CHOOSE WINNER</button>
+                </form>
               </div>
             )
           })

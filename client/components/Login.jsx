@@ -114,7 +114,6 @@ handleStartGameClick() {
       }
       database.ref(`users/${userKey}/${judgeUser.uid}`).update({inGame: true, gameId: gameKey})
       //this works!
-
       history.push(`/game/${gameKey}`)
     })
   })
