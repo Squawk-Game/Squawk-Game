@@ -13,8 +13,10 @@ export default class HostVideo extends Component {
       userAudios: [],
       usersReceived: [],
       numPlayers: 0,
-      gameState: ''
+      gameState: '',
+      winningAudio: null
     }
+    this.handleWinner = this.handleWinner.bind(this)
   }
 
   componentDidMount() {
@@ -28,7 +30,8 @@ export default class HostVideo extends Component {
       self.setState({video: snap.val()})
     })
     .then(() => {
-      gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
+
+      if (this.state.gameState !== 'WINNER_SENT') gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
       console.log('STATE AFTER SETTING', self.state)
     })
     .then(() => {
@@ -41,8 +44,10 @@ export default class HostVideo extends Component {
 
     gameRef.on('child_changed', (snap) => {
       if(snap.key === 'judgeState'){
+        console.log('I AM THE JUDGE!', snap.key)
         self.setState({gameState: snap.val()})
       }
+      console.log('CHILD CHANGED IN HOSTVIDEO',snap, snap.key, snap.val(), self.state)
     })
     
     audioRef.on('child_added', (snap) => {
@@ -70,7 +75,24 @@ export default class HostVideo extends Component {
           if(self.state.usersReceived.length === self.state.numPlayers-1) {
             gameRef.update({judgeState: 'ALL_AUDIO_RECEIVED'})
           }
+          console.log( 'STATE CHANGE' ,self.state)
         })
+      })
+    })
+  }
+
+  handleWinner (audio){
+    //event.preventDefault()
+    console.log('HANDLE WINNER', audio)
+    this.setState({winningAudio: audio}, () => {
+      console.log('HANDLE WINNER STATE', this.state)
+    })
+    let gameRef = database.ref(`games/${this.props.gameKey}`)
+    gameRef.update({
+      winningAudio: audio
+    }).then(()=>{
+      gameRef.update({
+        judgeState: 'WINNER_SENT'
       })
     })
   }
@@ -89,7 +111,6 @@ export default class HostVideo extends Component {
         type: 'video/mp4'
       }]
     }
-    let i = 0
     return (
       <div>
         {
@@ -97,18 +118,23 @@ export default class HostVideo extends Component {
           !this.state.userAudios.length && 
           <VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>
         }
-        {(this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
-        <h3>ALL ENTRIES PRESENT</h3>
+        {
+          (this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
+          <h3>ALL ENTRIES PRESENT</h3>
         }
         {
           this.state.userAudios.length && 
           this.state.userAudios.map((useraudio)=>{
-            i++
             return (
-              <div key={i}>
-              <h3>{useraudio}</h3>
-              <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
-              
+              <div key={useraudio}>
+                <form value={useraudio}>
+                  <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
+                  <button 
+                    onClick={(evt)=>{
+                      evt.preventDefault() 
+                      this.handleWinner(useraudio)
+                    }}>CHOOSE WINNER</button>
+                </form>
               </div>
             )
           })
