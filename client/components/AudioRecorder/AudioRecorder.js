@@ -124,7 +124,8 @@ var AudioRecorder = (function (_super) {
     };
     AudioRecorder.prototype.render = function () {
         return (React.createElement("div", { className: "AudioRecorder" },
-        // React.createElement("button", { className: "ghost-button", onClick: this.onGhostClick }, this.props.ghostClick),
+        React.createElement("button", { className: "recordbutton"}, this.props.record),
+        React.createElement("h3", { className: "urlive"}, this.props.live),
             React.createElement("button", { className: [
                     'AudioRecorder-button',
                     this.state.audioData ? 'hasAudio' : '',
@@ -155,5 +156,7 @@ AudioRecorder.defaultProps = {
     recordingLabel: '● Recording',
     removeLabel: '✖ Remove',
     downloadLabel: '\ud83d\udcbe Save', // unicode floppy disk,
-    ghostClick: '👻 Ghost'
+    ghostClick: '👻 Ghost',
+    record: '',
+    live: `You're live!`
 };
