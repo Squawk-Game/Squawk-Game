@@ -116,7 +116,8 @@ export default class HostVideo extends Component {
         {
           this.state.video && 
           !this.state.userAudios.length && 
-          <VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>
+          <h3>WAITING FOR YOUR FRIENDS TO GET SQUAWKIN</h3>
+          /*<VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>*/
         }
         {
           (this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
