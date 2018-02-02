@@ -48,7 +48,12 @@ export default class VideoPlayer extends React.Component {
         if ((counter === 0 ) && user) {
           console.log('im gonna render record!!!!')
           self.setState({renderRecord: true})
+          document.getElementsByClassName('AudioRecorder-button')[0].click()
           this.player.play()
+          this.player.on('ended', () => {
+            document.getElementsByClassName('AudioRecorder-button')[0].click()
+            document.getElementsByClassName('AudioRecorder-download')[0].click()
+          })
         }
       })
     }
@@ -65,7 +70,8 @@ export default class VideoPlayer extends React.Component {
   }
 
   render() {
-    
+    console.log('IMMMMMMMMMM IN THE DANG VIDEO PLAYerRRRRR`1222111!!!!!!!!!')
+    console.log('DOCUMENT CLASSNAME ghost-button in video player', document.getElementsByClassName('ghost-button'))
     return (
       <div>
         <div data-vjs-player>

@@ -72,13 +72,6 @@ export default class Game extends Component {
 
         {this.state.gameState === WAITING_TO_START && <WaitingRoom code={this.state.code} gameKey={this.state.gameId} isJudge={this.state.playerRole === 'JUDGE'} />}
 
-<<<<<<< HEAD
-        {/* IF STATE IS WINNER_SENT */}
-        {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
-
-        {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
-        {this.state.gameState === GAME_CLOSED && history.push(`/`)}
-=======
 
         {(this.state.gameState === VIDEO_SENT
           || this.state.gameState === WAITING_FOR_AUDIO
@@ -90,19 +83,16 @@ export default class Game extends Component {
           || this.state.gameState === ALL_AUDIO_RECEIVED)
           && this.state.playerRole === 'PLAYER'
           && <PlayerVideo gameKey={this.state.gameId}/>}
-          
+
         {/*ALL AUdio received*/}
 
 
         {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
         {this.state.gameState === GAME_CLOSED && <StartNewRound />}
 
-<<<<<<< HEAD
->>>>>>> 7bbd56551bb1dabdcd709fb0047a508176b4bab0
-=======
+
         {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
         {/*game closed*/}
->>>>>>> 92964ef6895196373117cfe17c91d9340ca2f121
       </div>
     )
   }
