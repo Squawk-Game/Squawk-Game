@@ -139,6 +139,7 @@ export default class Login extends Component {
 
   render() {
     console.log('CURRENT STATE', this.state)
+    console.log('i am console logging!')
     return (
       <div>
         {!this.state.user &&
