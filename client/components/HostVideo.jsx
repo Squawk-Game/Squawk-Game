@@ -81,15 +81,14 @@ export default class HostVideo extends Component {
     })
   }
 
-  handleWinner (audio){
-    //event.preventDefault()
+  handleWinner (audio, i){
     console.log('HANDLE WINNER', audio)
-    this.setState({winningAudio: audio}, () => {
+    this.setState({winningAudio: {[this.state.usersReceived[i]]: audio}}, () => {
       console.log('HANDLE WINNER STATE', this.state)
     })
     let gameRef = database.ref(`games/${this.props.gameKey}`)
     gameRef.update({
-      winningAudio: audio
+      winningAudio: {[this.state.usersReceived[i]]: audio}
     }).then(()=>{
       gameRef.update({
         judgeState: 'WINNER_SENT'
@@ -111,6 +110,7 @@ export default class HostVideo extends Component {
         type: 'video/mp4'
       }]
     }
+    let i=-1
     return (
       <div>
         {
@@ -125,6 +125,7 @@ export default class HostVideo extends Component {
         {
           this.state.userAudios.length && 
           this.state.userAudios.map((useraudio)=>{
+            i++
             return (
               <div key={useraudio}>
                 <form value={useraudio}>
@@ -132,7 +133,7 @@ export default class HostVideo extends Component {
                   <button 
                     onClick={(evt)=>{
                       evt.preventDefault() 
-                      this.handleWinner(useraudio)
+                      this.handleWinner(useraudio, i)
                     }}>CHOOSE WINNER</button>
                 </form>
               </div>

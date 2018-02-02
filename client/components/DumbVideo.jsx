@@ -18,18 +18,23 @@ export default class DumbVideo extends Component {
     //Need to replace AHHH with whatever the person uploaded
     let self = this
     let gameRef = database.ref(`games/${this.props.gameKey}`)
-    Promise.all([
-      storage.ref("/ahhhhhh").getDownloadURL(),
-      storage.ref("/Jurassic.mp4").getDownloadURL()
-    ]).then(function(urls) {
-      self.setState({ audio: urls[0], video: urls[1], loops: self.props.loops })
+    let winningAudioRef = database.ref(`games/${this.props.gameKey}/winningAudio`)
+    let videoRef = database.ref(`games/${this.props.gameKey}/video`)
+    let audioObject
+
+    videoRef.once('value').then((snap) => {
+      self.setState({video: snap.val()})
     }).then(() => {
-      //SWITCH GAME STATE
-      //gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
+      winningAudioRef.once('value').then((snap) => {
+        audioObject = snap.val()
+      })
     })
-
-    gameRef.on('child_added', (snap) => {
-
+    .then(() => {
+      console.log(audioObject)
+      for (var key in audioObject){
+        self.setState({winnerName: key})
+        self.setState({audio: audioObject[key]})
+      }
     })
 
   }
@@ -54,6 +59,7 @@ console.log("Fetched audio: ", this.state.audio)
         }]
       }
       return (<div>
+        <h1>CONGRATS {this.state.winnerName} !</h1>
         <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}} loops={this.props.loops} gameKey={this.state.gameKey} winnerScreen={true} />
       </div>)
 
