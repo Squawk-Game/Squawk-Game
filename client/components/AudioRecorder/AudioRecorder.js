@@ -130,15 +130,15 @@ var AudioRecorder = (function (_super) {
                     this.state.audioData ? 'hasAudio' : '',
                     this.state.isPlaying ? 'isPlaying' : '',
                     this.state.isRecording ? 'isRecording' : '',
-                ].join(' '), onClick: this.onButtonClick },
+                ].join(' '), onClick: this.onButtonClick, style: {visibility: "hidden"} },
                 this.state.audioData && !this.state.isPlaying && this.props.playLabel,
                 this.state.audioData && this.state.isPlaying && this.props.playingLabel,
                 !this.state.audioData && !this.state.isRecording && this.props.recordLabel,
                 !this.state.audioData && this.state.isRecording && this.props.recordingLabel),
             this.state.audioData &&
-                React.createElement("button", { className: "AudioRecorder-remove", onClick: this.onRemoveClick }, this.props.removeLabel),
+                React.createElement("button", { className: "AudioRecorder-remove", onClick: this.onRemoveClick, style: {visibility: "hidden"} }, this.props.removeLabel),
             this.state.audioData && this.props.downloadable &&
-                React.createElement("button", { className: "AudioRecorder-download", onClick: this.onDownloadClick }, this.props.downloadLabel)));
+                React.createElement("button", { className: "AudioRecorder-download", onClick: this.onDownloadClick, style: {visibility: "hidden"} }, this.props.downloadLabel)));
     };
     return AudioRecorder;
 }(React.Component));

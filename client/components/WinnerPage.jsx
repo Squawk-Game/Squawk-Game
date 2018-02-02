@@ -30,7 +30,7 @@ const DimensionedWinnerPage = sizeMe({
     let self = this
     Promise.all([
       database.ref(`games/${this.props.gameKey}/video`),
-      //audio needs to be the player's id bc that's the name of their video
+      //audio needs to be the player's id bc that's the name of their svideo
       database.ref(`games/${this.props.gameKey}/winningAudio`)
     ]).then((refs) => {
       let videoRef = refs[0]
@@ -39,7 +39,9 @@ const DimensionedWinnerPage = sizeMe({
         self.setState({ video: snap.val() })
       })
       winningAudioRef.on('value', (snap) => {
-        self.setState({ audio: snap.val() })
+        self.setState({ audio: snap.val()})
+      }).then(() => {
+        let thisUserAudioId = self.state.audio.indexOf()
       })
     })
   }
@@ -48,8 +50,7 @@ const DimensionedWinnerPage = sizeMe({
     return (
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
           <Confetti {...this.props.size} />
-          <h1>CONGRATS WINNER _______ !</h1>
-//           <DumbVideo audio={this.state.audio} video={this.state.video} loops={12} gameKey={this.props.gameKey} />
+           <DumbVideo audio={this.state.audio} video={this.state.video} loops={12} gameKey={this.props.gameKey} />
         </div>
     )
   }
