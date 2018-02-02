@@ -70,8 +70,6 @@ export default class VideoPlayer extends React.Component {
   }
 
   render() {
-    console.log('IMMMMMMMMMM IN THE DANG VIDEO PLAYerRRRRR`1222111!!!!!!!!!')
-    console.log('DOCUMENT CLASSNAME ghost-button in video player', document.getElementsByClassName('ghost-button'))
     return (
       <div>
         <div data-vjs-player>
