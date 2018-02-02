@@ -81,11 +81,13 @@ export default class Game extends Component {
 =======
 
         {(this.state.gameState === VIDEO_SENT
-          || this.state.gameState === WAITING_FOR_AUDIO)
+          || this.state.gameState === WAITING_FOR_AUDIO
+          || this.state.gameState === ALL_AUDIO_RECEIVED)
           && this.state.playerRole === 'JUDGE'
           && <HostVideo gameKey={this.state.gameId}/>}
         {(this.state.gameState === VIDEO_SENT
-          || this.state.gameState === WAITING_FOR_AUDIO)
+          || this.state.gameState === WAITING_FOR_AUDIO
+          || this.state.gameState === ALL_AUDIO_RECEIVED)
           && this.state.playerRole === 'PLAYER'
           && <PlayerVideo gameKey={this.state.gameId}/>}
           
