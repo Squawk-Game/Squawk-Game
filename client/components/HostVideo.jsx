@@ -9,7 +9,9 @@ export default class HostVideo extends Component {
     this.state = {
       audio: null,
       video: null,
-      gameKey: props.gameKey
+      gameKey: props.gameKey,
+      userAudios: [],
+      numPlayers: 0
     }
   }
 
@@ -17,6 +19,7 @@ export default class HostVideo extends Component {
     //Need to replace AHHH with whatever the person uploaded
     let self = this
     let gameRef = database.ref(`games/${this.props.gameKey}`)
+    let audioRef = database.ref(`games/${this.props.gameKey}/audio`)
     // gameRef.once('value').then((snap) => {
     //   this.setState({video: snap.child('video').val()})
     // })
@@ -54,15 +57,25 @@ export default class HostVideo extends Component {
     //   console.log('STATE AFTER SETTING',self.state)
     //   gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
     // })
+    
+    gameRef.once('value').then((snap ) => {
+      console.log(snap.child('players').length)
+      this.setState({numPlayers: snap.child('players').length})
+    })
 
-    gameRef.on('child_added', (snap) => {
-      
+    audioRef.on('child_added', (snap) => {
+      console.log('!!!!!! AUDIO ADDED BY PLAYER', snap.val())
+      this.setState({userAudios: [...this.state.userAudios, snap.val() ]}, function (){
+        if(this.state.userAudios.length === (this.state.numPlayers - 1)) {
+          gameRef.update({judgeState: 'ALL_AUDIO_RECEIVED'})
+        }
+      })
     })
 
   }
 
   render(){
-
+    console.log('HOST VIDEO STATE', this.state)
     //Hardcoding links for the time being
     console.log("Fetched audio: ", this.state.audio, 'STATE VIDEO', this.state.video)
     // if (!this.state.audio) {
@@ -81,12 +94,25 @@ export default class HostVideo extends Component {
         type: 'video/mp4'
       }]
     }
+    let i = 0
     return (
       <div>
         {
           this.state.video && 
-          !this.state.audio && 
+          !this.state.userAudios.length && 
           <VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>
+        }
+        {
+          this.state.userAudios.length && 
+          this.state.userAudios.map((useraudio)=>{
+            i++
+            return (
+              <div key={i}>
+              <h3>{useraudio}</h3>
+              <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
+              </div>
+            )
+          })
         }
       </div>
     )
