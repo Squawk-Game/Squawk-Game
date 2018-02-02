@@ -84,6 +84,8 @@ export default class Game extends Component {
           && this.state.playerRole === 'PLAYER'
           && <PlayerVideo gameKey={this.state.gameId}/>}
 
+        {/*ALL AUdio received*/}
+
         {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
         {/*game closed*/}
 

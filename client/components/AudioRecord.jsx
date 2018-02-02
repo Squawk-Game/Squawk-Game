@@ -15,8 +15,8 @@ export default class AudioRecord extends Component {
   }
 
   render() {
-    console.log("playFunc???", this.props.playFunc)
-    return <AudioRecorder playFunc={this.props.playFunc} user={this.state.user}/>
+
+    return <AudioRecorder playFunc={this.props.playFunc} user={this.state.user} />
   }
 }
 
