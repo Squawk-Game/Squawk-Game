@@ -13,14 +13,14 @@ export default class Invite extends Component {
     let self = this
     event.preventDefault()
     let emailArr = event.target.emails.value.split(',').map(email => email.trim())
-    emailArr.forEach(function(email) {
-      emailjs.send("ghsquawk", "squawk_invitation", {"recipient":email,"code": self.props.code})
-      .then(function(response) {
-       console.log("Code sent!", response.status, response.text)
-      }, function(err) {
-       console.log("FAILED. error=", err);
-      })
-    })
+    // emailArr.forEach(function(email) {
+    //   emailjs.send("ghsquawk", "squawk_invitation", {"recipient":email,"code": self.props.code})
+    //   .then(function(response) {
+    //    console.log("Code sent!", response.status, response.text)
+    //   }, function(err) {
+    //    console.log("FAILED. error=", err);
+    //   })
+    // })
     database.ref(`games/${this.props.gameKey}`).update({ judgeState: 'WAITING_TO_START' })
   }
 
