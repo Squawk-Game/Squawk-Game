@@ -86,13 +86,12 @@ export default class Game extends Component {
 
         {/*ALL AUdio received*/}
 
+        {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
+        {/*game closed*/}
 
         {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
         {this.state.gameState === GAME_CLOSED && <StartNewRound />}
 
-
-        {this.state.gameState === WINNER_SENT && <WinnerPage gameKey={this.state.gameId} />}
-        {/*game closed*/}
       </div>
     )
   }
