@@ -71,7 +71,7 @@ export default class VideoPlayer extends React.Component {
                   document.getElementById('waitingForJudge').innerHTML = 'Waiting for the judge'
                   })
                 clearInterval(recordingInterval)
-              }, 6000)
+              }, 5200)
         }
       })
     }
