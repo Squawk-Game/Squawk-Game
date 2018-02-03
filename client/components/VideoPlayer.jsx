@@ -31,6 +31,17 @@ export default class VideoPlayer extends React.Component {
 
     //looper
     let counter = componentProps.loops
+    let flashingTimer
+    let timerCountdown = 5
+    function timer() {
+      timerCountdown--
+      if (timerCountdown <= 0) {
+        document.getElementById('timer').innerHTML = ''
+        clearInterval(flashingTimer)
+        return
+      }
+      document.getElementById('timer').innerHTML = 'recording will start in ' + timerCountdown + ' seconds'
+    }
     if (counter <= 12 && counter > 6){
       if (counter === 12) this.player.play()
       this.player.on('ended', () => {
@@ -47,13 +58,20 @@ export default class VideoPlayer extends React.Component {
         if (counter > 0) this.player.play()
         if ((counter === 0 ) && user) {
           console.log('im gonna render record!!!!')
-          self.setState({renderRecord: true})
-          document.getElementsByClassName('AudioRecorder-button')[0].click()
-          this.player.play()
-          this.player.on('ended', () => {
-            document.getElementsByClassName('AudioRecorder-button')[0].click()
-            document.getElementsByClassName('AudioRecorder-download')[0].click()
-          })
+          flashingTimer = setInterval(timer, 1000)
+          let recordingInterval = setInterval(function(){
+                self.setState({renderRecord: true})
+                  document.getElementsByClassName('AudioRecorder-button')[0].click()
+                  self.player.play()
+                  self.player.on('ended', () => {
+                  document.getElementsByClassName('AudioRecorder-button')[0].click()
+                  document.getElementsByClassName('AudioRecorder-download')[0].click()
+                  document.getElementsByClassName('recordbutton')[0].style.visibility = 'hidden'
+                  document.getElementsByClassName('urlive')[0].innerHTML = ''
+                  document.getElementById('waitingForJudge').innerHTML = 'Waiting for the judge'
+                  })
+                clearInterval(recordingInterval)
+              }, 6000)
         }
       })
     }
@@ -77,8 +95,10 @@ export default class VideoPlayer extends React.Component {
             ref={node => this.videoNode = node}
             style={{ width: 800 }}
             className="video-js"
-          ></video>
+          />
         </div>
+        <span id="timer" />
+        <span id="waitingForJudge" />
         {
           (this.props.renderRecord || this.state.renderRecord)
           && <AudioRecord playFunc={this.handlePlay} />
