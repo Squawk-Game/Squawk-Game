@@ -108,6 +108,12 @@ body {
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
+.choice-btn{
+	width: 50%;
+}
+.random-vid-btn{
+	width: 100%;
+}
 #waitingForJudge{
 	display: flex;
 	justify-content: center;
