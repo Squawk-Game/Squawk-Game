@@ -44,7 +44,6 @@
     "react-code-input": "^3.0.0",
     "react-confetti": "^2.0.2",
     "react-dom": "^16.1.0",
-    "react-firebaseui": "^1.0.10",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-sizeme": "^2.3.6",
