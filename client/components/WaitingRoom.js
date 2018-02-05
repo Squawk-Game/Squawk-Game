@@ -45,6 +45,8 @@ export default class WaitingRoom extends Component {
       }
       return (
         <div>
+        <br />
+        <br />
           <h3>Welcome To Game #{this.props.code}</h3>
           <h4>Judge: {this.state.playersInGame[this.state.judgeId]}</h4>
           <h5>Squawkers:</h5>

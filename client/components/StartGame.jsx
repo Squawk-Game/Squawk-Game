@@ -21,21 +21,21 @@ export default class StartGame extends Component {
       if(this.state.timing === 1) this.setState({timing: 0})
     }
     , 3000)
+    
   }
   render(){
-    console.log('!!',this.state.timing)
     return (
       <div>
-      {
+      {/*
         this.state.timing &&
-        <div className="startgame">
-          <iframe src="https://giphy.com/embed/l4pTiBbkdDYmsZ7Gw" width="480" height="720" frameBorder="0"  allowFullScreen></iframe><p><a href="https://giphy.com/gifs/l4pTiBbkdDYmsZ7Gw"></a></p>
+        <div className="startgame" id="chicken">
+          <iframe src="https://giphy.com/embed/l4pTiBbkdDYmsZ7Gw" width="480" height="720" frameBorder="0"  allowFullScreen></iframe>
         </div>
-      }
+      */  }
       {
         !this.state.timing &&
         <div className="startgame">
-          <h4>GET SQUAWKIN'!</h4>
+          <br />
           <Login />
           <br />
         </div>

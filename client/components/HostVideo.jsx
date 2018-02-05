@@ -113,6 +113,8 @@ export default class HostVideo extends Component {
     let i=-1
     return (
       <div>
+      <br />
+      <br />
         {
           this.state.video && 
           !this.state.userAudios.length && 
@@ -132,7 +134,7 @@ export default class HostVideo extends Component {
                 <form value={useraudio}>
                   <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
                   <button 
-                    className="btn waves-effect waves-orange white winner-btn"
+                    className="btn waves-effect waves-orange white winner-btn choose-winner"
                     onClick={(evt)=>{
                       evt.preventDefault() 
                       this.handleWinner(useraudio, i)
