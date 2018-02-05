@@ -132,3 +132,21 @@ audio{
 		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
 	}
 }
+
+#instructions {
+	margin-top: 20%;
+}
+
+.instructions-header {
+	font-size: 2em;
+}
+
+.page-footer {
+	padding-top: 20px;
+	background-color: crimson;
+	text-align: center;
+}
+
+a {
+	color: white;
+}
