@@ -27,11 +27,13 @@ export default class DumbVideo extends Component {
     }).then(() => {
       winningAudioRef.once('value').then((snap) => {
         audioObject = snap.val()
+        console.log('WINNING AUDIO', audioObject)
       })
     })
     .then(() => {
       console.log(audioObject)
       for (var key in audioObject){
+        console.log('AUDIO STATE SETTING', key, audioObject[key])
         self.setState({winnerName: key})
         self.setState({audio: audioObject[key]})
       }
