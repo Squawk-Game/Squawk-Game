@@ -14,19 +14,15 @@ export default class Login extends Component {
       currentUser: '',
       judge: null,
       userPushKey: null,
-      signedIn: false, // Local signed-in state.
       uiConfig: {
-        // Popup signin flow rather than redirect flow.
-        signInFlow: 'popup',
-        // We will display Google and Facebook as auth providers.
+        // signInFlow: 'popup',
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
-        // Sets the `signedIn` state property to `true` once signed in.
         callbacks: {
           signInSuccess: (currentUser, credential, redirectURL) => {
-            this.setState({ signedIn: true, user: currentUser }, () => {
+              this.setState({user: currentUser }, () => {
               let query = database.ref("users").orderByKey();
               let unique = true
               let userPush
@@ -40,7 +36,6 @@ export default class Login extends Component {
                   }
                 })
                 if (unique === true) {
-                  console.log('it is unique!!')
                   userPush = database.ref('users').push({
                     [user.uid]: {
                       id: user.uid,
@@ -66,6 +61,7 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
+    this.setState({user: auth.currentUser})
     database.ref('videos').update({ 0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/BigHero1.mov?alt=media&token=2290e962-cda7-431a-849f-ffc6a9578f57', 1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca', 2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Pennywise1.mov?alt=media&token=b71fb497-0739-486f-8d45-4bbb054389e1', 3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5' })
   }
 
@@ -123,7 +119,7 @@ handleStartGameClick() {
 handleSignOut(evt) {
   evt.preventDefault()
   auth.signOut().then(() => {
-    this.setState({ signedIn: false })
+      this.setState({ user: null })
     console.log('signed out')
   })
     .catch(error => {
@@ -133,11 +129,11 @@ handleSignOut(evt) {
 
 render() {
   console.log("STATE", this.state)
-  if (!this.state.signedIn) {
+  if (!this.state.user) {
     return (
       <div className="startgame">
         <p>Please sign-in:</p>
-        <FirebaseAuth uiConfig={this.state.uiConfig} firebaseAuth={firebase.auth()} />
+        <FirebaseAuth uiConfig={this.state.uiConfig} firebaseAuth={auth} />
       </div>
     );
   }
