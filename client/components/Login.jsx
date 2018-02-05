@@ -104,7 +104,8 @@ handleStartGameClick() {
           judgeState: 'OPEN_GAME',
           audio: '',
           code: randomCode(),
-          winningAudio: ''
+          winningAudio: '',
+          beenJudge: {[judgeUser.uid]: judgeUser.displayName}
         })
         gameKey = push.key
       }
