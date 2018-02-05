@@ -113,6 +113,8 @@ export default class HostVideo extends Component {
     let i=-1
     return (
       <div>
+      <br />
+      <br />
         {
           this.state.video && 
           !this.state.userAudios.length && 

@@ -15,10 +15,14 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 .app {
-	margin-top: 5em;
+	margin-top: 3em;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+#chicken {
+	top:0
 }
 .startgame {
 	display: flex;

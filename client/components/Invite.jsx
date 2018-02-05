@@ -27,6 +27,8 @@ export default class Invite extends Component {
   render() {
     return (
       <div>
+      <br />
+      <br />
       <h5>Invite your friends via email:</h5>
       <div className="input-field">
           <form onSubmit={this.handleClick}>

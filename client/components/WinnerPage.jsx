@@ -49,6 +49,8 @@ const DimensionedWinnerPage = sizeMe({
     render(){
     return (
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+        <br />
+        <br />
           <Confetti {...this.props.size} />
            <DumbVideo audio={this.state.audio} video={this.state.video} loops={12} gameKey={this.props.gameKey} />
         </div>

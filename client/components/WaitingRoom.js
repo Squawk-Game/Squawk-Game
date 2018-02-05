@@ -44,6 +44,8 @@ export default class WaitingRoom extends Component {
       }
       return (
         <div>
+        <br />
+        <br />
           <h3>Welcome To Game #{this.props.code}</h3>
           <h4>Judge: {arrPlayers[0]}</h4>
           <h5>Squawkers:</h5>
