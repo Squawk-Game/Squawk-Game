@@ -81,7 +81,9 @@ body {
     margin: 4px 2px;
     border-radius: 12px;
 }
-
+.video-media {
+	text-align: center
+}
 .recordbutton {
 	width: 35px;
 	height: 35px;

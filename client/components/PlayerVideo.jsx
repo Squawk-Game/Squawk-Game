@@ -41,12 +41,14 @@ export default class PlayerVideo extends Component {
         }]
       }
       console.log('Rihanna link', this.state)
-      return (<div>
-        <br />
-        <br />
-       <VideoPlayer role={'PLAYER'} loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
-       {/*<VideoPlayer renderRecord={true} options={{...videoJsOptions, autoplay: false}}/>*/}
-      </div>)
+      return (
+          <div className="video-media">
+            <br />
+            <br />
+            <VideoPlayer role={'PLAYER'} loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
+            {/*<VideoPlayer renderRecord={true} options={{...videoJsOptions, autoplay: false}}/>*/}
+         </div>
+      )
     }
 
     }

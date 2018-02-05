@@ -26,12 +26,12 @@ export default class StartGame extends Component {
   render(){
     return (
       <div>
-      {
+      {/*
         this.state.timing &&
         <div className="startgame" id="chicken">
           <iframe src="https://giphy.com/embed/l4pTiBbkdDYmsZ7Gw" width="480" height="720" frameBorder="0"  allowFullScreen></iframe>
         </div>
-      }
+      */  }
       {
         !this.state.timing &&
         <div className="startgame">
