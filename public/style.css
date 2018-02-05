@@ -1,12 +1,70 @@
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+@import url('https://fonts.googleapis.com/css?family=Rammetto+One');
+
 .vjs-big-play-button {
   visibility: hidden
 }
 
 body {
-  background: rgb(252, 207, 128);
-  font-family: sans-serif
+	background: crimson;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-content: space-evenly;
+	font-family: 'Open Sans', sans-serif;
+}
+.app {
+	margin-top: 5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.startgame {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	flex-basis: auto
 }
 
+.navbar {
+	font-family: 'Rammetto One', cursive;
+	position: absolute;
+	top: 0;
+	display: flex;
+	background-color: gold;
+	width: 100vw;
+	justify-content: center;
+	font-size: 5em;
+	border-bottom-left-radius: .5em;
+	border-bottom-right-radius: .5em;
+}
+.start-btns {
+	display: flex;
+	flex-flow: column;
+	font-size: 1em;
+}
+
+.btn-large{
+	color: rgb(244, 184, 65);
+	background-color: white;
+	font-size: 1em;
+	font-style: bold;
+	font-weight: bolder;
+	box-shadow: 5px 5px 10px maroon;
+}
+.btn {
+	color: rgb(244, 184, 65);
+	background-color: white;
+	font-size: 1em;
+	font-style: bold;
+	font-weight: bolder;
+	box-shadow: 5px 5px 10px maroon;
+}
+.judge-alerts {
+	margin: 2em;
+	text-align: center;
+}
 .link {
   text-decoration: none;
   background-color: rgb(205, 7, 37);

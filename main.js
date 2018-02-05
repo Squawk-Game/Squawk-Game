@@ -6,7 +6,12 @@ import Routes from './client/Routes'
 function main() {
   render(
     <AppContainer>
-        <Routes />
+        <div className="app">
+            <nav className="navbar">
+                SQUAWK
+            </nav>
+            <Routes />
+        </div>
     </AppContainer>,
     document.getElementById('main'))
 }

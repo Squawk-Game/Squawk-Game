@@ -135,18 +135,19 @@ render() {
   console.log("STATE", this.state)
   if (!this.state.signedIn) {
     return (
-      <div>
-        <h1>My App</h1>
+      <div className="startgame">
         <p>Please sign-in:</p>
         <FirebaseAuth uiConfig={this.state.uiConfig} firebaseAuth={firebase.auth()} />
       </div>
     );
   }
   return (
-    <div>
-      <button id="startGame" onClick={this.handleStartGameClick}>Start Game</button>
-      <button id="joinGame" onClick={this.handleJoinGameClick}>Join Game</button>
-      <button id="signout" onClick={this.handleSignOut}>Sign Out</button>
+    <div className="start-btns">
+      <button id="startGame" className="btn-large waves-effect waves-orange white" onClick={this.handleStartGameClick}>Start A New Game</button>
+      <br />
+      <button id="joinGame" className="btn-large waves-effect waves-orange white" onClick={this.handleJoinGameClick}>Join A Game</button>
+      <br />
+      <button id="signout" className="btn-large waves-effect waves-orange white" onClick={this.handleSignOut}>Sign Out</button>
     </div>
   );
 }

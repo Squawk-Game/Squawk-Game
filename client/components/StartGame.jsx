@@ -17,11 +17,10 @@ export default class StartGame extends Component {
   }
   componentDidMount(){
     setTimeout(() => {
-
       if(this.state.timing === 2 ) this.setState({timing: 1})
       if(this.state.timing === 1) this.setState({timing: 0})
     }
-    , 5000)
+    , 3000)
   }
   render(){
     console.log('!!',this.state.timing)
@@ -29,16 +28,16 @@ export default class StartGame extends Component {
       <div>
       {
         this.state.timing &&
-        <div>
-          <iframe src="https://giphy.com/embed/l4pTiBbkdDYmsZ7Gw" width="320" height="480" frameBorder="0"  allowFullScreen></iframe><p><a href="https://giphy.com/gifs/l4pTiBbkdDYmsZ7Gw"></a></p>
+        <div className="startgame">
+          <iframe src="https://giphy.com/embed/l4pTiBbkdDYmsZ7Gw" width="480" height="720" frameBorder="0"  allowFullScreen></iframe><p><a href="https://giphy.com/gifs/l4pTiBbkdDYmsZ7Gw"></a></p>
         </div>
       }
       {
         !this.state.timing &&
-        <div>
-        <h1>SQUAWK!</h1>
-        <Login />
-        <br />
+        <div className="startgame">
+          <h4>GET SQUAWKIN'!</h4>
+          <Login />
+          <br />
         </div>
       }
       </div>

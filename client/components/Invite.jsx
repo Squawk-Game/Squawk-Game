@@ -27,11 +27,13 @@ export default class Invite extends Component {
   render() {
     return (
       <div>
-      <h3>Enter invitation recipients' email addresses separated with a comma:</h3>
-        <form onSubmit={this.handleClick}>
-          <input type="text" name="emails" placeholder="ex1@ex.com, ex2@ex.com" />
-          <input type="submit" value="Submit" />
-        </form>
+      <h5>Invite your friends via email:</h5>
+      <div className="input-field">
+          <form onSubmit={this.handleClick}>
+            <input placeholder="ex. 'john@email.com, bob@email.com' " type="text" name="emails" placeholder="ex1@ex.com, ex2@ex.com" />
+            <input className="btn waves-effect waves-orange white" type="submit" value="Submit" />
+          </form>
+        </div>
       </div>
     )
   }

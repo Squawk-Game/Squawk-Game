@@ -13,9 +13,7 @@ import JoinGame from './components/JoinGame'
  */
 
 const Routes = props => (
-
     <Router history={history}>
-
         <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/game/:gameId" component={Game}  />

@@ -116,12 +116,12 @@ export default class HostVideo extends Component {
         {
           this.state.video && 
           !this.state.userAudios.length && 
-          <h3>WAITING FOR YOUR FRIENDS TO GET SQUAWKIN</h3>
+          <h3 className="judge-alerts">WAITING FOR YOUR FRIENDS TO GET SQUAWKIN</h3>
           /*<VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>*/
         }
         {
           (this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
-          <h3>ALL ENTRIES PRESENT</h3>
+          <h3 className="judge-alerts">ALL ENTRIES PRESENT</h3>
         }
         {
           this.state.userAudios.length && 
@@ -132,10 +132,12 @@ export default class HostVideo extends Component {
                 <form value={useraudio}>
                   <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
                   <button 
+                    className="btn waves-effect waves-orange white winner-btn"
                     onClick={(evt)=>{
                       evt.preventDefault() 
                       this.handleWinner(useraudio, i)
                     }}>CHOOSE WINNER</button>
+                    <br />
                 </form>
               </div>
             )

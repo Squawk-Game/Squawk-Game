@@ -44,9 +44,9 @@ export default class WaitingRoom extends Component {
       }
       return (
         <div>
-          <h1>Welcome To Game #{this.props.code}</h1>
-          <h2>Judge: {arrPlayers[0]}</h2>
-          <h3>Squawkers:</h3>
+          <h3>Welcome To Game #{this.props.code}</h3>
+          <h4>Judge: {arrPlayers[0]}</h4>
+          <h5>Squawkers:</h5>
           {arrPlayers.slice(1).map(player => {
             return (
               <div key={player}>
@@ -57,7 +57,7 @@ export default class WaitingRoom extends Component {
           })}
           {this.props.isJudge &&
             (
-              <button onClick={this.handleClick} >
+              <button className="btn waves-effect waves-orange white" onClick={this.handleClick} >
                 Send Video
               </button>
             )
