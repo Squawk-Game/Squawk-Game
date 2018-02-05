@@ -81,17 +81,45 @@ export default class HostVideo extends Component {
     })
   }
 
-  handleWinner (audio, i){
+  handleWinner (audio){
     console.log('HANDLE WINNER', audio)
-    this.setState({winningAudio: {[this.state.usersReceived[i]]: audio}}, () => {
-      console.log('HANDLE WINNER STATE', this.state)
-    })
-    let gameRef = database.ref(`games/${this.props.gameKey}`)
-    gameRef.update({
-      winningAudio: {[this.state.usersReceived[i]]: audio}
-    }).then(()=>{
-      gameRef.update({
-        judgeState: 'WINNER_SENT'
+    let winnerID = ''
+    let winnerName = ''
+    let winnerPushKey = ''
+    let gamePlayersRef = database.ref(`games/${this.props.gameKey}/players`)
+    gamePlayersRef.once('value').then((players) => {
+      console.log('!!!!!!!!!!', players.val())
+      for(var key in players.val()){
+        console.log(key)
+        if(audio.toString().includes(key)){
+          console.log('YESSSSSS', key)
+          winnerID = key
+        }
+      }
+    }).then(() => {
+      let pushKeyRef = database.ref(`pushkeys/${winnerID}`)
+      pushKeyRef.once('value').then((snapshot)=>{
+        winnerPushKey = snapshot.val()
+      })
+      .then(()=>{
+        database.ref(`users/${winnerPushKey}/${winnerID}`).once('value')
+        .then((snap)=>{
+          winnerName = snap.val().name
+        })
+        .then(()=>{
+          console.log('WINNERNAME', winnerName)
+          this.setState({winningAudio: {[winnerName]: audio}}, () => {
+            console.log('HANDLE WINNER STATE', this.state)
+          })
+          let gameRef = database.ref(`games/${this.props.gameKey}`)
+          gameRef.update({
+            winningAudio: {[winnerName]: audio}
+          }).then(()=>{
+            gameRef.update({
+              judgeState: 'WINNER_SENT'
+            })
+          })
+        })
       })
     })
   }
