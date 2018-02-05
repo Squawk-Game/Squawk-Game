@@ -43,3 +43,58 @@
 
 [info] ✔  functions: helloWorld: http://localhost:5001/squawk-868c7/us-central1/helloWorld
 [info] Shutting down...
+[debug] [2018-02-04T21:31:48.637Z] ----------------------------------------------------------------------
+[debug] [2018-02-04T21:31:48.641Z] Command:       /usr/local/bin/node /Users/mimi/Documents/Fullstack-Senior/Squawk-Game/node_modules/.bin/firebase serve --only functions,hosting
+[debug] [2018-02-04T21:31:48.642Z] CLI Version:   3.14.0
+[debug] [2018-02-04T21:31:48.642Z] Platform:      darwin
+[debug] [2018-02-04T21:31:48.642Z] Node Version:  v9.2.1
+[debug] [2018-02-04T21:31:48.642Z] Time:          Sun Feb 04 2018 16:31:48 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:48.643Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-02-04T21:31:48.659Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-02-04T21:31:48.659Z] > authorizing via signed-in user
+[debug] [2018-02-04T21:31:48.661Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-02-04T21:31:48.661Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/6ULPvFVo9ewBIFZYaQNnU_Is-PCo5gkQIY-vWXHiyAs',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun Feb 04 2018 16:31:48 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:49.164Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-04T21:31:49.176Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/squawk-868c7  
+ Sun Feb 04 2018 16:31:49 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:50.147Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-04T21:31:50.148Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/squawk-868c7/tokens  
+ Sun Feb 04 2018 16:31:50 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:50.707Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/mimi/Documents/Fullstack-Senior/Squawk-Game'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-02-04T21:31:51.143Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/squawk-868c7  
+ Sun Feb 04 2018 16:31:51 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:51.143Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/squawk-868c7/apiKeys  
+ Sun Feb 04 2018 16:31:51 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:51.143Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/squawk-868c7  
+ Sun Feb 04 2018 16:31:51 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:51.641Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-04T21:31:51.643Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-04T21:31:51.643Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/340493820814/clients/_:getWebAppConfig  
+ Sun Feb 04 2018 16:31:51 GMT-0500 (EST)
+[debug] [2018-02-04T21:31:51.644Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-04T21:31:52.251Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[info] ✔  functions: helloWorld: http://localhost:5001/squawk-868c7/us-central1/helloWorld
+[info] Shutting down...
+[debug] [2018-02-05T02:32:49.546Z] Error: write EPIPE
+    at _errnoException (util.js:1031:13)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:873:14)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2018-02-05T02:32:49.548Z] Error: write EPIPE
+    at _errnoException (util.js:1031:13)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:873:14)
+[error] 
+[error] Error: An unexpected error has occurred.

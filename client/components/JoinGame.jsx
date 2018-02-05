@@ -60,14 +60,16 @@ export default class JoinGame extends Component {
     console.log("state inside JoinGame", this.state)
     return (
       <div>
-        <h1>JOIN A GAME</h1>
+        <h5>Enter your game code to squawk!</h5>
+        <div className="input-field">
         <form onSubmit={this.handleFormSubmit}>
-          <input value={this.state.inputValue} type="text" onChange={evt =>
+          <input placeholder="Game Code" value={this.state.inputValue} type="text" onChange={evt =>
             this.setState({
               inputValue: evt.target.value
             })} />
-          <input type="submit" value="Get Squawking" />
+          <input type="submit" className="btn waves-effect waves-orange white" value="Get Squawking" />
         </form>
+        </div>
       </div>
     )
   }
