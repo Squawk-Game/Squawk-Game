@@ -5,6 +5,7 @@ import StartGame from './components/StartGame'
 import AddGamePlayers from './components/AddGamePlayers'
 import AudioRecord from './components/AudioRecord'
 import HostVideo from './components/HostVideo'
+import Instructions from './components/Instructions'
 import Game from './components/Game'
 import history from './history'
 import JoinGame from './components/JoinGame'
@@ -18,6 +19,7 @@ const Routes = props => (
         {/* Routes placed here are available to all visitors */}
         <Route path="/game/:gameId" component={Game}  />
         <Route path="/player-video" component={PlayerVideo}  />
+        <Route path="/instructions" component={Instructions}  />
         <Route exact path="/" component={StartGame} />
         <Route path="/addusers" component={AddGamePlayers} />
         <Route path="/joingame" component={JoinGame} />

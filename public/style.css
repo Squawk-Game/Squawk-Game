@@ -15,16 +15,21 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 .app {
-	margin-top: 5em;
+	margin-top: 3em;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+#chicken {
+	top:0
 }
 .startgame {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	flex-basis: auto
+	flex-basis: auto;
+	margin-top: 30%;
 }
 
 .navbar {
@@ -77,7 +82,18 @@ body {
     margin: 4px 2px;
     border-radius: 12px;
 }
-
+.video-media {
+	text-align: center
+}
+.choose-winner{
+	margin-left: 37%;
+}
+.winner-content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
 .recordbutton {
 	width: 35px;
 	height: 35px;
@@ -92,7 +108,25 @@ body {
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
-
+.choice-btn{
+	width: 50%;
+}
+.random-vid-btn{
+	width: 100%;
+}
+#waitingForJudge{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+#timer{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+audio{
+	margin-left: 30%
+}
 @keyframes pulse{
 	0%{
 		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
@@ -103,4 +137,22 @@ body {
 	90%{
 		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
 	}
+}
+
+#instructions {
+	margin-top: 20%;
+}
+
+.instructions-header {
+	font-size: 2em;
+}
+
+.page-footer {
+	padding-top: 20px;
+	background-color: crimson;
+	text-align: center;
+}
+
+a {
+	color: white;
 }

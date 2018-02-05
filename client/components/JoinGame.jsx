@@ -60,6 +60,8 @@ export default class JoinGame extends Component {
     console.log("state inside JoinGame", this.state)
     return (
       <div>
+        <br />
+        <br />
         <h5>Enter your game code to squawk!</h5>
         <div className="input-field">
         <form onSubmit={this.handleFormSubmit}>
