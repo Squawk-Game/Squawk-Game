@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FirebaseAuth } from 'react-firebaseui';
+import { FirebaseAuth } from './react-firebaseui';
 import firebase, { firebaseui, auth, database, storage } from '~/fire'
 import { Link } from 'react-router-dom'
 import Redirect, { browserHistory } from 'react-router-dom'

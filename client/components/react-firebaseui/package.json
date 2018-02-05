@@ -1,0 +1,96 @@
+{
+  "_from": "react-firebaseui",
+  "_id": "react-firebaseui@1.0.10",
+  "_inBundle": false,
+  "_integrity": "sha512-3qOKQempvkGYXGmcd8mhxfaQe/nqrtxgxHCinBixXIoh1e5o5ckUj8JqUAsT511yMFSurZlCOCtJRHGyCAbx1w==",
+  "_location": "/react-firebaseui",
+  "_phantomChildren": {
+    "create-react-class": "15.6.3",
+    "fbjs": "0.8.16",
+    "loose-envify": "1.3.1",
+    "object-assign": "4.1.1",
+    "prop-types": "15.6.0"
+  },
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-firebaseui",
+    "name": "react-firebaseui",
+    "escapedName": "react-firebaseui",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-firebaseui/-/react-firebaseui-1.0.10.tgz",
+  "_shasum": "68876d1b33fc2ec05a2000ed975bf94a24a57d84",
+  "_spec": "react-firebaseui",
+  "_where": "/Users/katyeng/GraceHopperStuff/Senior-Phase/Squawk-Game",
+  "author": {
+    "name": "Google"
+  },
+  "bugs": {
+    "url": "https://github.com/firebase/firebaseui-web-react/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "firebaseui": "^2.3",
+    "react": "^15"
+  },
+  "deprecated": false,
+  "description": "React wrapper for firebaseui: Javascript library for customizable UI on top of Firebase SDK",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "6.24.1",
+    "babel-eslint": "7.2.3",
+    "babel-plugin-dynamic-import-node": "1.0.2",
+    "babel-plugin-remove-comments": "^2.0.0",
+    "babel-plugin-syntax-dynamic-import": "6.18.0",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "1.5.1",
+    "babel-preset-react": "6.24.1",
+    "eslint": "^4.2.0",
+    "eslint-config-google": "0.9.1",
+    "eslint-config-react": "1.1.7",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-flow": "2.29.1",
+    "eslint-plugin-flowtype": "2.35.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "6.0.2",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "files": [
+    "FirebaseAuth.js",
+    "FirebaseAuth.js.map",
+    "index.js",
+    "index.js.map",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "homepage": "https://github.com/firebase/firebaseui-web-react#readme",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "react-firebaseui",
+  "peerDependencies": {
+    "firebase": "^4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firebase/firebaseui-web-react.git"
+  },
+  "scripts": {
+    "build": "babel src --out-dir dist -s; cp README.md LICENSE package.json dist; cd dist && npm install --only=production && cd -",
+    "pub": "npm run build && npm publish dist"
+  },
+  "version": "1.0.10"
+}
