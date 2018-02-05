@@ -35,7 +35,7 @@ export default class StartGame extends Component {
       {
         !this.state.timing &&
         <div className="startgame">
-          <h4>GET SQUAWKIN'!</h4>
+          <br />
           <Login />
           <br />
         </div>

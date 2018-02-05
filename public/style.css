@@ -28,7 +28,8 @@ body {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	flex-basis: auto
+	flex-basis: auto;
+	margin-top: 30%;
 }
 
 .navbar {
@@ -84,6 +85,15 @@ body {
 .video-media {
 	text-align: center
 }
+.choose-winner{
+	margin-left: 37%;
+}
+.winner-content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
 .recordbutton {
 	width: 35px;
 	height: 35px;
@@ -98,7 +108,19 @@ body {
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
-
+#waitingForJudge{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+#timer{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+audio{
+	margin-left: 30%
+}
 @keyframes pulse{
 	0%{
 		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);

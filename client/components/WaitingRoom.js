@@ -7,7 +7,8 @@ export default class WaitingRoom extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playersInGame: null
+      playersInGame: null,
+      judgeId: null
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -17,7 +18,7 @@ export default class WaitingRoom extends Component {
     let gameRef = database.ref(`games/${this.props.gameKey}`)
     gameRef.once("value")
       .then(function (snap) {
-        self.setState({ playersInGame: snap.val().players })
+        self.setState({ playersInGame: snap.val().players, judgeId: snap.val().judgeId })
       })
       .then(function () {
         gameRef.on('child_changed', (snap) => {
@@ -40,16 +41,16 @@ export default class WaitingRoom extends Component {
     } else {
       let arrPlayers = []
       for (let key in this.state.playersInGame) {
-        arrPlayers.push(this.state.playersInGame[key])
+        if (key !== this.state.judgeId) arrPlayers.push(this.state.playersInGame[key])
       }
       return (
         <div>
         <br />
         <br />
           <h3>Welcome To Game #{this.props.code}</h3>
-          <h4>Judge: {arrPlayers[0]}</h4>
+          <h4>Judge: {this.state.playersInGame[this.state.judgeId]}</h4>
           <h5>Squawkers:</h5>
-          {arrPlayers.slice(1).map(player => {
+          {arrPlayers.map(player => {
             return (
               <div key={player}>
                 <li>{player}</li>
