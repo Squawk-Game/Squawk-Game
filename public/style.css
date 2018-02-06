@@ -69,6 +69,7 @@ body {
 	font-style: bold;
 	font-weight: bolder;
 	box-shadow: 5px 5px 10px maroon;
+	margin-bottom: 10px;
 }
 .btn {
 	color: rgb(244, 184, 65);
@@ -77,6 +78,7 @@ body {
 	font-style: bold;
 	font-weight: bolder;
 	box-shadow: 5px 5px 10px maroon;
+	margin-bottom: 10px;
 }
 .judge-alerts {
 	margin: 2em;
@@ -138,6 +140,14 @@ body {
 }
 audio{
 	margin-left: 30%
+}
+.player-vid-sounds{
+	display: inline-flex;
+	flex-flow: row wrap;
+	width: 60%;
+	justify-content: space-around;
+	margin-left: 20%;
+	margin-right: 20%;
 }
 @keyframes pulse{
 	0%{

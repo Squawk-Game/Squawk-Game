@@ -2,30 +2,57 @@ import React, { Component } from 'react'
 import { storage, database } from '../../fire'
 import VideoPlayer from './VideoPlayer'
 import AudioRecord from './AudioRecord'
+import SoundEffectButton from './SoundEffectButton'
 
 export default class PlayerVideo extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      video: null
+      video: null,
+      squeaks1: {},
+      squeaks2: {},
+      squeaks3: {},
+      userInfo: {}
     }
   }
 
   componentDidMount() {
-  //  let storageRef = storage.ref("/Rihanna.mp4")
-  //  storageRef && storageRef.getDownloadURL().then((url)=>{
-  //    this.setState({video: url})
-  //  })
+    let self = this
     let gameRef = database.ref(`games/${this.props.gameKey}/video`)
     gameRef.once('value').then((snap) => {
       this.setState({video: snap.val()})
     })
+
+    let userPushKey
+    database.ref(`pushkeys/${self.props.userId}`).once('value').then((snapshot) => {
+      userPushKey = snapshot.val()
+      console.log('USERPUSHKEY', userPushKey)
+    })
+    .then(() => {
+      database.ref(`users/${userPushKey}/${self.props.userId}`).once('value').then((snap) => {
+          self.setState({userInfo: snap.val()})
+      })
+    })
+
+    database.ref('firstLevelSqueaks').once('value')
+    .then((snapshot) => {
+      self.setState({squeaks1: snapshot.val()}) 
+    })
+    .then(() => {
+      database.ref('secondLevelSqueaks').once('value')
+      .then((snap) => {
+        self.setState({squeaks2: snap.val()})
+      })
+      .then(() => {
+        database.ref('secondLevelSqueaks').once('value').then((shot) => {
+          self.setState({squeaks3: shot.val()})
+        })
+      })
+    })
   }
 
   render(){
-
-    //Hardcoding links for the time being
-   // let count = 0
+    console.log('PLAYER VIDEO STATE',this.state)
     if (!this.state.video) {
       return <div>Sorry, no video.</div>
     } else {
@@ -40,14 +67,40 @@ export default class PlayerVideo extends Component {
           type: 'video/mp4'
         }]
       }
-      console.log('Rihanna link', this.state)
       return (
+        <div>
           <div className="video-media">
             <br />
             <br />
             <VideoPlayer role={'PLAYER'} loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>
-            {/*<VideoPlayer renderRecord={true} options={{...videoJsOptions, autoplay: false}}/>*/}
-         </div>
+          </div>
+          <div className="user-squawks">
+            <br />
+            {console.log('!!!!!',this.props.userId)}
+            {this.state.userInfo &&
+              <ul className="player-vid-sounds">
+              {
+                (this.state.userInfo.points < 1) &&
+                Object.keys(this.state.squeaks1).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks1[key]} />
+                })
+              }
+              {
+                (this.state.userInfo.points >= 1) && (this.state.userInfo.points < 3) &&
+                Object.keys(this.state.squeaks2).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks2[key]} />
+                })
+              }
+              {
+                (this.state.userInfo.points >= 3) &&
+                Object.keys(this.state.squeaks3).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks3[key]} />
+                })
+              }
+            </ul>
+            }
+          </div>
+        </div>
       )
     }
 
