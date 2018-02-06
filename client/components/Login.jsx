@@ -4,7 +4,7 @@ import firebase, { firebaseui, auth, database, storage } from '~/fire'
 import { Link } from 'react-router-dom'
 import Redirect, { browserHistory } from 'react-router-dom'
 import history from '../history'
-
+import ModalInstructions from './ModalInstructions'
 
 export default class Login extends Component {
   constructor(props) {
@@ -13,6 +13,7 @@ export default class Login extends Component {
       game: {},
       currentUser: '',
       judge: null,
+      openModal: false,
       userPushKey: null,
       uiConfig: {
         // signInFlow: 'popup',
@@ -22,6 +23,7 @@ export default class Login extends Component {
         ],
         callbacks: {
           signInSuccess: (currentUser, credential, redirectURL) => {
+            let self = this
             this.setState({ user: currentUser }, () => {
               let query = database.ref("users").orderByKey();
               let unique = true
@@ -36,6 +38,7 @@ export default class Login extends Component {
                   }
                 })
                 if (unique === true) {
+                  self.setState({openModal: true})
                   userPush = database.ref('users').push({
                     [user.uid]: {
                       id: user.uid,
@@ -72,11 +75,11 @@ export default class Login extends Component {
   componentDidMount() {
     $(".collapsible-header").addClass("active");
     this.setState({user: auth.currentUser})
-    database.ref('videos').update({ 
-      0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/BigHero1.mov?alt=media&token=2290e962-cda7-431a-849f-ffc6a9578f57', 
-      1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca', 
-      2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Pennywise1.mov?alt=media&token=b71fb497-0739-486f-8d45-4bbb054389e1', 
-      3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5' 
+    database.ref('videos').update({
+      0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/BigHero1.mov?alt=media&token=2290e962-cda7-431a-849f-ffc6a9578f57',
+      1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca',
+      2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Pennywise1.mov?alt=media&token=b71fb497-0739-486f-8d45-4bbb054389e1',
+      3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5'
     })
     database.ref().update({
       firstLevelSqueaks: {
@@ -91,7 +94,7 @@ export default class Login extends Component {
         AngrySquirrel: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FAngrySquirrel.mp3?alt=media&token=346a9936-93de-47bf-8c67-7634d6509862',
         BananaPeelSlip: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBananaPeelSlip.mp3?alt=media&token=2bf80f04-2c73-40cd-bf35-8c1164fa6f0d",
         BillyGoatBleat: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBillyGoatBleat.mp3?alt=media&token=9a08430a-e298-4fd7-a9a0-8047b98e6c57",
-        Crickets: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FCrickets.mp3?alt=media&token=53ac89b0-a306-4e09-94f2-c490a739ed98"        
+        Crickets: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FCrickets.mp3?alt=media&token=53ac89b0-a306-4e09-94f2-c490a739ed98"
       },
       thirdLevelSqueaks: {
         DixieHorn: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FDixieHorn.mp3?alt=media&token=b08d8287-dc42-42ba-a559-da22eb567fc9",
@@ -99,7 +102,7 @@ export default class Login extends Component {
         DryCough: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FDryCough.mp3?alt=media&token=40c37580-f87f-4d1b-ac1f-2499f5b9b026",
         SickVillain: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FSickVillain.mp3?alt=media&token=65097573-4cf8-4778-8dce-52c13100cb5d",
         SillySnoring: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FSillySnoring.mp3?alt=media&token=661e349b-ac25-4398-8065-22fd77d4f648",
-        StrangeGrowl: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FStrangeGrowl.mp3?alt=media&token=8a79c00f-dacb-48db-a12e-29af030eac24"        
+        StrangeGrowl: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FStrangeGrowl.mp3?alt=media&token=8a79c00f-dacb-48db-a12e-29af030eac24"
       }
     })
   }
@@ -178,6 +181,9 @@ export default class Login extends Component {
     }
     return (
       <div>
+      {this.state.openModal &&
+        <ModalInstructions />
+      }
       <div className="start-btns">
         <button id="startGame" className="btn-large waves-effect waves-orange white" onClick={this.handleStartGameClick}>Start A New Game</button>
         <br />
