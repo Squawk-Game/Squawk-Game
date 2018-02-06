@@ -181,9 +181,7 @@ export default class Login extends Component {
     }
     return (
       <div>
-      {this.state.openModal &&
-        <ModalInstructions />
-      }
+      {this.state.openModal && <ModalInstructions />}
       <div className="start-btns">
         <button id="startGame" className="btn-large waves-effect waves-orange white" onClick={this.handleStartGameClick}>Start A New Game</button>
         <br />

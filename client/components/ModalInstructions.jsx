@@ -22,7 +22,6 @@ export default class ModalInstructions extends Component {
   render() {
     return (
       <div>
-
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
           <h5 className="modal-text">Starting a New Game</h5>
           <ul className="modal-text">
