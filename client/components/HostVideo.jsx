@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { storage, database } from '../../fire'
 import videojs from 'video.js'
 import VideoPlayer from './VideoPlayer'
+import AudioPlayer from './AudioPlayer'
 
 export default class HostVideo extends Component {
   constructor(props) {
@@ -141,11 +142,8 @@ export default class HostVideo extends Component {
         type: 'video/mp4'
       }]
     }
-    let i=-1
     return (
       <div>
-      <br />
-      <br />
         {
           this.state.video && 
           !this.state.userAudios.length && 
@@ -157,18 +155,21 @@ export default class HostVideo extends Component {
           <h3 className="judge-alerts">ALL ENTRIES PRESENT</h3>
         }
         {
+          this.state.video &&
+          <VideoPlayer role={'JUDGE'} usingAudioPlayer={true} renderRecord={false} options={{...videoJsOptions}}/>
+        }
+        {
           this.state.userAudios.length && 
           this.state.userAudios.map((useraudio)=>{
-            i++
             return (
               <div key={useraudio}>
-                <form value={useraudio}>
-                  <VideoPlayer role={'JUDGE'} audio={useraudio} renderRecord={false} options={{...videoJsOptions}}/>
+                <form value={useraudio} className="judge-form">
+                  <AudioPlayer audio={useraudio}/>
                   <button 
                     className="btn waves-effect waves-orange white winner-btn choose-winner"
                     onClick={(evt)=>{
                       evt.preventDefault() 
-                      this.handleWinner(useraudio, i)
+                      this.handleWinner(useraudio)
                     }}>CHOOSE WINNER</button>
                     <br />
                 </form>
