@@ -9,6 +9,8 @@ import Instructions from './components/Instructions'
 import Game from './components/Game'
 import history from './history'
 import JoinGame from './components/JoinGame'
+import UserAccountPage from './components/UserAccountPage'
+
 /**
  * COMPONENT
  */
@@ -25,6 +27,7 @@ const Routes = props => (
         <Route path="/joingame" component={JoinGame} />
         <Route path="/record" component={AudioRecord} />
         <Route path="/host-video" component={HostVideo} />
+        <Route path="/users/:id" component={UserAccountPage} />
         </Switch>
 
     </Router>

@@ -2,16 +2,17 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader';
 import Routes from './client/Routes'
+import Navbar from './client/components/Navbar'
 
 function main() {
   render(
     <AppContainer>
+    <div>
+        <Navbar />
         <div className="app">
-            <nav className="navbar">
-                SQUAWK
-            </nav>
             <Routes />
         </div>
+    </div>
     </AppContainer>,
     document.getElementById('main'))
 }

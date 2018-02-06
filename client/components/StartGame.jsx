@@ -4,7 +4,7 @@ import {database, auth} from '../../fire'
 import AddGamePlayers from './AddGamePlayers'
 import Login from './Login'
 import { setTimeout } from 'timers';
-
+import Navbar from './Navbar'
 
 export default class StartGame extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ export default class StartGame extends Component {
           <br />
           <Login />
           <br />
+
         </div>
       }
       </div>

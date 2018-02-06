@@ -154,6 +154,11 @@ export default class Login extends Component {
       </div>
       <footer className="page-footer">
       <Link to='/instructions' id="instructions-link">How To Play</Link>
+      <br />
+      {
+        this.state.user.uid &&
+        <Link to={`/users/${this.state.user.uid}`}>Account Info</Link>
+      }
       </footer>
       </div>
     );

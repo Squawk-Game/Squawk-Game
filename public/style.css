@@ -8,7 +8,6 @@
 body {
 	background: crimson;
 	color: white;
-	display: flex;
 	align-items: center;
 	justify-content: center;
 	align-content: space-evenly;
@@ -43,6 +42,19 @@ body {
 	font-size: 5em;
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
+}
+#nav-selection {
+	font-family: 'Open Sans', sans-serif;
+	display: flex;
+	align-self: right;
+	font-size: 16px;
+	margin-right: 1em;
+}
+#title{
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 .start-btns {
 	display: flex;
