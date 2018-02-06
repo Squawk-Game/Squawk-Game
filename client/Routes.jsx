@@ -6,7 +6,7 @@ import AddGamePlayers from './components/AddGamePlayers'
 import AudioRecord from './components/AudioRecord'
 import HostVideo from './components/HostVideo'
 import Instructions from './components/Instructions'
-import ModalInstructions from './components/ModalInstructions'
+import InstructionsModal from './components/InstructionsModal'
 import Game from './components/Game'
 import history from './history'
 import JoinGame from './components/JoinGame'
@@ -21,7 +21,7 @@ const Routes = props => (
         <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/game/:gameId" component={Game}  />
-        <Route path="/modal" component={ModalInstructions}  />
+        <Route path="/modal" component={InstructionsModal}  />
         <Route path="/player-video" component={PlayerVideo}  />
         <Route path="/instructions" component={Instructions}  />
         <Route exact path="/" component={StartGame} />

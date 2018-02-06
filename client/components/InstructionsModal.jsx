@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 import Modal from 'react-responsive-modal';
 
-export default class ModalInstructions extends Component {
+export default class InstructionsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       open: true
     }
-    // this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
   }
 
-  // onOpenModal() {
-  //   this.setState({ open: true });
-  // }
 
   onCloseModal() {
     this.setState({ open: false });
