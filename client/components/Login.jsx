@@ -134,22 +134,25 @@ export default class Login extends Component {
             console.log("Sorry, you're already in a game")
           } else {
 
-            let push = database.ref('games').push({
-              judgeId: judgeUser.uid,
-              video: randomVideo,
-              players: {
-                [judgeUser.uid]: judgeUser.displayName
-              },
-              judgeState: 'OPEN_GAME',
-              audio: '',
-              code: randomCode(),
-              winningAudio: ''
+
+        let push = database.ref('games').push({
+          judgeId: judgeUser.uid,
+          video: randomVideo,
+          players: {
+            [judgeUser.uid]: judgeUser.displayName
+          },
+          judgeState: 'OPEN_GAME',
+          audio: '',
+          code: randomCode(),
+          winningAudio: '',
+          beenJudge: {[judgeUser.uid]: judgeUser.displayName}
             })
             gameKey = push.key
           }
           database.ref(`users/${userKey}/${judgeUser.uid}`).update({ inGame: true, gameId: gameKey })
           //this works!
           history.push(`/game/${gameKey}`)
+
         })
       })
     document.getElementById('startGame').disabled = true

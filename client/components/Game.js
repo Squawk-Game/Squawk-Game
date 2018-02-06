@@ -6,6 +6,7 @@ import WinnerPage from './WinnerPage'
 import HostVideo from './HostVideo'
 import PlayerVideo from './PlayerVideo'
 import StartNewRound from './StartNewRound'
+import GameOver from './GameOver'
 
 //you are here because you are a judge and want to add players to your new game
 const OPEN_GAME = 'OPEN_GAME'
@@ -14,7 +15,9 @@ const VIDEO_SENT = 'VIDEO_SENT'
 const WAITING_FOR_AUDIO = 'WAITING_FOR_AUDIO'
 const ALL_AUDIO_RECEIVED = 'ALL_AUDIO_RECEIVED'
 const WINNER_SENT = 'WINNER_SENT'
+const START_NEW_ROUND = 'START_NEW_ROUND'
 const GAME_CLOSED = 'GAME_CLOSED'
+
 
 export default class Game extends Component {
   constructor(props) {
@@ -90,7 +93,10 @@ export default class Game extends Component {
         {/*game closed*/}
 
         {/* IF STATE IS GAME_CLOSED push to home for now and destroy game including destroying player audio and changing in game to false */}
-        {this.state.gameState === GAME_CLOSED && <StartNewRound />}
+        {this.state.gameState === START_NEW_ROUND && <StartNewRound gameKey={this.state.gameId} />}
+
+        {/* Game Over */}
+        {this.state.gameState === GAME_CLOSED && <GameOver gameKey={this.state.gameId} />}
 
       </div>
     )
