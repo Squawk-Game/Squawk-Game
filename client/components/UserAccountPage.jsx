@@ -38,7 +38,7 @@ export default class UserAccountPage extends Component {
         self.setState({squeaks2: snap.val()})
       })
       .then(() => {
-        database.ref('secondLevelSqueaks').once('value').then((shot) => {
+        database.ref('thirdLevelSqueaks').once('value').then((shot) => {
           self.setState({squeaks3: shot.val()})
         })
       })
@@ -46,6 +46,9 @@ export default class UserAccountPage extends Component {
   }
 
   render() {
+    let level2 = Object.assign({}, this.state.squeaks1, this.state.squeaks2)
+    let level3 = Object.assign({}, level2, this.state.squeaks3)
+    console.log(this.state, level3)
     return (
       <div>
         {this.state.userInfo &&
@@ -65,14 +68,14 @@ export default class UserAccountPage extends Component {
               }
               {
                 (this.state.userInfo.points >= 1) && (this.state.userInfo.points < 3) &&
-                Object.keys(this.state.squeaks2).map((key) => {
-                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks2[key]} />
+                Object.keys(level2).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={level2[key]} />
                 })
               }
               {
                 (this.state.userInfo.points >= 3) &&
-                Object.keys(this.state.squeaks3).map((key) => {
-                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks3[key]} />
+                Object.keys(level3).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={level3[key]} />
                 })
               }
             </ul>
