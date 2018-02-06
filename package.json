@@ -1,5 +1,5 @@
 {
-  "name": "spark",
+  "name": "Squawk",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "build-lib": "webpack --config lib/webpack.config.js",
     "build-lib-prod": "npm run build-lib -- -p",
     "build-prod": "npm run build-lib-prod && npm run build",
-    "deploy": "npm run build-prod && npx firebase deploy"
+    "deploy": "npm run build-prod && npx firebase deploy --only hosting,database"
   },
   "keywords": [],
   "author": "Ashi Krishnan <hi@ashi.io>",
