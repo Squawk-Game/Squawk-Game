@@ -48,7 +48,7 @@ export default class VideoPlayer extends React.Component {
         counter--
           if (counter > 7) this.player.play()
           if (counter === 7) {
-            database.ref(`games/${self.state.gameKey}`).update({judgeState: 'GAME_CLOSED'})
+            database.ref(`games/${self.state.gameKey}`).update({judgeState: 'START_NEW_ROUND'})
           }
       })
     }
@@ -57,7 +57,6 @@ export default class VideoPlayer extends React.Component {
         counter--
         if (counter > 0) this.player.play()
         if ((counter === 0 ) && user) {
-          console.log('im gonna render record!!!!')
           flashingTimer = setInterval(timer, 1000)
           let recordingInterval = setInterval(function(){
                 self.setState({renderRecord: true})
