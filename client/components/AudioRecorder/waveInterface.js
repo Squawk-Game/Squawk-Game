@@ -1,15 +1,18 @@
 import encodeWAV from './waveEncoder';
-/*
-interface Navigator {
-  webkitGetUserMedia?: typeof navigator.getUserMedia,
-  mozGetUserMedia?: typeof navigator.getUserMedia,
-  msGetUserMedia?: typeof navigator.getUserMedia,
-};
-navigator.getUserMedia = navigator.getUserMedia ||
+
+
+// interface Navigator {
+//   webkitGetUserMedia?: typeof navigator.getUserMedia,
+//   mozGetUserMedia?: typeof navigator.getUserMedia,
+//   msGetUserMedia?: typeof navigator.getUserMedia,
+// };
+navigator.getUserMedia = (navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia ||
-                         navigator.msGetUserMedia;
-*/
+                         navigator.msGetUserMedia);
+
+
+
 var WAVEInterface = (function () {
     function WAVEInterface() {
         this.recordingNodes = [];
