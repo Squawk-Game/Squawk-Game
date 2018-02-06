@@ -44,7 +44,7 @@ export default class PlayerVideo extends Component {
         self.setState({squeaks2: snap.val()})
       })
       .then(() => {
-        database.ref('secondLevelSqueaks').once('value').then((shot) => {
+        database.ref('thirdLevelSqueaks').once('value').then((shot) => {
           self.setState({squeaks3: shot.val()})
         })
       })
@@ -67,6 +67,9 @@ export default class PlayerVideo extends Component {
           type: 'video/mp4'
         }]
       }
+      let level2 = Object.assign({}, this.state.squeaks1, this.state.squeaks2)
+      let level3 = Object.assign({}, level2, this.state.squeaks3)
+
       return (
         <div>
           <div className="video-media">
@@ -76,8 +79,7 @@ export default class PlayerVideo extends Component {
           </div>
           <div className="user-squawks">
             <br />
-            {console.log('!!!!!',this.props.userId)}
-            {this.state.userInfo &&
+            {this.state.userInfo && this.state.squeaks1 && this.state.squeaks2 && this.state.squeaks3 &&
               <ul className="player-vid-sounds">
               {
                 (this.state.userInfo.points < 1) &&
@@ -87,14 +89,14 @@ export default class PlayerVideo extends Component {
               }
               {
                 (this.state.userInfo.points >= 1) && (this.state.userInfo.points < 3) &&
-                Object.keys(this.state.squeaks2).map((key) => {
-                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks2[key]} />
+                Object.keys(level2).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={level2[key]} />
                 })
               }
               {
                 (this.state.userInfo.points >= 3) &&
-                Object.keys(this.state.squeaks3).map((key) => {
-                  return <SoundEffectButton key={key} label={key} sound={this.state.squeaks3[key]} />
+                Object.keys(level3).map((key) => {
+                  return <SoundEffectButton key={key} label={key} sound={level3[key]} />
                 })
               }
             </ul>
