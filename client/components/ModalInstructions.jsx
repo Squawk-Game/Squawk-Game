@@ -11,9 +11,6 @@ export default class ModalInstructions extends Component {
     this.onCloseModal = this.onCloseModal.bind(this)
   }
 
-  // onOpenModal() {
-  //   this.setState({ open: true });
-  // }
 
   onCloseModal() {
     this.setState({ open: false });
