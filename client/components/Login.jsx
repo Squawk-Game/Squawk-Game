@@ -80,6 +80,7 @@ export default class Login extends Component {
       1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca',
       2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Pennywise1.mov?alt=media&token=b71fb497-0739-486f-8d45-4bbb054389e1',
       3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5'
+
     })
     database.ref().update({
       firstLevelSqueaks: {
@@ -104,6 +105,7 @@ export default class Login extends Component {
         SillySnoring: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FSillySnoring.mp3?alt=media&token=661e349b-ac25-4398-8065-22fd77d4f648",
         StrangeGrowl: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FStrangeGrowl.mp3?alt=media&token=8a79c00f-dacb-48db-a12e-29af030eac24"
       }
+
     })
   }
 
@@ -146,7 +148,10 @@ export default class Login extends Component {
               judgeState: 'OPEN_GAME',
               audio: '',
               code: randomCode(),
-              winningAudio: ''
+              winningAudio: '',
+              beenJudge: {
+                [judgeUser.uid]: judgeUser.displayName
+              }
             })
             gameKey = push.key
           }
