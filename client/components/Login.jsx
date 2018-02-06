@@ -4,7 +4,8 @@ import firebase, { firebaseui, auth, database, storage } from '~/fire'
 import { Link } from 'react-router-dom'
 import Redirect, { browserHistory } from 'react-router-dom'
 import history from '../history'
-import ModalInstructions from './ModalInstructions'
+import InstructionsModal from './InstructionsModal'
+import SorryModal from './SorryModal'
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class Login extends Component {
       currentUser: '',
       judge: null,
       openModal: false,
+      sorryModal: false,
       userPushKey: null,
       uiConfig: {
         // signInFlow: 'popup',
@@ -38,7 +40,7 @@ export default class Login extends Component {
                   }
                 })
                 if (unique === true) {
-                  self.setState({openModal: true})
+                  self.setState({ openModal: true })
                   userPush = database.ref('users').push({
                     [user.uid]: {
                       id: user.uid,
@@ -49,7 +51,7 @@ export default class Login extends Component {
                       state: 'LOGGED_IN',
                       points: 0,
                       earnedSqueaks: {
-                        Belch:"https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBelch.mp3?alt=media&token=0b4d12f6-45d6-4f3f-96db-83b344c3b618",
+                        Belch: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBelch.mp3?alt=media&token=0b4d12f6-45d6-4f3f-96db-83b344c3b618",
                         ChipmunkLaugh: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FChipmunkLaugh.mp3?alt=media&token=22273582-4512-4497-a2eb-f1e5bdacee84",
                         LargeBubble: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FLargeBubble.mp3?alt=media&token=362263f2-762c-4dce-83ca-2c72e4eaa5d7",
                         MonsterGrowl: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FMonsterGrowl.mp3?alt=media&token=95ab6dac-070c-4162-bad2-7f59706e0a07",
@@ -70,11 +72,13 @@ export default class Login extends Component {
     };
     this.handleSignOut = this.handleSignOut.bind(this)
     this.handleJoinGameClick = this.handleJoinGameClick.bind(this)
+    this.handleStartGameClick = this.handleStartGameClick.bind(this)
+    this.resetSorryModal = this.resetSorryModal.bind(this)
   }
 
   componentDidMount() {
     $(".collapsible-header").addClass("active");
-    this.setState({user: auth.currentUser})
+    this.setState({ user: auth.currentUser })
     database.ref('videos').update({
       0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/BigHero1.mov?alt=media&token=2290e962-cda7-431a-849f-ffc6a9578f57',
       1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca',
@@ -83,7 +87,7 @@ export default class Login extends Component {
     })
     database.ref().update({
       firstLevelSqueaks: {
-        Belch:"https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBelch.mp3?alt=media&token=0b4d12f6-45d6-4f3f-96db-83b344c3b618",
+        Belch: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FBelch.mp3?alt=media&token=0b4d12f6-45d6-4f3f-96db-83b344c3b618",
         ChipmunkLaugh: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FChipmunkLaugh.mp3?alt=media&token=22273582-4512-4497-a2eb-f1e5bdacee84",
         LargeBubble: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FLargeBubble.mp3?alt=media&token=362263f2-762c-4dce-83ca-2c72e4eaa5d7",
         MonsterGrowl: "https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/soundeffects%2FMonsterGrowl.mp3?alt=media&token=95ab6dac-070c-4162-bad2-7f59706e0a07",
@@ -107,10 +111,34 @@ export default class Login extends Component {
     })
   }
 
+  resetSorryModal() {
+    this.setState({ sorryModal: false, openModal: false })
+  }
+
   handleJoinGameClick() {
     //put the user on the game in firebase as a judge
-    let playerUser = this.state.currentUser
-    history.push('/joingame')
+    let self = this
+    let currUserId = this.state.user.uid
+    let key;
+    let currUserRef;
+
+    database.ref('pushkeys').once('value', function (snap) {
+      key = snap.child(currUserId).val()
+    })
+      .then(() => {
+        currUserRef = database.ref(`users/${key}/${currUserId}/inGame`)
+      })
+      .then(() => {
+        currUserRef.once("value", function (snapshot) {
+          if (snapshot.val() === true) {
+            //If user is already in game, redirect them to Sorry component
+            console.log("Sorry, you can't join a game bc you're already in a game")
+            self.setState({ sorryModal: true })
+          } else {
+            history.push('/joingame')
+          }
+        })
+      })
   }
 
   handleStartGameClick() {
@@ -135,6 +163,7 @@ export default class Login extends Component {
           if (snapshot.val() === true) {
             //If user is already in game, redirect them to Sorry component
             console.log("Sorry, you're already in a game")
+            self.setState({ sorryModal: true })
           } else {
 
             let push = database.ref('games').push({
@@ -151,11 +180,9 @@ export default class Login extends Component {
             gameKey = push.key
           }
           database.ref(`users/${userKey}/${judgeUser.uid}`).update({ inGame: true, gameId: gameKey })
-          //this works!
           history.push(`/game/${gameKey}`)
         })
       })
-    document.getElementById('startGame').disabled = true
   }
 
   handleSignOut(evt) {
@@ -181,22 +208,23 @@ export default class Login extends Component {
     }
     return (
       <div>
-      {this.state.openModal && <ModalInstructions />}
-      <div className="start-btns">
-        <button id="startGame" className="btn-large waves-effect waves-orange white" onClick={this.handleStartGameClick}>Start A New Game</button>
-        <br />
-        <button id="joinGame" className="btn-large waves-effect waves-orange white" onClick={this.handleJoinGameClick}>Join A Game</button>
-        <br />
-        <button id="signout" className="btn-large waves-effect waves-orange white" onClick={this.handleSignOut}>Sign Out</button>
-      </div>
-      <footer className="page-footer">
-      <Link to='/instructions' id="instructions-link">How To Play</Link>
-      <br />
-      {
-        this.state.user.uid &&
-        <Link to={`/users/${this.state.user.uid}`}>Account Info</Link>
-      }
-      </footer>
+        {this.state.openModal && <InstructionsModal />}
+        {this.state.sorryModal && <SorryModal reset={this.resetSorryModal} />}
+        <div className="start-btns">
+          <button id="startGame" className="btn-large waves-effect waves-orange white" onClick={this.handleStartGameClick}>Start A New Game</button>
+          <br />
+          <button id="joinGame" className="btn-large waves-effect waves-orange white" onClick={this.handleJoinGameClick}>Join A Game</button>
+          <br />
+          <button id="signout" className="btn-large waves-effect waves-orange white" onClick={this.handleSignOut}>Sign Out</button>
+        </div>
+        <footer className="page-footer">
+          <Link to='/instructions' id="instructions-link">How To Play</Link>
+          <br />
+          {
+            this.state.user.uid &&
+            <Link to={`/users/${this.state.user.uid}`}>Account Info</Link>
+          }
+        </footer>
       </div>
     );
   }
