@@ -13,7 +13,7 @@
     "build-lib": "webpack --config lib/webpack.config.js",
     "build-lib-prod": "npm run build-lib -- -p",
     "build-prod": "npm run build-lib-prod && npm run build",
-    "deploy": "npm run build-prod && npx firebase deploy"
+    "deploy": "npm run build-prod && npx firebase deploy --only database,hosting"
   },
   "keywords": [],
   "author": "Ashi Krishnan <hi@ashi.io>",
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "chokidar": "^1.7.0",
+    "create-react-class": "^15.6.3",
     "css-loader": "^0.28.9",
     "firebase": "^4.7.0",
     "firebaseui": "^2.5.1",
@@ -45,6 +46,7 @@
     "react-confetti": "^2.0.2",
     "react-dom": "^16.1.0",
     "react-redux": "^5.0.6",
+    "react-responsive-modal": "^2.0.0",
     "react-router-dom": "^4.2.2",
     "react-sizeme": "^2.3.6",
     "redux": "^3.7.2",

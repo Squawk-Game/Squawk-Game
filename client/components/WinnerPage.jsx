@@ -40,7 +40,8 @@ const DimensionedWinnerPage = sizeMe({
       })
       winningAudioRef.on('value', (snap) => {
         self.setState({ audio: snap.val()})
-      }).then(() => {
+      })
+      .then(() => {
         let thisUserAudioId = self.state.audio.indexOf()
       })
     })

@@ -86,6 +86,7 @@ export default class HostVideo extends Component {
     let winnerID = ''
     let winnerName = ''
     let winnerPushKey = ''
+    let winnerPoints
     let gamePlayersRef = database.ref(`games/${this.props.gameKey}/players`)
     gamePlayersRef.once('value').then((players) => {
       console.log('!!!!!!!!!!', players.val())
@@ -105,12 +106,14 @@ export default class HostVideo extends Component {
         database.ref(`users/${winnerPushKey}/${winnerID}`).once('value')
         .then((snap)=>{
           winnerName = snap.val().name
+          winnerPoints = snap.val().points + 1
+        })
+        .then(()=>{
+          database.ref(`users/${winnerPushKey}/${winnerID}`).update({points: winnerPoints})
         })
         .then(()=>{
           console.log('WINNERNAME', winnerName)
-          this.setState({winningAudio: {[winnerName]: audio}}, () => {
-            console.log('HANDLE WINNER STATE', this.state)
-          })
+          this.setState({winningAudio: {[winnerName]: audio}})
           let gameRef = database.ref(`games/${this.props.gameKey}`)
           gameRef.update({
             winningAudio: {[winnerName]: audio}

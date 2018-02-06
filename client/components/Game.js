@@ -84,7 +84,7 @@ export default class Game extends Component {
           || this.state.gameState === WAITING_FOR_AUDIO
           || this.state.gameState === ALL_AUDIO_RECEIVED)
           && this.state.playerRole === 'PLAYER'
-          && <PlayerVideo gameKey={this.state.gameId}/>}
+          && <PlayerVideo gameKey={this.state.gameId} userId={this.state.currentUserId}/>}
 
         {/*ALL AUdio received*/}
 
