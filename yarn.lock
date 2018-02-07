@@ -2253,6 +2253,10 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
+dom-confetti@~0.0.7:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/dom-confetti/-/dom-confetti-0.0.10.tgz#c3f00634c79dd4dacbdefde6a26067259bcadbaf"
+
 dom-helpers@^3.2.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
@@ -5598,6 +5602,12 @@ react-confetti@^2.0.2:
 react-deep-force-update@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.1.tgz#8ea4263cd6455a050b37445b3f08fd839d86e909"
+
+react-dom-confetti@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/react-dom-confetti/-/react-dom-confetti-0.0.8.tgz#0acb780c36e5faa8dfea40e90c133e752c948fb3"
+  dependencies:
+    dom-confetti "~0.0.7"
 
 react-dom@^16.1.0, react-dom@^16.2.0:
   version "16.2.0"
