@@ -19,6 +19,7 @@ export default class WaitingRoom extends Component {
 
   componentDidMount() {
     let self = this
+    let pushkey
     let gameRef = database.ref(`games/${this.props.gameKey}`)
     gameRef.once("value")
       .then(function (snap) {
@@ -77,15 +78,15 @@ export default class WaitingRoom extends Component {
           {arrPlayers.map(player => {
             return (
               <div key={player}>
-                <li>{player}</li>
-
+                <li>{player}
+                </li>
               </div>
             )
           })}
           <br />
           <div className="video-options">
           {this.props.isJudge &&
-            ( 
+            (
               <div>
               <div className="categories">
                 <button className="choice-btn btn-large waves-effect waves-orange blue" onClick={this.handleActionClick}>Action</button>

@@ -153,7 +153,7 @@ export default class Login extends Component {
     let randomVideo
 
     database.ref('videos').once('value', function (snap) {
-      randomVideo = snap.val()[Math.floor(Math.random() * 5)]
+      randomVideo = snap.val()[Math.floor(Math.random() * 6)]
     })
     database.ref('pushkeys').once('value', function (snap) {
       userKey = snap.child(judgeUser.uid).val()

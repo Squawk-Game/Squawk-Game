@@ -23,7 +23,7 @@ export default class VideoPlayer extends React.Component {
     let user = false
     this.player = videojs(this.videoNode, this.props.options, function onPlayerReady() {
       if (componentProps.role === 'JUDGE') {
-      console.log("Should be HostVideo")
+        console.log("Should be HostVideo")
 
       } else {
         console.log("This should be PlayerVideo")
@@ -36,7 +36,9 @@ export default class VideoPlayer extends React.Component {
     let counter = componentProps.loops
     let flashingTimer
     let timerCountdown = 5
-    function timer() {
+    let countdownSeconds = 16
+    let countdownToNewRound
+    let timer = () => {
       timerCountdown--
       if (timerCountdown <= 0) {
         document.getElementById('timer').innerHTML = ''
@@ -45,35 +47,40 @@ export default class VideoPlayer extends React.Component {
       }
       document.getElementById('timer').innerHTML = 'recording will start in ' + timerCountdown + ' seconds'
     }
-    if (counter <= 12 && counter > 6){
-      if (counter === 12) this.player.play()
-      this.player.on('ended', () => {
-        counter--
-          if (counter > 7) this.player.play()
-          if (counter === 7) {
-            database.ref(`games/${self.state.gameKey}`).update({judgeState: 'START_NEW_ROUND'})
-          }
-      })
+    let countdown = () => {
+      countdownSeconds--
+      if (countdownSeconds <= 0) {
+        document.getElementById('timer').innerHTML = ''
+        clearInterval(countdownToNewRound)
+        database.ref(`games/${self.state.gameKey}`).update({ judgeState: 'START_NEW_ROUND' })
+        return
+      }
+      console.log(countdownSeconds)
+      document.getElementById('timer').innerHTML = 'New round in :' + countdownSeconds
+    }
+
+    if (counter <= 12 && counter > 6) {
+      countdownToNewRound = setInterval(countdown, 1000)
     }
     if (counter < 5) {
       this.player.on('ended', () => {
         counter--
         if (counter > 0) this.player.play()
-        if ((counter === 0 ) && user) {
+        if ((counter === 0) && user) {
           flashingTimer = setInterval(timer, 1000)
-          let recordingInterval = setInterval(function(){
-                self.setState({renderRecord: true})
-                  document.getElementsByClassName('AudioRecorder-button')[0].click()
-                  self.player.play()
-                  self.player.on('ended', () => {
-                  document.getElementsByClassName('AudioRecorder-button')[0].click()
-                  document.getElementsByClassName('AudioRecorder-download')[0].click()
-                  document.getElementsByClassName('recordbutton')[0].style.visibility = 'hidden'
-                  document.getElementsByClassName('urlive')[0].innerHTML = ''
-                  document.getElementById('waitingForJudge').innerHTML = 'Waiting for the judge'
-                  })
-                clearInterval(recordingInterval)
-              }, 5200)
+          let recordingInterval = setInterval(function () {
+            self.setState({ renderRecord: true })
+            document.getElementsByClassName('AudioRecorder-button')[0].click()
+            self.player.play()
+            self.player.on('ended', () => {
+              document.getElementsByClassName('AudioRecorder-button')[0].click()
+              document.getElementsByClassName('AudioRecorder-download')[0].click()
+              document.getElementsByClassName('recordbutton')[0].style.visibility = 'hidden'
+              document.getElementsByClassName('urlive')[0].innerHTML = ''
+              document.getElementById('waitingForJudge').innerHTML = 'Waiting for the judge'
+            })
+            clearInterval(recordingInterval)
+          }, 5200)
         }
       })
     }
@@ -93,7 +100,7 @@ export default class VideoPlayer extends React.Component {
     this.player.pause();
   }
 
-  handleWinner (audio){
+  handleWinner(audio) {
     console.log('HANDLE WINNER', audio)
     let winnerID = ''
     let winnerName = ''
@@ -101,42 +108,40 @@ export default class VideoPlayer extends React.Component {
     let winnerPoints
     let gamePlayersRef = database.ref(`games/${this.props.gameKey}/players`)
     gamePlayersRef.once('value').then((players) => {
-      console.log('!!!!!!!!!!', players.val())
-      for (var key in players.val()){
-        //console.log(key)
-        if (audio.toString().includes(key)){
+      for (var key in players.val()) {
+        if (audio.toString().includes(key)) {
           console.log('YESSSSSS', key)
           winnerID = key
         }
       }
-    }).then(() => {
+    })
+    .then(() => {
       let pushKeyRef = database.ref(`pushkeys/${winnerID}`)
-      pushKeyRef.once('value').then((snapshot)=>{
+      pushKeyRef.once('value').then((snapshot) => {
         winnerPushKey = snapshot.val()
       })
-      .then(()=>{
-        database.ref(`users/${winnerPushKey}/${winnerID}`).once('value')
-        .then((snap)=>{
-          winnerName = snap.val().name
-          winnerPoints = snap.val().points + 1
-        })
-        .then(()=>{
-          console.log(winnerName, winnerPoints, winnerPushKey, winnerID)
-          database.ref(`users/${winnerPushKey}/${winnerID}`).update({points: winnerPoints})
-        })
-        .then(()=>{
-          console.log('WINNERNAME', winnerName)
-          this.setState({winningAudio: {[winnerName]: audio}})
-          let gameRef = database.ref(`games/${this.props.gameKey}`)
-          gameRef.update({
-            winningAudio: {[winnerName]: audio}
-          }).then(()=>{
-            gameRef.update({
-              judgeState: 'WINNER_SENT'
+        .then(() => {
+          database.ref(`users/${winnerPushKey}/${winnerID}`).once('value')
+            .then((snap) => {
+              winnerName = snap.val().name
+              winnerPoints = snap.val().points + 1
             })
-          })
+            .then(() => {
+              database.ref(`users/${winnerPushKey}/${winnerID}`).update({ points: winnerPoints })
+            })
+            .then(() => {
+              this.setState({ winningAudio: { [winnerName]: audio } })
+              let gameRef = database.ref(`games/${this.props.gameKey}`)
+              gameRef.update({
+                winningAudio: { [winnerName]: audio }
+              })
+              .then(() => {
+                gameRef.update({
+                  judgeState: 'WINNER_SENT'
+                })
+              })
+            })
         })
-      })
     })
   }
 
@@ -160,7 +165,7 @@ export default class VideoPlayer extends React.Component {
                 <AudioPlayer key={oneAudio} audio={oneAudio} onPlay={this.handlePlay} onPause={this.handlePause} />
                 <button
                   className="btn waves-effect waves-orange white winner-btn choose-winner"
-                  onClick={(evt)=>{
+                  onClick={(evt) => {
                     evt.preventDefault()
                     this.handleWinner(oneAudio)
                   }}>CHOOSE WINNER

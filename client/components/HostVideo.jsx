@@ -154,7 +154,6 @@ export default class HostVideo extends Component {
           this.state.video && 
           !this.state.userAudios.length && 
           <h3 className="judge-alerts">WAITING FOR YOUR FRIENDS TO GET SQUAWKIN</h3>
-          /*<VideoPlayer role={'JUDGE'} renderRecord={false} options={{...videoJsOptions}}/>*/
         }
         {
           (this.state.gameState === 'ALL_AUDIO_RECEIVED') &&
@@ -188,8 +187,7 @@ export default class HostVideo extends Component {
             //     </form>
             //   </div>
             // )
-          })
-        }
+          }
       </div>
     )
 
