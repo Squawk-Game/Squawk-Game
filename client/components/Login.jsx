@@ -83,8 +83,9 @@ export default class Login extends Component {
       0: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/BigHero1.mov?alt=media&token=2290e962-cda7-431a-849f-ffc6a9578f57',
       1: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Jurassic1.mov?alt=media&token=fb82dede-2320-43fa-a4e9-a4755b588cca',
       2: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Pennywise1.mov?alt=media&token=b71fb497-0739-486f-8d45-4bbb054389e1',
-      3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5'
-
+      3: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Rihanna1.mov?alt=media&token=af001971-8994-404e-bf01-e96a5bcc8db5',
+      4: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Burrito1.mov?alt=media&token=f1c7be1a-ded9-4eec-a820-28493a83949a',
+      5: 'https://firebasestorage.googleapis.com/v0/b/squawk-868c7.appspot.com/o/Fight1.mov?alt=media&token=1d7a1865-3078-4ad9-a079-cf608e56ebe9'
     })
     database.ref().update({
       firstLevelSqueaks: {
@@ -152,7 +153,7 @@ export default class Login extends Component {
     let randomVideo
 
     database.ref('videos').once('value', function (snap) {
-      randomVideo = snap.val()[Math.floor(Math.random() * 3)]
+      randomVideo = snap.val()[Math.floor(Math.random() * 5)]
     })
     database.ref('pushkeys').once('value', function (snap) {
       userKey = snap.child(judgeUser.uid).val()
