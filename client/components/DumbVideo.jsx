@@ -55,7 +55,9 @@ export default class DumbVideo extends Component {
           type: 'video/mp4'
         }]
       }
-      return (<div>
+      return (
+        <div>
+        <br />
         <h4>CONGRATS {this.state.winnerName} !</h4>
         <VideoPlayer audio={this.state.audio} renderRecord={false} options={{...videoJsOptions}} loops={this.props.loops} gameKey={this.state.gameKey} winnerScreen={true} />
       </div>)

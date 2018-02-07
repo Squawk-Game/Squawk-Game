@@ -1,6 +1,7 @@
 import React from 'react';
 import videojs from 'video.js'
 import AudioRecord from './AudioRecord'
+import AudioPlayer from './AudioPlayer'
 import { database } from '../../fire'
 
 export default class VideoPlayer extends React.Component {
@@ -13,6 +14,7 @@ export default class VideoPlayer extends React.Component {
       winnerScreen: props.winnerScreen
     }
     this.handlePlay = this.handlePlay.bind(this)
+    this.handleWinner = this.handleWinner.bind(this)
   }
   componentDidMount() {
     let self = this
@@ -83,7 +85,55 @@ export default class VideoPlayer extends React.Component {
   }
 
   handlePlay() {
+    this.player.currentTime(0);
     this.player.play();
+  }
+
+  handleWinner (audio){
+    console.log('HANDLE WINNER', audio)
+    let winnerID = ''
+    let winnerName = ''
+    let winnerPushKey = ''
+    let winnerPoints
+    let gamePlayersRef = database.ref(`games/${this.props.gameKey}/players`)
+    gamePlayersRef.once('value').then((players) => {
+      console.log('!!!!!!!!!!', players.val())
+      for (var key in players.val()){
+        //console.log(key)
+        if (audio.toString().includes(key)){
+          console.log('YESSSSSS', key)
+          winnerID = key
+        }
+      }
+    }).then(() => {
+      let pushKeyRef = database.ref(`pushkeys/${winnerID}`)
+      pushKeyRef.once('value').then((snapshot)=>{
+        winnerPushKey = snapshot.val()
+      })
+      .then(()=>{
+        database.ref(`users/${winnerPushKey}/${winnerID}`).once('value')
+        .then((snap)=>{
+          winnerName = snap.val().name
+          winnerPoints = snap.val().points + 1
+        })
+        .then(()=>{
+          console.log(winnerName, winnerPoints, winnerPushKey, winnerID)
+          database.ref(`users/${winnerPushKey}/${winnerID}`).update({points: winnerPoints})
+        })
+        .then(()=>{
+          console.log('WINNERNAME', winnerName)
+          this.setState({winningAudio: {[winnerName]: audio}})
+          let gameRef = database.ref(`games/${this.props.gameKey}`)
+          gameRef.update({
+            winningAudio: {[winnerName]: audio}
+          }).then(()=>{
+            gameRef.update({
+              judgeState: 'WINNER_SENT'
+            })
+          })
+        })
+      })
+    })
   }
 
   render() {
@@ -99,11 +149,28 @@ export default class VideoPlayer extends React.Component {
         <span id="timer" />
         <span id="waitingForJudge" />
         {
+          this.props.audio && Array.isArray(this.props.audio) &&
+          this.props.audio.map((oneAudio) => {
+            return (
+              <div key={oneAudio}>
+                <AudioPlayer key={oneAudio} audio={oneAudio} onPlay={this.handlePlay}/>
+                <button
+                  className="btn waves-effect waves-orange white winner-btn choose-winner"
+                  onClick={(evt)=>{
+                    evt.preventDefault()
+                    this.handleWinner(oneAudio)
+                  }}>CHOOSE WINNER
+                </button>
+              </div>
+            )
+          })
+        }
+        {
           (this.props.renderRecord || this.state.renderRecord)
           && <AudioRecord playFunc={this.handlePlay} />
         }
         {
-          this.props.audio &&
+          this.props.audio && !this.props.usingAudioPlayer &&
           (<audio src={this.props.audio} controls onPlay={this.handlePlay} >BOOP</audio>)
         }
       </div>

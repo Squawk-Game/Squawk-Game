@@ -17,7 +17,7 @@ export default class HostVideo extends Component {
       gameState: '',
       winningAudio: null
     }
-    this.handleWinner = this.handleWinner.bind(this)
+   // this.handleWinner = this.handleWinner.bind(this)
   }
 
   componentDidMount() {
@@ -81,7 +81,7 @@ export default class HostVideo extends Component {
       })
     })
   }
-
+/*
   handleWinner (audio){
     console.log('HANDLE WINNER', audio)
     let winnerID = ''
@@ -127,11 +127,11 @@ export default class HostVideo extends Component {
       })
     })
   }
-
+*/
   render(){
     const videoJsOptions = {
-      autoplay: true,
-      loop: true,
+      autoplay: false,
+      loop: false,
       controls: false,
       textTrackSettings: false,
       TextTrackDisplay: false,
@@ -145,6 +145,12 @@ export default class HostVideo extends Component {
     return (
       <div>
         {
+          (this.state.gameState !== 'ALL_AUDIO_RECEIVED') &&
+          <div>
+            <br /><br />
+          </div>
+        }
+        {
           this.state.video && 
           !this.state.userAudios.length && 
           <h3 className="judge-alerts">WAITING FOR YOUR FRIENDS TO GET SQUAWKIN</h3>
@@ -155,26 +161,33 @@ export default class HostVideo extends Component {
           <h3 className="judge-alerts">ALL ENTRIES PRESENT</h3>
         }
         {
-          this.state.video &&
-          <VideoPlayer role={'JUDGE'} usingAudioPlayer={true} renderRecord={false} options={{...videoJsOptions}}/>
+          this.state.video && this.state.userAudios.length &&
+          <VideoPlayer 
+            gameKey={this.props.gameKey}
+            audio={this.state.userAudios}
+            id={"judge-video"} 
+            role={'JUDGE'} 
+            usingAudioPlayer={true} 
+            renderRecord={false} 
+            options={{...videoJsOptions}}
+          />
         }
         {
-          this.state.userAudios.length && 
-          this.state.userAudios.map((useraudio)=>{
-            return (
-              <div key={useraudio}>
-                <form value={useraudio} className="judge-form">
-                  <AudioPlayer audio={useraudio}/>
-                  <button 
-                    className="btn waves-effect waves-orange white winner-btn choose-winner"
-                    onClick={(evt)=>{
-                      evt.preventDefault() 
-                      this.handleWinner(useraudio)
-                    }}>CHOOSE WINNER</button>
-                    <br />
-                </form>
-              </div>
-            )
+          //this.state.userAudios.map((useraudio)=>{
+            // return (
+            //   <div key={useraudio}>
+            //     <form value={useraudio} className="judge-form">
+            //       <AudioPlayer audio={useraudio}/>
+            //       <button 
+            //         className="btn waves-effect waves-orange white winner-btn choose-winner"
+            //         onClick={(evt)=>{
+            //           evt.preventDefault() 
+            //           this.handleWinner(useraudio)
+            //         }}>CHOOSE WINNER</button>
+            //         <br />
+            //     </form>
+            //   </div>
+            // )
           })
         }
       </div>

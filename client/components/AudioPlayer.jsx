@@ -7,12 +7,19 @@ export default class AudioPlayer extends Component {
         this.state = {
             audio: props.audio
         }
+        //this.handlePlay = this.handlePlay.bind(this)
+    }
+    handlePlay() {
+        //console.log(document.getElementById('vjs_video_3_html5_api'))
+        // document.getElementById('vjs_video_3_html5_api').addEventListener('play', ()=>{
+        //     console.log('hiiii')
+        // })
     }
 
     render() {
         return (
             <div>
-            <audio src={this.props.audio} controls >HI</audio>
+                <audio src={this.props.audio} controls onPlay={this.props.onPlay}>HI</audio>
             </div>
         )
     }

@@ -42,6 +42,7 @@ body {
 	font-size: 5em;
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
+	z-index: 3;
 }
 #nav-selection {
 	font-family: 'Open Sans', sans-serif;
@@ -107,6 +108,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
+	top: 1em;
 }
 .recordbutton {
 	width: 35px;
