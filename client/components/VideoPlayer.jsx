@@ -86,7 +86,7 @@ export default class VideoPlayer extends React.Component {
   }
 
   handlePlay() {
-    this.player.currentTime(0);
+    if (!this.player.paused) this.player.currentTime(0);
     this.player.play();
   }
   handlePause() {

@@ -80,6 +80,8 @@ body {
 	font-weight: bolder;
 	box-shadow: 5px 5px 10px maroon;
 	margin-bottom: 10px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 .judge-alerts {
 	margin: 2em;
@@ -98,7 +100,18 @@ body {
     border-radius: 12px;
 }
 .video-media {
-	text-align: center
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.player-video-content {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+.player-video{
+	margin: auto;
+	text-align: center;
 }
 .choose-winner{
 	margin-left: 37%;
