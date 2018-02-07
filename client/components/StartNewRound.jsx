@@ -28,11 +28,9 @@ export default class StartNewRound extends Component {
       gameRef.update({audio: ''})
       gameRef.update({winningAudio: ''})
 
-      console.log('VALUES ', beenJudgeRef, playersRef, judgeId)
 
       playersRef.once('value').then(snapshot => {
         let playersObj = snapshot.val()
-        console.log('playersObj is ', playersObj)
         return playersObj
       })
       .then(playersObj => {
@@ -40,14 +38,10 @@ export default class StartNewRound extends Component {
           let beenJudgeObj = snapshot.val()
           for (let key in playersObj) {
             if (playersObj.hasOwnProperty(key) && beenJudgeObj.hasOwnProperty(key)){
-              console.log('EACH KEY /OBJ pair', beenJudgeObj[key])
               newJudgeObj[key] = beenJudgeObj[key]
             } else if (playersObj.hasOwnProperty(key) && !beenJudgeObj.hasOwnProperty(key)){
-              console.log('key is ', key)
               let obj = {[key]: playersObj[key]}
-              console.log('obj is', obj)
               notJudgeYetPlayers.push(obj)
-              console.log('ELSE IF ', notJudgeYetPlayers)
             }
           }
           return notJudgeYetPlayers
@@ -64,8 +58,12 @@ export default class StartNewRound extends Component {
             //update the judge id
 
             judgeId.set(individualKey)
-            beenJudgeRef.set(newJudgeObj)
-            database.ref(`games/${this.state.gameKey}`).update({ judgeState: 'WAITING_TO_START' })
+            .then(() => {
+              beenJudgeRef.set(newJudgeObj)
+              .then(() => {
+                database.ref(`games/${this.state.gameKey}`).update({ judgeState: 'WAITING_TO_START' })
+              })
+            })
           } else {
             database.ref(`games/${this.state.gameKey}`).update({ judgeState: 'GAME_CLOSED' })
 
@@ -86,5 +84,3 @@ export default class StartNewRound extends Component {
     )
   }
 }
-
-// this will happen inside a set timeout for next round starting database.ref(`games/${this.props.gameKey}`).update({judgeState: 'GAME_CLOSED'})
