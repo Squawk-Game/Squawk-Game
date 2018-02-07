@@ -42,7 +42,7 @@ body {
 	font-size: 5em;
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
-	z-index: 3;
+	z-index: 5;
 }
 #nav-selection {
 	font-family: 'Open Sans', sans-serif;
@@ -177,13 +177,15 @@ audio{
 }
 
 #instructions {
-	margin-top: 10%;
+	margin-top: 5%;
 }
 
 .instructions-header {
 	font-size: 2em;
 }
-
+.winner-confetti{
+	z-index: 3;
+}
 .page-footer {
 	padding-top: 20px;
 	background-color: crimson;

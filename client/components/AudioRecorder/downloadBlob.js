@@ -34,8 +34,6 @@ export default function downloadBlob(blob, filename) {
         // mp3Data contains now the complete mp3Data
         mp3Data.push(mp3Tmp);
 
-        console.log(mp3Data)
-
         let thisblob = new Blob(mp3Data, { type: 'audio/mp3' });
 
         let returnsArray = []
@@ -49,7 +47,6 @@ export default function downloadBlob(blob, filename) {
                 returnsArray.push(currentUser[0].uid)
                 returnsArray.push(snapshot)
             }).then(() => {
-                console.log(returnsArray)
                 let currentUserId = returnsArray[0]
                 let pushKeyRef = database.ref(`pushkeys/${currentUserId}`)
                 pushKeyRef.once('value').then(snapshot => {

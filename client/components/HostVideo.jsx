@@ -27,32 +27,25 @@ export default class HostVideo extends Component {
     let videoRef = database.ref(`games/${this.props.gameKey}/video`)
 
     videoRef.once('value').then((snap) => {
-      console.log('SNAP', snap.val())
       self.setState({video: snap.val()})
     })
     .then(() => {
-
       if (this.state.gameState !== 'WINNER_SENT') gameRef.update({judgeState: 'WAITING_FOR_AUDIO'})
-      console.log('STATE AFTER SETTING', self.state)
     })
     .then(() => {
       gameRef.once('value').then((snap) => {
         let numberOfPlayers = snap.child('players').numChildren()
-        console.log('NUMBER OF PLAYERS', numberOfPlayers)
         self.setState({numPlayers: numberOfPlayers})
       })
     })
 
     gameRef.on('child_changed', (snap) => {
       if(snap.key === 'judgeState'){
-        console.log('I AM THE JUDGE!', snap.key)
         self.setState({gameState: snap.val()})
       }
-      console.log('CHILD CHANGED IN HOSTVIDEO',snap, snap.key, snap.val(), self.state)
     })
     
     audioRef.on('child_added', (snap) => {
-      console.log('!!!!!! AUDIO ADDED BY PLAYER', snap, snap.val())
       let audio = snap.val()
       let pushkey
       let userid = snap.key
@@ -60,14 +53,10 @@ export default class HostVideo extends Component {
         pushkey = snapshot.val()
       })
       .then(() => {
-        console.log('PUSHKEY', pushkey, userid)
         database.ref(`users/${pushkey}/${userid}/name`).once('value')
         .then((usersnap) => {
           let userName = usersnap.val()
-          console.log('USERSNAP', usersnap.val(), userName)
           self.setState({usersReceived: [...self.state.usersReceived, userName] })
-          console.log('STATE!', self.state
-          )
         })
         .then(()=>{
           self.setState({userAudios: [...self.state.userAudios, audio]})
@@ -76,7 +65,6 @@ export default class HostVideo extends Component {
           if(self.state.usersReceived.length === self.state.numPlayers-1) {
             gameRef.update({judgeState: 'ALL_AUDIO_RECEIVED'})
           }
-          console.log( 'STATE CHANGE' ,self.state)
         })
       })
     })
