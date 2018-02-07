@@ -36,7 +36,13 @@ export default class WaitingRoom extends Component {
 
   handleClick(event){
     event.preventDefault()
-    database.ref(`games/${this.props.gameKey}`).update({judgeState: 'VIDEO_SENT'})
+    let randomVideo
+
+    database.ref('videos').once('value', function (snap) {
+      randomVideo = snap.val()[Math.floor(Math.random() * 6)]
+    }).then(() => {
+      database.ref(`games/${this.props.gameKey}`).update({judgeState: 'VIDEO_SENT', video: randomVideo})
+    })
   }
   handleActionClick(event){
     event.preventDefault()
