@@ -10,10 +10,7 @@ export default class AudioPlayer extends Component {
         //this.handlePlay = this.handlePlay.bind(this)
     }
     handlePlay() {
-        //console.log(document.getElementById('vjs_video_3_html5_api'))
-        // document.getElementById('vjs_video_3_html5_api').addEventListener('play', ()=>{
-        //     console.log('hiiii')
-        // })
+        
     }
 
     render() {

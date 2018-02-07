@@ -54,7 +54,7 @@ class WinnerPage extends React.PureComponent {
     render(){
     return (
       <div>
-          <Confetti active={ this.state.confetti } config={ config } />
+          <Confetti className="winner-confetti" active={ this.state.confetti } config={ config } />
           <DumbVideo audio={this.state.audio} video={this.state.video} loops={9} gameKey={this.props.gameKey} />
       </div>
     )

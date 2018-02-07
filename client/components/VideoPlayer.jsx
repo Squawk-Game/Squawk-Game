@@ -22,14 +22,7 @@ export default class VideoPlayer extends React.Component {
     let componentProps = this.props
     let user = false
     this.player = videojs(this.videoNode, this.props.options, function onPlayerReady() {
-      if (componentProps.role === 'JUDGE') {
-        console.log("Should be HostVideo")
-
-      } else {
-        console.log("This should be PlayerVideo")
-        user = true
-      }
-      console.log(componentProps)
+      if (componentProps.role !== 'JUDGE') user = true
     })
 
     //looper
@@ -55,7 +48,6 @@ export default class VideoPlayer extends React.Component {
         database.ref(`games/${self.state.gameKey}`).update({ judgeState: 'START_NEW_ROUND' })
         return
       }
-      console.log(countdownSeconds)
       document.getElementById('timer').innerHTML = 'New round in :' + countdownSeconds
     }
 
@@ -101,7 +93,6 @@ export default class VideoPlayer extends React.Component {
   }
 
   handleWinner(audio) {
-    console.log('HANDLE WINNER', audio)
     let winnerID = ''
     let winnerName = ''
     let winnerPushKey = ''
@@ -110,7 +101,6 @@ export default class VideoPlayer extends React.Component {
     gamePlayersRef.once('value').then((players) => {
       for (var key in players.val()) {
         if (audio.toString().includes(key)) {
-          console.log('YESSSSSS', key)
           winnerID = key
         }
       }

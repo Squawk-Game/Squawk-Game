@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import Link from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {database} from '../../fire'
 import SoundEffectButton from './SoundEffectButton'
 
@@ -48,7 +48,6 @@ export default class UserAccountPage extends Component {
   render() {
     let level2 = Object.assign({}, this.state.squeaks1, this.state.squeaks2)
     let level3 = Object.assign({}, level2, this.state.squeaks3)
-    console.log(this.state, level3)
     return (
       <div>
         {this.state.userInfo &&
@@ -81,6 +80,8 @@ export default class UserAccountPage extends Component {
             </ul>
           </div>
         }
+        <Link to="/">BACK</Link>
+        <br />
       </div>
     )
 

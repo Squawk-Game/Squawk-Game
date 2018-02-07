@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 export default function Instructions() {
 
-    console.log("inside instructions")
     return (
       <div id='instructions'>
       <div className='instructions-header' >HOW TO START A NEW GAME</div>

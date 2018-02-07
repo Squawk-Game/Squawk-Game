@@ -62,7 +62,6 @@ export default class Game extends Component {
   }
 
   render() {
-    console.log("state after setting it", this.state)
     //database.ref(`games/${this.state.gameId}/judgeState`).update({judgeState: 'hewlmefn'})
 
     /* CONDITIONALS FOR GAME LOGIC */

@@ -22,9 +22,6 @@ export default class JoinGame extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault()
-    //let userEnteredCode = event.target.value
-
-    console.log('EVENT HAPPENED', event.target)
 
     let userKey;
     let gameKey;
@@ -36,7 +33,6 @@ export default class JoinGame extends Component {
       userKey = snap.child(currentUser.uid).val()
     }).then(() => {
       query.once("value").then((snapshot) => {
-        console.log('SNAPSHOT IS ', snapshot)
         snapshot.forEach((childSnapshot) => {
           gameKey = childSnapshot.key;
           var childData = childSnapshot.val();
@@ -57,7 +53,6 @@ export default class JoinGame extends Component {
 
 
   render() {
-    console.log("state inside JoinGame", this.state)
     return (
       <div>
         <br />
@@ -76,12 +71,3 @@ export default class JoinGame extends Component {
     )
   }
 }
-
-// const JoinGame = (props) => {
-//   //console.log(props)
-//   return (
-//     <h1>JOIN A GAME</h1>
-//   )
-// }
-
-//export default JoinGame

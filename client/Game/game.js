@@ -27,10 +27,8 @@ class Game {
     let key = database.ref('/games/' + host.uid)
     key.set(currentGame, function(error) {
       if (error) {
-        console.log('uh oh, error creating game', error)
       } else {
         // watchGame(key)
-        console.log(host)
       }
     })
   }

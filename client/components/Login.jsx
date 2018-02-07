@@ -135,7 +135,6 @@ export default class Login extends Component {
         currUserRef.once("value", function (snapshot) {
           if (snapshot.val() === true) {
             //If user is already in game, redirect them to Sorry component
-            console.log("Sorry, you can't join a game bc you're already in a game")
             self.setState({ sorryModal: true })
           } else {
             history.push('/joingame')
@@ -165,7 +164,6 @@ export default class Login extends Component {
         userInGameRef.once("value", function (snapshot) {
           if (snapshot.val() === true) {
             //If user is already in game, redirect them to Sorry component
-            console.log("Sorry, you're already in a game")
             self.setState({ sorryModal: true })
           } else {
 
@@ -195,7 +193,6 @@ export default class Login extends Component {
     evt.preventDefault()
     auth.signOut().then(() => {
       this.setState({ user: null })
-      console.log('signed out')
     })
       .catch(error => {
         console.error(error)
@@ -203,7 +200,6 @@ export default class Login extends Component {
   }
 
   render() {
-    console.log("STATE", this.state)
     if (!this.state.user) {
       return (
         <div className="startgame">
