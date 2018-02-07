@@ -30,7 +30,6 @@ export default class DumbVideo extends Component {
       })
     })
     .then(() => {
-      console.log(audioObject)
       for (var key in audioObject){
         self.setState({winnerName: key})
         self.setState({audio: audioObject[key]})

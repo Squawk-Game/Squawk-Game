@@ -29,7 +29,6 @@ export default class AddGamePlayers extends Component {
   render(){
     return (
       <div>
-        { console.log(this.state, this.props.location.state.judge) }
         <h3>Invite your fellow Squawkers!</h3>
         <p>Your code is: {this.state.code} <br />
         TELL YOUR FRIENDS TO ENTER IT!

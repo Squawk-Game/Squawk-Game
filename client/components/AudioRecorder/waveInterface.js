@@ -45,7 +45,6 @@ var WAVEInterface = (function () {
                 if (_this.encodingCache)
                     _this.encodingCache = null;
                 recProcessingNode.onaudioprocess = function (event) {
-                    console.log('audio process', _this);
                     if (_this.encodingCache)
                         _this.encodingCache = null;
                     // save left and right buffers

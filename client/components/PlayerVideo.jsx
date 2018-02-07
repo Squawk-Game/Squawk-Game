@@ -26,7 +26,6 @@ export default class PlayerVideo extends Component {
     let userPushKey
     database.ref(`pushkeys/${self.props.userId}`).once('value').then((snapshot) => {
       userPushKey = snapshot.val()
-      console.log('USERPUSHKEY', userPushKey)
     })
     .then(() => {
       database.ref(`users/${userPushKey}/${self.props.userId}`).once('value').then((snap) => {
@@ -52,7 +51,6 @@ export default class PlayerVideo extends Component {
   }
 
   render(){
-    console.log('PLAYER VIDEO STATE',this.state)
     if (!this.state.video) {
       return <div>Sorry, no video.</div>
     } else {
