@@ -52,12 +52,15 @@ export default class StartNewRound extends Component {
             let judgeIndex = Math.floor(Math.random() * notJudgeYetPlayers.length)
             //add new judge to new judge Obj
             let individualJudge = notJudgeYetPlayers[judgeIndex]
-            let individualKey = Object.keys(individualJudge)[0]
+            let individualKey = Object.keys(individualJudge) //it's the array now
+
             let individualValue = Object.values(individualJudge)[0]
             newJudgeObj[individualKey] = individualValue
             //update the judge id
-
-            judgeId.set(individualKey)
+            let filteredKey = individualKey.filter(key => {
+             return newJudgeObj.hasOwnProperty(key)
+            })
+            judgeId.set(filteredKey[0])
             .then(() => {
               beenJudgeRef.set(newJudgeObj)
               .then(() => {
