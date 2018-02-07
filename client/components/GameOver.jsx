@@ -69,7 +69,7 @@ export default class GameOver extends Component {
     return (
       <div>
         <div>
-          <h3 id="gameOver">Everyone's been the judge...Game Over!</h3>
+          <h3 id="gameOver">Game Over!</h3>
         </div>
       </div>
     )
