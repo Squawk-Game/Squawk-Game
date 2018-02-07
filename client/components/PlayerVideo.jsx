@@ -71,8 +71,8 @@ export default class PlayerVideo extends Component {
       let level3 = Object.assign({}, level2, this.state.squeaks3)
 
       return (
-        <div>
-          <div className="video-media">
+        <div className="player-video-content">
+          <div className="player-video">
             <br />
             <br />
             <VideoPlayer role={'PLAYER'} loops={2} renderRecord={false} options={{...videoJsOptions, autoplay: true}}/>

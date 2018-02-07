@@ -143,7 +143,7 @@ export default class HostVideo extends Component {
       }]
     }
     return (
-      <div>
+      <div className="video-media" >
         {
           (this.state.gameState !== 'ALL_AUDIO_RECEIVED') &&
           <div>
