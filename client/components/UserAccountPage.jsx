@@ -48,6 +48,13 @@ export default class UserAccountPage extends Component {
   render() {
     let level2 = Object.assign({}, this.state.squeaks1, this.state.squeaks2)
     let level3 = Object.assign({}, level2, this.state.squeaks3)
+    let arrOfChicks = []
+    if (this.state.userInfo) {
+      if(this.state.userInfo.points === 0) arrOfChicks = ['0']
+      else for (var i = 0; i < this.state.userInfo.points; i++){
+        arrOfChicks.push(<i key={i} className="em em-chicken"></i>)
+      }
+    }
     return (
       <div>
         {this.state.userInfo &&
@@ -55,7 +62,11 @@ export default class UserAccountPage extends Component {
             <h3>Welcome, {this.state.userInfo.name.split(' ')[0]}</h3>
             <ul>
               <li>Email: {this.state.userInfo.email}</li>
-              <li>Squawks: {this.state.userInfo.points}</li>
+              <li>Squawks: {
+                arrOfChicks.map((chick) => {
+                  return chick
+                })
+              }</li>
             </ul>
             <h5>Earned Squeaks</h5>
             <ul>
