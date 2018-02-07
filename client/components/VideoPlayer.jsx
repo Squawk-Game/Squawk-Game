@@ -14,6 +14,7 @@ export default class VideoPlayer extends React.Component {
       winnerScreen: props.winnerScreen
     }
     this.handlePlay = this.handlePlay.bind(this)
+    this.handlePause = this.handlePause.bind(this)
     this.handleWinner = this.handleWinner.bind(this)
   }
   componentDidMount() {
@@ -88,6 +89,9 @@ export default class VideoPlayer extends React.Component {
     this.player.currentTime(0);
     this.player.play();
   }
+  handlePause() {
+    this.player.pause();
+  }
 
   handleWinner (audio){
     console.log('HANDLE WINNER', audio)
@@ -153,7 +157,7 @@ export default class VideoPlayer extends React.Component {
           this.props.audio.map((oneAudio) => {
             return (
               <div key={oneAudio}>
-                <AudioPlayer key={oneAudio} audio={oneAudio} onPlay={this.handlePlay}/>
+                <AudioPlayer key={oneAudio} audio={oneAudio} onPlay={this.handlePlay} onPause={this.handlePause} />
                 <button
                   className="btn waves-effect waves-orange white winner-btn choose-winner"
                   onClick={(evt)=>{
@@ -171,7 +175,7 @@ export default class VideoPlayer extends React.Component {
         }
         {
           this.props.audio && !this.props.usingAudioPlayer &&
-          (<audio src={this.props.audio} controls onPlay={this.handlePlay} >BOOP</audio>)
+          (<audio src={this.props.audio} controls onPlay={this.handlePlay} onPause={this.handlePause}>BOOP</audio>)
         }
       </div>
     )

@@ -19,7 +19,7 @@ export default class AudioPlayer extends Component {
     render() {
         return (
             <div>
-                <audio src={this.props.audio} controls onPlay={this.props.onPlay}>HI</audio>
+                <audio src={this.props.audio} controls onPlay={this.props.onPlay} onPause={this.props.onPause}>HI</audio>
             </div>
         )
     }
