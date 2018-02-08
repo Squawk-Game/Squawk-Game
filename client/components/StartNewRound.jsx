@@ -69,7 +69,6 @@ export default class StartNewRound extends Component {
             })
           } else {
             database.ref(`games/${this.state.gameKey}`).update({ judgeState: 'GAME_CLOSED' })
-
           }
         })
       })
