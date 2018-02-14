@@ -1,5 +1,5 @@
 {
-  "name": "spark",
+  "name": "squawk",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -16,7 +16,7 @@
     "deploy": "npm run build-prod && npx firebase deploy --only database,hosting"
   },
   "keywords": [],
-  "author": "Ashi Krishnan <hi@ashi.io>",
+  "author": "Rachel Arkebauer, Mimi Scott, and Katy Eng",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
