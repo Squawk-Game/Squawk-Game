@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "cd functions && npm install",
     "prepare": "firebase use --add && echo 'module.exports = firebase =>' > fire/setup.js && npx firebase setup:web >> fire/setup.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV='test' mocha ./client/components/tests/*.jsx --compilers js:babel-register",
     "start": "node dev",
     "build": "webpack -p",
     "watch-lib": "npm run build-lib -- -w",
@@ -33,14 +33,19 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "chokidar": "^1.7.0",
     "create-react-class": "^15.6.3",
     "css-loader": "^0.28.9",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "firebase": "^4.7.0",
     "firebaseui": "^2.5.1",
     "history": "^4.7.2",
     "iso-lamejs": "^1.2.0",
     "minimist": "^1.2.0",
+    "mocha": "^5.0.1",
     "react": "^16.1.0",
     "react-code-input": "^3.0.0",
     "react-confetti": "^2.0.2",

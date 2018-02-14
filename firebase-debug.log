@@ -1,56 +1,47 @@
-[debug] [2018-02-07T21:38:18.559Z] ----------------------------------------------------------------------
-[debug] [2018-02-07T21:38:18.561Z] Command:       /usr/local/bin/node /Users/Rachel/Documents/gracehopper/Squawk-Game/node_modules/.bin/firebase serve --only functions,hosting
-[debug] [2018-02-07T21:38:18.561Z] CLI Version:   3.17.3
-[debug] [2018-02-07T21:38:18.561Z] Platform:      darwin
-[debug] [2018-02-07T21:38:18.561Z] Node Version:  v8.8.1
-[debug] [2018-02-07T21:38:18.562Z] Time:          Wed Feb 07 2018 16:38:18 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:18.562Z] ----------------------------------------------------------------------
+[debug] [2018-02-14T20:37:15.076Z] ----------------------------------------------------------------------
+[debug] [2018-02-14T20:37:15.078Z] Command:       /usr/local/bin/node /Users/mimi/Documents/Fullstack-Senior/Squawk-Game/node_modules/.bin/firebase serve --only functions,hosting
+[debug] [2018-02-14T20:37:15.078Z] CLI Version:   3.14.0
+[debug] [2018-02-14T20:37:15.078Z] Platform:      darwin
+[debug] [2018-02-14T20:37:15.078Z] Node Version:  v9.2.1
+[debug] [2018-02-14T20:37:15.079Z] Time:          Wed Feb 14 2018 15:37:15 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:15.079Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-02-07T21:38:18.573Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-02-07T21:38:18.573Z] > authorizing via signed-in user
-[debug] [2018-02-07T21:38:18.575Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/squawk-868c7  
-  
- Wed Feb 07 2018 16:38:18 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:18.927Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-07T21:38:18.928Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/squawk-868c7/tokens  
-  
- Wed Feb 07 2018 16:38:18 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:19.259Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:15.087Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-02-14T20:37:15.087Z] > authorizing via signed-in user
+[debug] [2018-02-14T20:37:15.089Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/squawk-868c7  
+ Wed Feb 14 2018 15:37:15 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:16.013Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:16.014Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/squawk-868c7/tokens  
+ Wed Feb 14 2018 15:37:16 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:16.523Z] <<< HTTP RESPONSE 200
 [info] 
-[info] === Serving from '/Users/Rachel/Documents/gracehopper/Squawk-Game'...
+[info] === Serving from '/Users/mimi/Documents/Fullstack-Senior/Squawk-Game'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2018-02-07T21:38:19.641Z] Fetching environment
-[debug] [2018-02-07T21:38:19.643Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/squawk-868c7  
-  
- Wed Feb 07 2018 16:38:19 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:19.643Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/squawk-868c7/apiKeys  
-  
- Wed Feb 07 2018 16:38:19 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:19.643Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/squawk-868c7  
-  
- Wed Feb 07 2018 16:38:19 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:19.916Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-07T21:38:19.921Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-07T21:38:19.922Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/340493820814/clients/_:getWebAppConfig  
-  
- Wed Feb 07 2018 16:38:19 GMT-0500 (EST)
-[debug] [2018-02-07T21:38:20.023Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-07T21:38:20.024Z] Starting @google-cloud/functions-emulator
-[debug] [2018-02-07T21:38:20.314Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:16.965Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/squawk-868c7  
+ Wed Feb 14 2018 15:37:16 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:16.965Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/squawk-868c7/apiKeys  
+ Wed Feb 14 2018 15:37:16 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:16.965Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/squawk-868c7  
+ Wed Feb 14 2018 15:37:16 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:17.598Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:17.599Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/340493820814/clients/_:getWebAppConfig  
+ Wed Feb 14 2018 15:37:17 GMT-0500 (EST)
+[debug] [2018-02-14T20:37:17.599Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:17.601Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-14T20:37:18.223Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
-[debug] [2018-02-07T21:38:21.590Z] Parsing function triggers
 [info] ✔  functions: helloWorld: http://localhost:5001/squawk-868c7/us-central1/helloWorld
 [info] Shutting down...
-[debug] [2018-02-08T02:57:46.746Z] Error: write EPIPE
-    at _errnoException (util.js:1024:11)
-    at WriteWrap.afterWrite [as oncomplete] (net.js:870:14)
+[debug] [2018-02-14T20:50:41.366Z] Error: write EPIPE
+    at _errnoException (util.js:1031:13)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:873:14)
 [error] 
 [error] Error: An unexpected error has occurred.
-[debug] [2018-02-08T02:57:46.748Z] Error: write EPIPE
-    at _errnoException (util.js:1024:11)
-    at WriteWrap.afterWrite [as oncomplete] (net.js:870:14)
+[debug] [2018-02-14T20:50:41.369Z] Error: write EPIPE
+    at _errnoException (util.js:1031:13)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:873:14)
 [error] 
 [error] Error: An unexpected error has occurred.
